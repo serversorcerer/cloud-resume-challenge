@@ -1,0 +1,201 @@
+$flaticon-font: "flaticon";
+
+@font-face {
+    font-family: $flaticon-font;
+    src: url("./flaticon.ttf?36d09e510abf059043c2ae19f3d6fc33") format("truetype"),
+url("./flaticon.woff?36d09e510abf059043c2ae19f3d6fc33") format("woff"),
+url("./flaticon.woff2?36d09e510abf059043c2ae19f3d6fc33") format("woff2"),
+url("./flaticon.eot?36d09e510abf059043c2ae19f3d6fc33#iefix") format("embedded-opentype"),
+url("./flaticon.svg?36d09e510abf059043c2ae19f3d6fc33#flaticon") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$flaticon-map: (
+    "website-content": "\f101",
+    "internet": "\f102",
+    "app-development": "\f103",
+    "mobile-app": "\f104",
+    "light-bulb": "\f105",
+    "graphic-design": "\f106",
+    "sitemap": "\f107",
+    "strategy": "\f108",
+    "target": "\f109",
+    "error": "\f10a",
+    "web-security": "\f10b",
+    "tap": "\f10c",
+    "email": "\f10d",
+    "stamp": "\f10e",
+    "support": "\f10f",
+    "technical-support": "\f110",
+    "question-and-answer": "\f111",
+    "coding": "\f112",
+    "web-development": "\f113",
+    "social-marketing": "\f114",
+    "bullhorn": "\f115",
+    "content-marketing": "\f116",
+    "branding": "\f117",
+    "branding-1": "\f118",
+    "sketch": "\f119",
+    "graphic-design-1": "\f11a",
+    "web-design": "\f11b",
+    "design-thinking": "\f11c",
+    "technical-support-1": "\f11d",
+    "online-shop": "\f11e",
+    "ecommerce": "\f11f",
+    "ecommerce-1": "\f120",
+    "seo": "\f121",
+    "seo-1": "\f122",
+    "seo-2": "\f123",
+    "seo-3": "\f124",
+    "ux-design": "\f125",
+    "writing": "\f126",
+    "photographer": "\f127",
+    "camera": "\f128",
+    "photo": "\f129",
+    "edit-video": "\f12a",
+    "game-controller": "\f12b",
+    "right-quote": "\f12c",
+);
+
+.flaticon-website-content:before {
+    content: map-get($flaticon-map, "website-content");
+}
+.flaticon-internet:before {
+    content: map-get($flaticon-map, "internet");
+}
+.flaticon-app-development:before {
+    content: map-get($flaticon-map, "app-development");
+}
+.flaticon-mobile-app:before {
+    content: map-get($flaticon-map, "mobile-app");
+}
+.flaticon-light-bulb:before {
+    content: map-get($flaticon-map, "light-bulb");
+}
+.flaticon-graphic-design:before {
+    content: map-get($flaticon-map, "graphic-design");
+}
+.flaticon-sitemap:before {
+    content: map-get($flaticon-map, "sitemap");
+}
+.flaticon-strategy:before {
+    content: map-get($flaticon-map, "strategy");
+}
+.flaticon-target:before {
+    content: map-get($flaticon-map, "target");
+}
+.flaticon-error:before {
+    content: map-get($flaticon-map, "error");
+}
+.flaticon-web-security:before {
+    content: map-get($flaticon-map, "web-security");
+}
+.flaticon-tap:before {
+    content: map-get($flaticon-map, "tap");
+}
+.flaticon-email:before {
+    content: map-get($flaticon-map, "email");
+}
+.flaticon-stamp:before {
+    content: map-get($flaticon-map, "stamp");
+}
+.flaticon-support:before {
+    content: map-get($flaticon-map, "support");
+}
+.flaticon-technical-support:before {
+    content: map-get($flaticon-map, "technical-support");
+}
+.flaticon-question-and-answer:before {
+    content: map-get($flaticon-map, "question-and-answer");
+}
+.flaticon-coding:before {
+    content: map-get($flaticon-map, "coding");
+}
+.flaticon-web-development:before {
+    content: map-get($flaticon-map, "web-development");
+}
+.flaticon-social-marketing:before {
+    content: map-get($flaticon-map, "social-marketing");
+}
+.flaticon-bullhorn:before {
+    content: map-get($flaticon-map, "bullhorn");
+}
+.flaticon-content-marketing:before {
+    content: map-get($flaticon-map, "content-marketing");
+}
+.flaticon-branding:before {
+    content: map-get($flaticon-map, "branding");
+}
+.flaticon-branding-1:before {
+    content: map-get($flaticon-map, "branding-1");
+}
+.flaticon-sketch:before {
+    content: map-get($flaticon-map, "sketch");
+}
+.flaticon-graphic-design-1:before {
+    content: map-get($flaticon-map, "graphic-design-1");
+}
+.flaticon-web-design:before {
+    content: map-get($flaticon-map, "web-design");
+}
+.flaticon-design-thinking:before {
+    content: map-get($flaticon-map, "design-thinking");
+}
+.flaticon-technical-support-1:before {
+    content: map-get($flaticon-map, "technical-support-1");
+}
+.flaticon-online-shop:before {
+    content: map-get($flaticon-map, "online-shop");
+}
+.flaticon-ecommerce:before {
+    content: map-get($flaticon-map, "ecommerce");
+}
+.flaticon-ecommerce-1:before {
+    content: map-get($flaticon-map, "ecommerce-1");
+}
+.flaticon-seo:before {
+    content: map-get($flaticon-map, "seo");
+}
+.flaticon-seo-1:before {
+    content: map-get($flaticon-map, "seo-1");
+}
+.flaticon-seo-2:before {
+    content: map-get($flaticon-map, "seo-2");
+}
+.flaticon-seo-3:before {
+    content: map-get($flaticon-map, "seo-3");
+}
+.flaticon-ux-design:before {
+    content: map-get($flaticon-map, "ux-design");
+}
+.flaticon-writing:before {
+    content: map-get($flaticon-map, "writing");
+}
+.flaticon-photographer:before {
+    content: map-get($flaticon-map, "photographer");
+}
+.flaticon-camera:before {
+    content: map-get($flaticon-map, "camera");
+}
+.flaticon-photo:before {
+    content: map-get($flaticon-map, "photo");
+}
+.flaticon-edit-video:before {
+    content: map-get($flaticon-map, "edit-video");
+}
+.flaticon-game-controller:before {
+    content: map-get($flaticon-map, "game-controller");
+}
+.flaticon-right-quote:before {
+    content: map-get($flaticon-map, "right-quote");
+}

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Hagen - vcard template</title>
+<meta charset="UTF-8">
+<meta name="description" content="Hagen - vcard template">
+<meta name="keywords" content="personal, portfolio">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Favicon -->   
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="css/main.css"/>
+
+
+
+<!-- Google Web fonts -->    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">  
+
+
+<!-- Font icons -->
+<link rel="stylesheet" href="icon-fonts/flat-icon/flaticon.css"/>
+<link rel="stylesheet" href="icon-fonts/font-awesome/css/all.min.css"/>
+
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body class="scroll-animation-on dark-version without-wrapper">
+
+<!-- Preloader  -->
+<div id="loader" class="preloader">
+  <div class="loading">
+    <div class="profile-image">
+      <img src="images/profile-loader.jpg" alt="">
+      <svg style="position: absolute;" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <circle class="js-circle circle" cx="50" cy="50" r="48" stroke="white" stroke-width="2" fill="none"  />
+        <circle class="js-circle circletwo" cx="50" cy="50" r="48" stroke="white" stroke-width="2" fill="none"  />
+      </svg>
+    </div>
+  </div>
+</div>
+<!-- Preloader End --> 
+
+<div class="page-cover">
+  <div id="page-scroll">
+    <div class="barba-wrapper" data-barba="wrapper">
+      <main data-barba="container">
+    <!-- Page Wrapper -->
+    <div class="container">
+      <div class="page-wrapper">
+
+        <header id="fixed">
+          <div class="hamburger hamburger--elastic"> 
+            <span class="hamburger-box"> <span class="hamburger-inner"></span> </span> 
+          </div>
+          <nav>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="resume.html">Resume</a></li>
+              <li><a class="active" href="portfolio.html">Portfolio</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </nav>
+        </header>
+        
+        <!-- Page Caption -->
+          <h5 class="underline-title">PORTFOLIO</h5>
+          <div  class="spacer-30"></div>
+        
+        <!-- PORTFOLIO SECTION
+        ================================================== --> 
+
+        <section class="portfolio" id="portfolio"> 
+          <div  class="spacer-15"></div>
+          <div class="section-head">
+            <!-- Filter -->
+            <div class="portfolio_filter">
+              <ul> 
+                  <li><a class="select-cat" data-filter="*" href="#">All Works</a></li>
+                  <li><a data-filter=".photography" href="#">Photography</a></li>
+                  <li><a data-filter=".branding" href="#">Branding</a></li>
+                  <li><a data-filter=".other" href="#">Other</a></li>
+              </ul>   
+            </div>
+            <div class="spacer-60"></div>
+          </div>
+          <div class="row masonry">
+
+            <!-- portfolio item -->
+            <a href="work-1.html" class="col-xl-4 col-lg-6 col-md-6 grid-item photography">
+              <div class="work-holder scale-animation"  data-duration="2" data-delay=".3">
+              <figure class="portfolio-item">
+                <img src="images/works/work-1/01.jpg" alt="">
+                <figcaption>
+                  <div class="outer">
+                    <div class="inner">
+                      <span>Photography </span>
+                      <h3 class="title">Daria Miami</h3>
+                    </div>
+                  </div>
+              </figcaption>  
+              </figure>
+              </div>
+            </a>
+            <!-- portfolio item -->
+            <a href="work-2.html" class="col-xl-4 col-lg-6 col-md-6 grid-item branding">
+              <div class="work-holder scale-animation"  data-delay=".4" data-duration="2">
+              <figure class="portfolio-item">
+                <img src="images/works/work-2/01-grid.jpg" alt="">
+                <figcaption>
+                  <div class="outer">
+                    <div class="inner">
+                      <span>Branding </span>
+                      <h3 class="title">Bohinc Studio </h3>
+                    </div>
+                  </div>
+              </figcaption>  
+              </figure>
+              </div>
+            </a>
+            
+
+          <!--  VIDEO portfolio item -->
+          <a href="work-8.html" class="col-xl-4 col-lg-6 col-md-6 grid-item grid-video other">
+            <div class="work-holder scale-animation"  data-delay=".5" data-duration="2">
+              <div class="video-caption">
+                <div class="outer">
+                  <div class="inner">
+                    <span>Other </span>
+                    <h3 class="title">The Last Pizza</h3>
+                  </div>
+                </div>
+              </div>
+            <div class="video-wrapper four-three">
+              <video playsinline loop="" muted="" >
+                <source src="images/works/work-8/video.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="video-image" style="background-image: url(images/works/work-8/03.jpg);"></div>
+            </div>
+          </a>
+              <!-- portfolio item -->
+            <a href="work-3.html" class="col-xl-4 col-lg-6 col-md-6 grid-item other">
+              <div class="work-holder scale-animation"  data-delay=".8" data-duration="2">
+                <figure class="portfolio-item">
+                  <img src="images/works/work-3/01.jpg" alt="">
+                  <figcaption>
+                    <div class="outer">
+                      <div class="inner">
+                        <span>Other </span>
+                        <h3 class="title">Connect Home</h3>
+                      </div>
+                    </div>
+                </figcaption>  
+                </figure>
+                </div>
+              </a>
+              <!-- portfolio item -->
+            <a href="work-4.html" class="col-xl-4 col-lg-6 col-md-6 grid-item photography">
+              <div class="work-holder scale-animation" data-delay=".7" data-duration="2">
+                <figure class="portfolio-item">
+                  <img src="images/works/work-4/01.jpg" alt="">
+                  <figcaption>
+                    <div class="outer">
+                      <div class="inner">
+                        <span>Photography </span>
+                        <h3 class="title">Walnut and Green</h3>
+                      </div>
+                    </div>
+                </figcaption>  
+                </figure>
+                </div>
+              </a>
+              <!-- portfolio item -->
+            <a href="work-5.html" class="col-xl-4 col-lg-6 col-md-6 grid-item photography">
+              <div class="work-holder scale-animation" data-delay=".6" data-duration="2">
+                <figure class="portfolio-item">
+                  <img src="images/works/work-5/01.jpg" alt="">
+                  <figcaption>
+                    <div class="outer">
+                      <div class="inner">
+                        <span>Photography</span>
+                        <h3 class="title">46 Bar & Restaurant</h3>
+                      </div>
+                    </div>
+                </figcaption>  
+                </figure>
+                </div>
+              </a>
+
+              <!-- portfolio item -->
+            <a href="work-6.html" class="col-xl-4 col-lg-6 col-md-6 grid-item photography">
+              <div class="work-holder scale-animation" data-delay="1" data-duration="2">
+                <figure class="portfolio-item">
+                  <img src="images/works/work-6/01.jpg" alt="">
+                  <figcaption>
+                    <div class="outer">
+                      <div class="inner">
+                        <span>Photography </span>
+                        <h3 class="title">Dark</h3>
+                      </div>
+                    </div>
+                </figcaption>  
+                </figure>
+                </div>
+              </a>
+              <!-- portfolio item -->
+            <a href="work-7.html" class="col-xl-4 col-lg-6 col-md-6 grid-item branding">
+              <div class="work-holder scale-animation" data-delay=".9" data-duration="2">
+                <figure class="portfolio-item">
+                  <img src="images/works/work-7/01.jpg" alt="">
+                  <figcaption>
+                    <div class="outer">
+                      <div class="inner">
+                        <span>Branding </span>
+                        <h3 class="title">Nexta</h3>
+                      </div>
+                    </div>
+                </figcaption>  
+                </figure>
+                </div>
+              </a>
+              <!-- portfolio item -->
+              <a href="work-9.html" class="col-xl-4 col-lg-6 col-md-6 grid-item photography">
+                <div class="work-holder scale-animation" data-delay=".9" data-duration="2">
+                  <figure class="portfolio-item">
+                    <img src="images/works/work-9/01.jpg" alt="">
+                    <figcaption>
+                      <div class="outer">
+                        <div class="inner">
+                          <span>Photography </span>
+                          <h3 class="title">Dark Forest</h3>
+                        </div>
+                      </div>
+                  </figcaption>  
+                  </figure>
+                  </div>
+                </a>
+
+
+          </div>
+        </section>
+
+
+
+      </div> <!-- page wrapper end -->
+    </div><!-- container -->
+            <!-- FOOTER -->
+            <footer>
+              <div class="container">
+              <div class="footer-inner">
+                <div class="copyright">
+                  <p>Copyright 2022 - All right reserved</p>
+                </div>
+                <ul class="social">
+                  <li><a target="_blank" href="#">Facebook</a></li>
+                  <li><a target="_blank" href="#">Twitter</a></li>
+                  <li><a target="_blank" href="#">Instagram</a></li>
+                  <li><a target="_blank" href="#">Dribbble</a></li>
+                </ul>
+              </div>
+            </div>
+          </footer>
+                </main>
+              </div>
+            </div>
+          </div>
+          <div class="bg-image" style="background-image: url(images/bg.jpg);"></div>
+  
+<!-- Javascripts -->
+<script src="js/jquery.js"></script>
+<script src="js/plugins.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3gqyHylICdokv-P1q2WtRihCFhiFnm_U&sensor=false"></script>
+<script src="js/map.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
