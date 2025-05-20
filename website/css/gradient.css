@@ -1,0 +1,23 @@
+
+ .section-title .zigzag {
+    stroke: #D1ED5D;
+}
+
+.profile-info li i, .testimonial-carousel .left i, footer .social li a:hover, header nav ul li a:hover, .hero-big .element, .typed-cursor, .timeline .timeline-item span, .portfolio_filter ul li a.select-cat, .next-link .next-title, .categories ul li a, .blog-grid .metas .author:hover, .categories a:hover span, .contact-info a:hover, header nav ul li a.active{
+    /* color: #D1ED5D; */
+    background-image:  linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.swiper-pagination-bullet-active, .skill-list .progress .percentage, .underline-title:after, .hamburger, .emoji-button:hover{
+    background-image:  linear-gradient(to top, #12c2e9, #c471ed, #f64f59);
+}
+
+body #loader .loading .profile-image svg .circle{
+
+	stroke: #D1ED5D;
+}
+
+

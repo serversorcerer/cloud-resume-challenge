@@ -1,0 +1,152 @@
+@font-face {
+    font-family: "flaticon";
+    src: url("./flaticon.ttf?36d09e510abf059043c2ae19f3d6fc33") format("truetype"),
+url("./flaticon.woff?36d09e510abf059043c2ae19f3d6fc33") format("woff"),
+url("./flaticon.woff2?36d09e510abf059043c2ae19f3d6fc33") format("woff2"),
+url("./flaticon.eot?36d09e510abf059043c2ae19f3d6fc33#iefix") format("embedded-opentype"),
+url("./flaticon.svg?36d09e510abf059043c2ae19f3d6fc33#flaticon") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.flaticon-website-content:before {
+    content: "\f101";
+}
+.flaticon-internet:before {
+    content: "\f102";
+}
+.flaticon-app-development:before {
+    content: "\f103";
+}
+.flaticon-mobile-app:before {
+    content: "\f104";
+}
+.flaticon-light-bulb:before {
+    content: "\f105";
+}
+.flaticon-graphic-design:before {
+    content: "\f106";
+}
+.flaticon-sitemap:before {
+    content: "\f107";
+}
+.flaticon-strategy:before {
+    content: "\f108";
+}
+.flaticon-target:before {
+    content: "\f109";
+}
+.flaticon-error:before {
+    content: "\f10a";
+}
+.flaticon-web-security:before {
+    content: "\f10b";
+}
+.flaticon-tap:before {
+    content: "\f10c";
+}
+.flaticon-email:before {
+    content: "\f10d";
+}
+.flaticon-stamp:before {
+    content: "\f10e";
+}
+.flaticon-support:before {
+    content: "\f10f";
+}
+.flaticon-technical-support:before {
+    content: "\f110";
+}
+.flaticon-question-and-answer:before {
+    content: "\f111";
+}
+.flaticon-coding:before {
+    content: "\f112";
+}
+.flaticon-web-development:before {
+    content: "\f113";
+}
+.flaticon-social-marketing:before {
+    content: "\f114";
+}
+.flaticon-bullhorn:before {
+    content: "\f115";
+}
+.flaticon-content-marketing:before {
+    content: "\f116";
+}
+.flaticon-branding:before {
+    content: "\f117";
+}
+.flaticon-branding-1:before {
+    content: "\f118";
+}
+.flaticon-sketch:before {
+    content: "\f119";
+}
+.flaticon-graphic-design-1:before {
+    content: "\f11a";
+}
+.flaticon-web-design:before {
+    content: "\f11b";
+}
+.flaticon-design-thinking:before {
+    content: "\f11c";
+}
+.flaticon-technical-support-1:before {
+    content: "\f11d";
+}
+.flaticon-online-shop:before {
+    content: "\f11e";
+}
+.flaticon-ecommerce:before {
+    content: "\f11f";
+}
+.flaticon-ecommerce-1:before {
+    content: "\f120";
+}
+.flaticon-seo:before {
+    content: "\f121";
+}
+.flaticon-seo-1:before {
+    content: "\f122";
+}
+.flaticon-seo-2:before {
+    content: "\f123";
+}
+.flaticon-seo-3:before {
+    content: "\f124";
+}
+.flaticon-ux-design:before {
+    content: "\f125";
+}
+.flaticon-writing:before {
+    content: "\f126";
+}
+.flaticon-photographer:before {
+    content: "\f127";
+}
+.flaticon-camera:before {
+    content: "\f128";
+}
+.flaticon-photo:before {
+    content: "\f129";
+}
+.flaticon-edit-video:before {
+    content: "\f12a";
+}
+.flaticon-game-controller:before {
+    content: "\f12b";
+}
+.flaticon-right-quote:before {
+    content: "\f12c";
+}

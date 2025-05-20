@@ -1,0 +1,146 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+
+
+.largrid .col, .largrid .col-1, .largrid .col-10, .largrid .col-11, .largrid .col-12, .largrid .col-2, .largrid .col-3, .largrid .col-4, .largrid .col-5, .largrid .col-6, .largrid .col-7, .largrid .col-8, .largrid .col-9, .largrid .col-lg, .largrid .col-lg-1, .largrid .col-lg-10, .largrid .col-lg-11, .largrid .col-lg-12, .largrid .col-lg-2, .largrid .col-lg-3, .largrid .col-lg-4, .largrid .col-lg-5, .largrid .col-lg-6, .largrid .col-lg-7, .largrid .col-lg-8, .largrid .col-lg-9, .largrid .col-md, .largrid .col-md-1, .largrid .col-md-10, .largrid .col-md-11, .largrid .col-md-12, .largrid .col-md-2, .largrid .col-md-3, .largrid .col-md-4, .largrid .col-md-5, .largrid .col-md-6, .largrid .col-md-7, .largrid .col-md-8, .largrid .col-md-9, .largrid .col-sm,
+.largrid .col-sm-1, .largrid .col-sm-10, .largrid .col-sm-11, .largrid .col-sm-12, .largrid .col-sm-2, .largrid .col-sm-3, .largrid .col-sm-4, .largrid .col-sm-5, .largrid .col-sm-6, .largrid .col-sm-7, .largrid .col-sm-8, .largrid .col-sm-9, .largrid .col-xl, .largrid .col-xl-1, .largrid .col-xl-10, .largrid .col-xl-11, .largrid .col-xl-12,
+.largrid .col-xl-2, .largrid .col-xl-3, .largrid .col-xl-4, .largrid .col-xl-5, .largrid .col-xl-6, .largrid .col-xl-7, .largrid .col-xl-8,
+.largrid .col-xl-9 {
+   padding-right: 30px;
+   padding-left: 30px;
+}
+
+
+.row.largrid{
+  margin-right: -30px;
+  margin-left: -30px; 
+}
