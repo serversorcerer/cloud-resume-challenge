@@ -69,23 +69,25 @@
               
               <section class="hero" id="home">
                 <div class="row">
-                  <div class="col-xl-3 col-lg-4 col-md-6 profile-pic">
-                    <div class="image clip-animation from-left" style="background-image: url(images/profile.png);">
-                      <img src="images/profile.png" alt="Joseph A. Leto">
+                  <div class="col-xl-3 col-lg-4 col-md-6 profile-pic" style="display: flex; justify-content: center; align-items: center; text-align: center;">
+                    <div class="image clip-animation from-left" style="background-image: url(images/profile.png); background-position: center; background-repeat: no-repeat; background-size: contain; display: flex; justify-content: center; align-items: center;">
+                      <img src="images/profile.png" alt="Joseph A. Leto" style="max-width: 100%; height: auto; border-radius: 10px;">
                     </div>
                     <div class="social-links clip-animation">
                       <ul>
-                        <li><a href="https://www.linkedin.com/in/joseph-leto/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-                        <li><a href="https://github.com/serversorcerer" target="_blank"><i class="fab fa-github"></i></a></li>
+                        <li><a href="https://www.linkedin.com/in/joseph-leto/" target="_blank"><i class="fab fa-linkedin" style="font-size: 1.5rem;"></i></a></li>
+                        <li><a href="https://github.com/serversorcerer" target="_blank"><i class="fab fa-github" style="font-size: 1.5rem;"></i></a></li>
                       </ul>
                     </div>
                   </div>
                   <div class="col-xl-9 col-lg-8 col-md-6 right-content">
                     <h5 class="hi classic-animation" data-delay=".5">Hello Everyone <span>👋</span></h5>
                     <div class="spacer-15"></div>
-                    <h1 class="hero-big classic-animation" data-delay=".7">I'm Joseph A. Leto<br> I am a<span
-                        class="element" data-values=" cloud engineer.,  AWS aficionado.,  solution architect in-the-making., " data-loop="true"
-                        data-backdelay="2">web interface.</span></h1>
+                    <h1 class="hero-big classic-animation" data-delay=".7">
+                      I'm Joseph A. Leto<br>
+                      From poker tables to cloud stacks —<br>
+                      building real projects, not just résumés.
+                    </h1>
                     <div class="spacer-30"></div>
                     <hr class="clip-animation" data-delay="1">
                     <ul class="row profile-info clip-animation" data-delay="1">
@@ -99,7 +101,8 @@
                 </div>
                 <div class="spacer-30"></div>
                 <p class="clip-animation" data-delay="1.1">
-                 I am an aspiring Solutions Architect with a passion for cloud technologies and a focus on AWS services. Currently pursuing the AWS Solutions Architect Associate certification, I am committed to mastering cloud infrastructure and deployment strategies. With a keen interest in cloud computing and a strong foundation in technical skills, I am eager to contribute to and grow within the tech industry.</p>
+                  I used to read people — now I read systems. Coming from poker, I learned how to stay calm under pressure and make sharp, fast decisions. When I pivoted to tech, I backed it up with real action — not just watching videos. I dove into Adrian Cantrill’s AWS course and built in parallel, breaking things and debugging my way to understanding. This site is proof — built from scratch using S3, Lambda, API Gateway, Beanstalk, and Terraform. Not just talk. Not just theory. Real work.
+                </p>
         
               </section>
     
@@ -132,30 +135,45 @@
                    <div class="timeline-outer">
                       <span class="timeline-date">2023 - Present</span>
                       <h5 class="timeline-title">AWS Cloud Resume Challenge</h5>
-                      <p class="timeline-description">A detailed exploration into AWS services:</p>
+                      <p class="timeline-description">This wasn’t just a portfolio — it was my introduction to cloud fundamentals. I wanted to prove I could design, build, and deploy a full-stack cloud project with real-world components, so I did just that.</p>
                       <ul class="timeline-list">
-                        <li>Designed and developed a personal web resume utilizing HTML/CSS, creating a visually appealing and responsive layout.</li>
-                        <li>Deployed the resume on Amazon S3 to ensure reliable static site hosting with high availability.</li>
-                        <li>Enhanced security through HTTPS implementation, utilizing Amazon CloudFront to protect data transmission.</li>
-                        <li>Configured a custom domain with personalized DNS settings via Amazon Route 53, making the site easily accessible.</li>
-                        <li>Optimized infrastructure and automated deployment processes using Terraform, improving efficiency and scalability.</li>
-                        <li>Integrated a real-time visitor counter using JavaScript, connected to backend services AWS Lambda, API Gateway, and DynamoDB.</li>
-                        <li>Implemented CI/CD pipelines with GitHub Actions for automated updates, ensuring the website remains up-to-date and secure.</li>
-                        <li>Documented the project and detailed learning outcomes in a comprehensive blog post, sharing insights and methodologies.</li>
+                        <li>Built a serverless web app with S3, Route 53, CloudFront, Lambda, API Gateway, and DynamoDB.</li>
+                        <li>Automated the entire infrastructure using Terraform — no console clicking.</li>
+                        <li>Connected a live visitor counter to show off backend integration in action.</li>
+                        <li>Used GitHub Actions for CI/CD — push to main, and the whole thing updates itself.</li>
+                        <li>Wrote up the project publicly to help others learn by example.</li>
                       </ul>
                    </div>
 
   </div>
                   <!-- item -->
-                  <div
-                    class="col-xl-6 offset-xl-6 col-lg-6 offset-lg-6 col-md-6 offset-md-6 col-sm-12 timeline-item  clip-animation from-top"
-                    data-duration="1.5" data-delay=".4">
+                  <div class="col-xl-6 offset-xl-6 col-lg-6 offset-lg-6 col-md-6 offset-md-6 col-sm-12 timeline-item clip-animation from-top"
+                    data-duration="1.5" data-delay=".6">
                     <div class="timeline-outer">
-                      <span class="mini-text">2023 - Present</span>
-                      <h5>Amazon Web Services - Certified Cloud Practitioner</h5>
-                      <p class="little-p">Foundation-level certification introducing AWS Cloud basics, services, and best practices. Perfect for entering the world of Amazon Web Services.</p>
+                      <span class="timeline-date">2024</span>
+                      <h5 class="timeline-title">Elastic Beanstalk Flask App</h5>
+                      <p class="timeline-description">I wanted to break past static sites — so I deployed a full Flask app to AWS using Elastic Beanstalk.</p>
+                      <ul class="timeline-list">
+                        <li>Deployed a custom Python web app with load balancing, health checks, and automated rollback.</li>
+                        <li>Handled IAM, logging, and environment variables — learning the real stuff, not just tutorials.</li>
+                        <li>Wired up CI/CD with GitHub and watched the app update itself when I pushed new code.</li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
+
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 timeline-item clip-animation from-top"
+                    data-duration="1.5" data-delay=".8">
+                    <div class="timeline-outer">
+                      <span class="timeline-date">2024</span>
+                      <h5 class="timeline-title">Terraform from the Trenches</h5>
+                      <p class="timeline-description">I wanted to stop treating the AWS console like a crutch — so I went all in on Infrastructure as Code.</p>
+                      <ul class="timeline-list">
+                        <li>Wrote Terraform to spin up IAM roles, Lambda functions, and S3 buckets from scratch.</li>
+                        <li>Learned how to break things safely and rebuild them fast using versioned infrastructure.</li>
+                        <li>Realized how much cleaner, safer, and scalable cloud becomes when you treat it like code.</li>
+                      </ul>
+                    </div>
+                  </div>
 
 
                   <div class="spacer-45"></div>
@@ -252,7 +270,7 @@
         <span class="counter-number">Couldn't read views</span>
       </div>
       <div class="copyright">
-        <p>Copyright 2024 - All right reserved</p>
+        <p>Copyright 2025 - All right reserved</p>
       </div>
       <ul class="social">      
         <li>
@@ -282,6 +300,8 @@
 
 </body>
 
-</html>< ! - -   t r i g g e r   r e d e p l o y   - - >  
- < ! - -   t r i g g e r   r e d e p l o y   - - >  
+</html>< ! - -   t r i g g e r   r e d e p l o y   - - > 
+ 
+ < ! - -   t r i g g e r   r e d e p l o y   - - > 
+ 
  
