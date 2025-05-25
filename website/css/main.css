@@ -63,6 +63,8 @@ body #loader .loading {
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
+	text-align: center;
+	padding: 0 10px;
 }
 
 
@@ -2690,4 +2692,27 @@ form .site-btn{
   50% { opacity: 0.4; }
   55% { opacity: 0.9; }
   60% { opacity: 0.6; }
+}
+
+@media (max-width: 575px) {
+  body #loader .loading pre {
+    font-size: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  body #loader .loading .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+}
+/* ASCII Loader Styles */
+.ascii-loader {
+  font-family: monospace;
+  color: #79e0ff;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  white-space: pre-wrap;
+  margin-top: 20px;
 }
