@@ -101,6 +101,30 @@
     50% { transform: translateX(-20px); }
     100% { transform: translateX(0); }
   }
+
+  /* Responsive preloader ASCII art and profile image */
+  @media screen and (max-width: 600px) {
+    .ascii-header {
+      font-size: 10px;
+      line-height: 1.2;
+      padding: 0 5px;
+    }
+
+    .ascii-header pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .profile-image {
+      width: 100px;
+      height: 100px;
+    }
+
+    .loader-circle {
+      width: 100px;
+      height: 100px;
+    }
+  }
   </style>
   <style>
     .glow-hover {
