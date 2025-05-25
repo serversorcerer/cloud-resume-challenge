@@ -1,17 +1,16 @@
-
- .section-title .zigzag {
-    stroke: #e6ff00;
+.section-title .zigzag {
+    stroke: #00CFFD;
 }
 
 .profile-info li i, .testimonial-carousel .left i, footer .social li a:hover, header nav ul li a:hover, .hero-big .element, .typed-cursor, .timeline .timeline-item span, .portfolio_filter ul li a.select-cat, .next-link .next-title, .categories ul li a, .blog-grid .metas .author:hover, .categories a:hover span, .contact-info a:hover, header nav ul li a.active{
-    color: #e6ff00;
+    color: #00CFFD;
 }
 
 .swiper-pagination-bullet-active, .skill-list .progress .percentage, .underline-title:after, .hamburger, .emoji-button:hover{
-    background: #e6ff00 !important;
+    background: #00CFFD !important;
 }
 
 body #loader .loading .profile-image svg .circle{
 
-	stroke: #e6ff00;
+	stroke: #00CFFD;
 }

@@ -66,40 +66,25 @@ body #loader .loading {
 }
 
 
-body #loader .loading .profile-image img{
-	border-radius: 60px;
-	-webkit-border-radius: 60px;
-	-moz-border-radius: 60px;
-	-ms-border-radius: 60px;
-	-o-border-radius: 60px;
-	position: relative;
-	width: 85px;
-    margin-top: 7px;
-    margin-left: 6.4px;
+body #loader .loading .profile-image {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px solid #00f7ff;
+  box-shadow: 0 0 25px rgba(0, 247, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-body #loader .loading .profile-image{
-	position: relative;
-    width: 100px;
-    height: 100px;
+body #loader .loading .profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
-
-body #loader .loading .profile-image svg{
-left: 0;
-    top: 0;
-}
-
-
-body #loader .loading .profile-image svg .circle {
-	stroke-dasharray: 301.59px 301.59px;
-	stroke-dashoffset: 301.59px;
-  }
-  
-  body #loader .loading .profile-image svg .circletwo{
-	stroke-dasharray: 301.59px 301.59px;
-	stroke-dashoffset: 0;
-	stroke: rgba(255, 255, 255, 0.164);
-  }
 
 body #loader .loading .txt {
 	opacity: 0;
@@ -167,11 +152,14 @@ main{
 	pointer-events: none;
 	width: 100%;
 	height: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	left: 50%;
+	transform: translateX(-50%);
 	content: '';
 	background: rgba(0, 0, 0, 0.6);
 	position: absolute;
 	top: 0;
-	left: 0;
 	border-radius: 12px;
 	-webkit-border-radius: 12px;
 	-moz-border-radius: 12px;
@@ -192,11 +180,14 @@ main{
 	pointer-events: none;
 	width: 100%;
 	height: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	left: 50%;
+	transform: translateX(-50%);
 	content: '';
 	background: rgba(0, 0, 0, 0.6);
 	position: absolute;
 	top: 0;
-	left: 0;
 	opacity: 0;
 	transition: all ease .3s;
 	-webkit-transition: all ease .3s;
@@ -350,18 +341,18 @@ main{
 /* Live View Counter                */
 /*----------------------------------*/
 
-.counter-number {
-	text-align: center; /* Center the counter */
-	padding: 10px 20px; /* Add some padding */
-	color: #D1ED5D; /* Vibrant color for the text to match your highlight theme */
-	background-color: rgba(255, 255, 255, 0.1); /* Slight transparency with a lighter touch */
-	margin-top: 20px; /* Space from the content above */
-	border-radius: 25px; /* Rounded corners for a modern look */
-	width: auto; /* Auto width based on content */
-	display: inline-block; /* Aligns with other inline elements */
-	margin-bottom: 30px; /* Space from the content below */
-	font-family: 'Poppins', sans-serif; /* Consistent font family */
-	border: 2px solid #D1ED5D; /* Border to make it pop out */
+  .counter-number {
+    text-align: center;
+    padding: 10px 20px;
+    color: #00f7ff;
+    background-color: rgba(0, 247, 255, 0.1);
+    margin-top: 20px;
+    border-radius: 25px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: 30px;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid #00f7ff;
   }
   
 
@@ -607,25 +598,29 @@ header nav ul li a.active{
 	position: relative;
 }
 
-.profile-pic .image{
-	width: 100%;
-	height: 100%;
-	background-size: cover;
-	border-radius: 15px 157px 15px;
-	-webkit-border-radius: 15px 157px 15px;
-	-moz-border-radius: 15px 157px 15px;
-	-ms-border-radius: 15px 157px 15px;
-	-o-border-radius: 15px 157px 15px;
+.profile-pic .image {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.profile-pic .image img{
-	visibility: hidden;
-	width: 100%;
+.profile-pic .image img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #00f7ff;
+  box-shadow: 0 0 25px rgba(0, 247, 255, 0.7);
 }
 
-.hero .right-content{
-	padding-top: 60px;
-	padding-left: 30px;
+.hero .right-content {
+  padding-top: 60px;
+  padding-left: 30px;
+  margin-top: 20px;
 }
 
 .hero .hi{
@@ -686,18 +681,21 @@ hr{
 }
 
 
-.section-title hr.left{
-	position: absolute;
-	left: -45px;
-	width: 40px;
-	top: 5px;
+.section-title hr.left {
+    position: absolute;
+    left: 15px;
+    width: calc(100% - 75px);
+    top: 5px;
 }
 
 .section-title hr.right{
     position: absolute;
-    width: calc(100% - 13px);
+    width: 100%;
+    max-width: calc(100% - 60px);
+    box-sizing: border-box;
     top: 5px;
-    right: -46px;
+    right: 0;
+    left: auto;
 }
 
 .section-title h5{
@@ -1004,13 +1002,22 @@ footer .social li a{
 
 /* timeline line  */
 
+.timeline {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  z-index: 3;
+}
+
 .timeline .timeline-item:after{
 	content: '';
 	position: absolute;
 	width: 1px;
 	height: 100%;
-	background: #D1ED5D;
+	background: #00f7ff;
 	top: 0;
+	max-height: 100%;
+	box-sizing: border-box;
 }
 
 .timeline .timeline-item:nth-child(odd):after{
@@ -1034,9 +1041,11 @@ footer .social li a{
     position: absolute;
     width: 11px;
     height: 11px;
-    background: #d0ed5d;
+    background: #00f7ff;
     border-radius: 50px;
     top: 31%;
+    max-height: 100%;
+    box-sizing: border-box;
 }
 
 .timeline .timeline-item:nth-child(odd):before{
@@ -1049,9 +1058,9 @@ footer .social li a{
 }
 
 .timeline-outer {
-    background-color: #343a40; /* Maintaining dark theme style */
+    background-color: #343a40;
     padding: 20px;
-    border-left: 5px solid #e6ff00; /* Keeping thematic consistency */
+    border-left: 5px solid #00f7ff;
     color: #ffffff;
     margin-bottom: 30px;
 }
@@ -1080,14 +1089,14 @@ footer .social li a{
 }
 
 .timeline-list li::before {
-    content: ''; /* Custom bullet point */
+    content: '';
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
     width: 8px;
     height: 8px;
-    background-color: #e6ff00; /* Brand color for bullet points */
+    background-color: #00f7ff;
     border-radius: 50%;
 }
 
@@ -2653,3 +2662,32 @@ form .site-btn{
 }
 
 
+
+
+.timeline-wrapper {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.cloud-initialized {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  color: #00f7ff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff;
+  opacity: 0.8;
+  z-index: 10000;
+  font-family: 'Poppins', sans-serif;
+  animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.85; }
+  45% { opacity: 0.65; }
+  50% { opacity: 0.4; }
+  55% { opacity: 0.9; }
+  60% { opacity: 0.6; }
+}

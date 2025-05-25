@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-  <title>Joseph A. Leto</title>
+  <title>Joe Leto | Cloud Portfolio</title>
   <meta charset="UTF-8">
-  <meta name="description" content="Joseph A. Leto">
+  <meta name="description" content="The official cloud portfolio of Joe Leto — AWS-powered builds, DevOps execution, and real-world proof of skill.">
   <meta name="keywords" content="personal, portfolio">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Favicon -->
@@ -28,19 +28,130 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+  <style>
+  canvas#awsMatrixRain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.3;
+    text-shadow: 0 0 6px #00c3ff, 0 0 12px #0077ff;
+    filter: blur(0.4px);
+  }
+
+  .overlay-shade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(10, 15, 30, 0.8); /* Slightly darker navy overlay */
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .floating-cloud {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    color: #00c3ff;
+    font-family: 'Poppins', monospace;
+    font-size: 13px;
+    opacity: 0.6;
+    z-index: 3;
+    animation: float 8s ease-in-out infinite;
+    text-shadow: 0 0 8px #00c3ff, 0 0 14px #00c3ff;
+  }
+  .profile-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    position: relative;
+    z-index: 10;
+  }
+
+  .profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .loader-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 140px;
+    height: 140px;
+    animation: spin 2.5s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes float {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-20px); }
+    100% { transform: translateX(0); }
+  }
+  </style>
+  <style>
+    .glow-hover {
+      transition: text-shadow 0.4s ease;
+    }
+    .glow-hover:hover {
+      text-shadow: 0 0 6px #00c3ff, 0 0 14px #00c3ff;
+    }
+    p.clip-animation {
+      line-height: 1.7;
+      max-width: 800px;
+      color: #e0e0e0;
+    }
+  </style>
 </head>
 
 <body class=" dark-version onepage without-wrapper">
 
+  <!-- 
+     _   _   _   _   _   _   _   _  
+  / \ / \ / \ / \ / \ / \ / \ / \ 
+ ( C | L | O | U | D |   | D | E )
+  \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ 
+  -->
+  <div class="overlay-shade"></div>
+  <div class="floating-cloud">~~~ cloud initialized ~~~</div>
+
   <!-- Preloader  -->
   <div id="loader" class="preloader">
     <div class="loading">
+      <div class="ascii-header" style="text-align: center; color: #00c3ff; font-family: monospace; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+        <pre style="margin: 0; padding: 0;">
+
+
+:'######::'##::::::::'#######::'##::::'##:'########:::::'########::'########:'##::::'##:
+'##... ##: ##:::::::'##.... ##: ##:::: ##: ##.... ##:::: ##.... ##: ##.....:: ##:::: ##:
+ ##:::..:: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ##::::::: ##:::: ##:
+ ##::::::: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ######::: ##:::: ##:
+ ##::::::: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ##...::::. ##:: ##::
+ ##::: ##: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ##::::::::. ## ##:::
+. ######:: ########:. #######::. #######:: ########::::: ########:: ########:::. ###::::
+:......:::........:::.......::::.......:::........::::::........:::........:::::...:::::
+
+
+        </pre>
+<p style="margin-top: 10px; font-size: 12px; color: #79e0ff;">
+  Cloud Resume Launch · Joe Leto<br>
+  Real Cloud · Real Code · No Fluff
+</p>      </div>
       <div class="profile-image">
-        <img src="images/profile-loader.jpg" alt="">
-        <svg style="position: absolute;" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <circle class="js-circle circle" cx="50" cy="50" r="48" stroke="white" stroke-width="2" fill="none" />
-          <circle class="js-circle circletwo" cx="50" cy="50" r="48" stroke="white" stroke-width="2" fill="none" />
-        </svg>
+        <img src="images/profile.png" alt="Loading Profile">
       </div>
     </div>
   </div>
@@ -56,35 +167,44 @@
             <div class="page-wrapper">
 
               <header id="fixed">
-                <div class="hamburger hamburger--elastic"> 
-                  <span class="hamburger-box"> <span class="hamburger-inner"></span> </span> 
-                </div>
-                <nav>
-                  <ul>
-                    <li><a class="active" href="#home">Home</a></li>
-                    <li><a href="#resume">Resume</a></li>
-                  </ul>
-                </nav>
               </header>
               
               <section class="hero" id="home">
                 <div class="row">
-                  <div class="col-xl-3 col-lg-4 col-md-6 profile-pic" style="display: flex; justify-content: center; align-items: center; text-align: center;">
-                    <div class="image clip-animation from-left" style="background-image: url(images/profile.png); background-position: center; background-repeat: no-repeat; background-size: contain; display: flex; justify-content: center; align-items: center;">
-                      <img src="images/profile.png" alt="Joseph A. Leto" style="max-width: 100%; height: auto; border-radius: 10px;">
-                    </div>
+                  <div class="col-xl-3 col-lg-4 col-md-6 profile-pic" style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 10px;">
+                    <div class="image clip-animation from-left profile-image-hero"></div>
                     <div class="social-links clip-animation">
                       <ul>
                         <li><a href="https://www.linkedin.com/in/joseph-leto/" target="_blank"><i class="fab fa-linkedin" style="font-size: 1.5rem;"></i></a></li>
                         <li><a href="https://github.com/serversorcerer" target="_blank"><i class="fab fa-github" style="font-size: 1.5rem;"></i></a></li>
+                        <li><a href="https://medium.com/@joe_92405" target="_blank"><i class="fab fa-medium" style="font-size: 1.5rem;"></i></a></li>
                       </ul>
                     </div>
                   </div>
+<style>
+  /* Hero profile image: class-based, not inline */
+  .profile-image-hero {
+    background-image: url(images/profile.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 260px;
+    height: 260px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,195,255,0.7), 0 0 60px rgba(0,195,255,0.4);
+    border: 5px solid rgba(0,195,255,0.5);
+    transition: transform 0.3s ease-in-out;
+  }
+</style>
                   <div class="col-xl-9 col-lg-8 col-md-6 right-content">
-                    <h5 class="hi classic-animation" data-delay=".5">Hello Everyone <span>👋</span></h5>
+                    <h5 class="hi classic-animation" data-delay=".5">Welcome — stay curious, build smart <span style="margin-left: 8px;">☁️</span></h5>
                     <div class="spacer-15"></div>
                     <h1 class="hero-big classic-animation" data-delay=".7">
-                      I'm Joseph A. Leto<br>
+                      I'm <span class="glow-hover" style="color:#00c3ff; font-weight: 700; text-shadow: 0 0 4px #00c3ff, 0 0 8px #005eff;">Joe Leto</span><br>
                       From poker tables to cloud stacks —<br>
                       building real projects, not just résumés.
                     </h1>
@@ -100,9 +220,17 @@
                   </div>
                 </div>
                 <div class="spacer-30"></div>
-                <p class="clip-animation" data-delay="1.1">
-                  I used to read people — now I read systems. Coming from poker, I learned how to stay calm under pressure and make sharp, fast decisions. When I pivoted to tech, I backed it up with real action — not just watching videos. I dove into Adrian Cantrill’s AWS course and built in parallel, breaking things and debugging my way to understanding. This site is proof — built from scratch using S3, Lambda, API Gateway, Beanstalk, and Terraform. Not just talk. Not just theory. Real work.
-                </p>
+                <div class="clip-animation" data-delay="1.1" style="max-width: 820px; color: #d0d0d0; text-align: center; margin: 0 auto;">
+                  <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1rem;">
+                    I come from the poker world — trained to read the room, take risks, and think five steps ahead.
+                  </p>
+                  <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1rem;">
+                    I taught myself cloud by building, breaking, and rebuilding. Every project here is proof that I learn by doing.
+                  </p>
+                  <p style="line-height: 1.8; font-size: 1rem;">
+                    No fluff. Just real infrastructure, versioned code, and the mindset to ship with purpose.
+                  </p>
+                </div>
         
               </section>
     
@@ -124,135 +252,62 @@
               </div>
 
                 <!-- Timeline Work -->
-                <div  class="spacer-45"></div>
+                <div class="spacer-45"></div>
                 <div class="timeline-caption-outer">
-                  <div class="timeline-caption">👨‍💻 <span>Projects and Certifications</span></div>
+                  <div class="timeline-caption">👨‍💻 <span>Projects and Cloud Skills in Action</span></div>
                 </div>
                 <div class="timeline row">
-                  <!-- item -->
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 timeline-item clip-animation from-top"
-                    data-duration="1.5">
-                   <div class="timeline-outer">
+                  <!-- Cloud Resume Challenge -->
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5">
+                    <div class="timeline-outer">
                       <span class="timeline-date">2023 - Present</span>
-                      <h5 class="timeline-title">AWS Cloud Resume Challenge</h5>
-                      <p class="timeline-description">This wasn’t just a portfolio — it was my introduction to cloud fundamentals. I wanted to prove I could design, build, and deploy a full-stack cloud project with real-world components, so I did just that.</p>
+                      <h5 class="timeline-title">Cloud Resume Challenge</h5>
+                      <p class="timeline-description">
+                        I wanted to prove I could actually build something real in the cloud — so I challenged myself to launch a working site using tools that real companies use every day. This was my hands-on cloud bootcamp.
+                      </p>
                       <ul class="timeline-list">
-                        <li>Built a serverless web app with S3, Route 53, CloudFront, Lambda, API Gateway, and DynamoDB.</li>
-                        <li>Automated the entire infrastructure using Terraform — no console clicking.</li>
-                        <li>Connected a live visitor counter to show off backend integration in action.</li>
-                        <li>Used GitHub Actions for CI/CD — push to main, and the whole thing updates itself.</li>
-                        <li>Wrote up the project publicly to help others learn by example.</li>
-                      </ul>
-                   </div>
-
-  </div>
-                  <!-- item -->
-                  <div class="col-xl-6 offset-xl-6 col-lg-6 offset-lg-6 col-md-6 offset-md-6 col-sm-12 timeline-item clip-animation from-top"
-                    data-duration="1.5" data-delay=".6">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2024</span>
-                      <h5 class="timeline-title">Elastic Beanstalk Flask App</h5>
-                      <p class="timeline-description">I wanted to break past static sites — so I deployed a full Flask app to AWS using Elastic Beanstalk.</p>
-                      <ul class="timeline-list">
-                        <li>Deployed a custom Python web app with load balancing, health checks, and automated rollback.</li>
-                        <li>Handled IAM, logging, and environment variables — learning the real stuff, not just tutorials.</li>
-                        <li>Wired up CI/CD with GitHub and watched the app update itself when I pushed new code.</li>
+                        <li>Used S3, Route 53, CloudFront, Lambda, API Gateway, and DynamoDB for a live infrastructure stack.</li>
+                        <li>Built a CI/CD pipeline with GitHub Actions — zero console clicking.</li>
+                        <li>Live visitor counter proves real-time data handling and backend integration.</li>
                       </ul>
                     </div>
                   </div>
 
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 timeline-item clip-animation from-top"
-                    data-duration="1.5" data-delay=".8">
+                  <!-- Elastic Beanstalk -->
+                  <div class="col-xl-6 offset-xl-6 col-lg-6 offset-lg-6 col-md-6 offset-md-6 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5" data-delay=".6">
                     <div class="timeline-outer">
                       <span class="timeline-date">2024</span>
-                      <h5 class="timeline-title">Terraform from the Trenches</h5>
-                      <p class="timeline-description">I wanted to stop treating the AWS console like a crutch — so I went all in on Infrastructure as Code.</p>
+                      <h5 class="timeline-title">Elastic Beanstalk Deployment</h5>
+                      <p class="timeline-description">
+                        Next, I moved from static sites to something more complex — an interactive web app. I deployed it on AWS with tools that real teams use to manage uptime, scaling, and updates.
+                      </p>
                       <ul class="timeline-list">
-                        <li>Wrote Terraform to spin up IAM roles, Lambda functions, and S3 buckets from scratch.</li>
-                        <li>Learned how to break things safely and rebuild them fast using versioned infrastructure.</li>
-                        <li>Realized how much cleaner, safer, and scalable cloud becomes when you treat it like code.</li>
+                        <li>Automated deployments with GitHub and CI/CD pipelines.</li>
+                        <li>Handled IAM, logs, monitoring, and rollback strategies manually and through scripts.</li>
+                        <li>Designed for scalability and maintainability — not just function.</li>
                       </ul>
                     </div>
                   </div>
 
+                  <!-- Terraform Infra -->
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5" data-delay=".8">
+                    <div class="timeline-outer">
+                      <span class="timeline-date">2024</span>
+                      <h5 class="timeline-title">Infrastructure as Code with Terraform</h5>
+                      <p class="timeline-description">
+                        I stopped relying on clicking around and started using code to manage infrastructure. That means faster setups, fewer mistakes, and the ability to rebuild everything automatically when needed.
+                      </p>
+                      <ul class="timeline-list">
+                        <li>Provisioned S3 buckets, IAM roles, Lambda functions, and APIs from scratch.</li>
+                        <li>Practiced real version control and disaster recovery using modular code.</li>
+                        <li>Gained deep experience in repeatable, scalable, and secure infra patterns.</li>
+                      </ul>
+                    </div>
+                  </div>
 
                   <div class="spacer-45"></div>
                   <hr>
                   <div class="spacer-45"></div>
-
-                  <div class="row">
-
-                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 classic-animation">
-                      <h2 class="skills-category">DEVOPS</h2>
-                    </div>
-                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-11 col-11 classic-animation" data-delay=".2">
-                      <ul class="skill-list">
-                        <li>
-                          <div class="bar-info">
-                            <h3>AWS Services</h3>
-                            <span>90%</span>
-                          </div>
-                          <div class="progress">
-                            <div class="percentage" data-percent="90%"></div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="bar-info">
-                            <h3>Cloud Architecture</h3>
-                            <span>85%</span>
-                          </div>
-                          <div class="progress">
-                            <div class="percentage" data-percent="85%"></div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="bar-info">
-                            <h3>Security Management</h3>
-                            <span>80%</span>
-                          </div>
-                          <div class="progress">
-                            <div class="percentage" data-percent="70%"></div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 classic-animation" data-delay=".4">
-                      <h2 class="skills-category">CODING</h2>
-                    </div>
-                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-11 col-11 classic-animation" data-delay=".5">
-                      <ul class="skill-list">
-                        <li>
-                          <div class="bar-info">
-                            <h3>Python</h3>
-                            <span>60%</span>
-                          </div>
-                          <div class="progress">
-                            <div class="percentage" data-percent="60%"></div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="bar-info">
-                            <h3>HTML5</h3>
-                            <span>90%</span>
-                          </div>
-                          <div class="progress">
-                            <div class="percentage" data-percent="90%"></div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="bar-info">
-                            <h3>CSS3</h3>
-                            <span>75%</span>
-                          </div>
-                          <div class="progress">
-                            <div class="percentage" data-percent="75%"></div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
                 </div>
               </section>
 
@@ -269,6 +324,9 @@
       <div class="view-counter" style="text-align: center; margin: 20px 0;">
         <span class="counter-number">Couldn't read views</span>
       </div>
+      <div style="text-align: center; font-family: monospace; font-size: 12px; color: #888; padding-bottom: 10px;">
+        <!-- Real clouds. Real code. No fluff. -->
+      </div>
       <div class="copyright">
         <p>Copyright 2025 - All right reserved</p>
       </div>
@@ -281,6 +339,11 @@
         <li>
           <a target="_blank" href="https://github.com/serversorcerer">
              <i class="fab fa-github"></i> Github
+          </a>
+        </li>
+        <li>
+          <a target="_blank" href="https://medium.com/@joe_92405">
+            <i class="fab fa-medium"></i> Medium
           </a>
         </li>
       </ul>
@@ -297,6 +360,61 @@
   <script src="js/plugins.js"></script>
   <script src="js/map.js"></script>
   <script src="js/main.js"></script>
+
+  <!-- Subtle cloud-themed matrix rain background -->
+  <canvas id="awsMatrixRain"></canvas>
+  <script>
+  // Subtle cloud-themed matrix rain background
+  const canvas = document.getElementById("awsMatrixRain");
+  const ctx = canvas.getContext("2d");
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  // List of AWS/cloud terms for the rain effect
+  const awsTerms = [
+    "S3", "Lambda", "EC2", "DynamoDB", "IAM", "CloudFront", "Route 53",
+    "EFS", "API Gateway", "RDS", "Athena", "SNS", "SQS", "Aurora",
+    "Kinesis", "Glue", "Fargate", "CloudWatch", "VPC", "Step Functions"
+  ];
+  const fontSize = 16;
+  let columns = Math.floor(canvas.width / fontSize);
+  let drops = Array(columns).fill(1);
+
+  function drawMatrixRain() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = fontSize + "px monospace";
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, "#00c3ff");
+    gradient.addColorStop(1, "#001b44");
+    ctx.fillStyle = gradient;
+    for (let i = 0; i < drops.length; i++) {
+      // Pick a random AWS term for each drop
+      const text = awsTerms[Math.floor(Math.random() * awsTerms.length)];
+      ctx.globalAlpha = 0.7 + Math.random() * 0.3;
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      ctx.globalAlpha = 1.0;
+      // Reset drop to top with some randomness for spacing
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) {
+        drops[i] = 0;
+      }
+      drops[i] += 0.8 + Math.random() * 0.5;
+    }
+  }
+
+  setInterval(drawMatrixRain, 80); // Optimized visual speed
+
+  // Recalculate columns and drops on resize
+  window.addEventListener("resize", () => {
+    columns = Math.floor(canvas.width / fontSize);
+    drops = Array(columns).fill(1);
+  });
+  </script>
 
 </body>
 
