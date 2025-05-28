@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InfraMirror Terminal</title>
+  <style>
+    body {
+      margin:0;
+      background:#0d1117;
+      color:#c9d1d9;
+      font-family: monospace;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    #terminal {
+      width:90%;
+      max-width:700px;
+      background:#000;
+      padding:20px;
+      border-radius:8px;
+      box-shadow:0 0 12px rgba(0,195,255,0.5);
+      display:flex;
+      flex-direction:column;
+      height:70vh;
+    }
+    #output {
+      flex:1;
+      overflow-y:auto;
+      white-space:pre-wrap;
+    }
+    #input-line {
+      display:flex;
+      align-items:center;
+    }
+    #prompt {
+      color:#00c3ff;
+      margin-right:6px;
+    }
+    #cmd {
+      flex:1;
+      background:transparent;
+      border:none;
+      color:inherit;
+      font-family:inherit;
+      outline:none;
+      caret-color:#00c3ff;
+    }
+    #suggestion {
+      color:#00c3ff;
+      font-size:0.85rem;
+      opacity:0.8;
+      margin-top:2px;
+    }
+    .error { color:#ff6b6b; }
+  </style>
+</head>
+<body>
+<div id="terminal">
+  <div id="output"></div>
+  <div id="suggestion" style="display:none;"></div>
+  <div id="input-line"><span id="prompt">$</span><input id="cmd" autocomplete="off" autofocus></div>
+</div>
+<script>
+const output = document.getElementById('output');
+const cmdInput = document.getElementById('cmd');
+const suggestion = document.getElementById('suggestion');
+
+const commands = {
+  help: `help           \u2013 show this message\nabout          \u2013 about Joe Leto\nresume         \u2013 open resume\nlinkedin       \u2013 LinkedIn profile\ngithub         \u2013 GitHub repo\nquote          \u2013 random quote\nclear          \u2013 clear screen\nexit           \u2013 close terminal`,
+  about: `Joe Leto \u2013 Cloud enthusiast building real infra.`,
+  resume: `<a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf" target="_blank">View Resume</a>`,
+  linkedin: `<a href="https://www.linkedin.com/in/joseph-leto/" target="_blank">linkedin.com/in/joseph-leto</a>`,
+  github: `<a href="https://github.com/serversorcerer" target="_blank">github.com/serversorcerer</a>`,
+  quote: `\u201cShip often. Think big. Stay sharp.\u201d \u2013 J.L.`,
+  clear: '__clear__',
+  exit: `Session ended.`
+};
+const commandKeys = Object.keys(commands);
+const history = [];
+let hIndex = 0;
+
+function print(text) {
+  const div = document.createElement('div');
+  div.innerHTML = text;
+  output.appendChild(div);
+  output.scrollTop = output.scrollHeight;
+}
+
+function runCommand(cmd) {
+  if (commands[cmd]) {
+    if (commands[cmd] === '__clear__') {
+      output.innerHTML = '';
+    } else {
+      print(commands[cmd]);
+    }
+  } else {
+    print('<span class="error">Command not found:</span> ' + cmd);
+  }
+}
+
+cmdInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const cmd = cmdInput.value.trim();
+    if (cmd) {
+      print('<span style="color:#00c3ff;">$</span> ' + cmd);
+      history.push(cmd);
+      hIndex = history.length;
+      runCommand(cmd.toLowerCase());
+    }
+    cmdInput.value = '';
+    suggestion.style.display = 'none';
+  } else if (e.key === 'ArrowUp') {
+    if (history.length && hIndex > 0) {
+      hIndex--; cmdInput.value = history[hIndex];
+    }
+    e.preventDefault();
+  } else if (e.key === 'ArrowDown') {
+    if (history.length && hIndex < history.length - 1) {
+      hIndex++; cmdInput.value = history[hIndex];
+    } else {
+      hIndex = history.length; cmdInput.value = '';
+    }
+    e.preventDefault();
+  } else if (e.key === 'Tab') {
+    e.preventDefault();
+    const val = cmdInput.value.trim().toLowerCase();
+    if (!val) return;
+    const match = commandKeys.find(c => c.startsWith(val));
+    if (match) {
+      cmdInput.value = match;
+      suggestion.style.display = 'none';
+    }
+  }
+});
+
+cmdInput.addEventListener('input', () => {
+  const val = cmdInput.value.trim().toLowerCase();
+  if (!val) { suggestion.style.display = 'none'; return; }
+  const match = commandKeys.find(c => c.startsWith(val));
+  if (match && match !== val) {
+    suggestion.style.display = 'block';
+    suggestion.textContent = match;
+  } else {
+    suggestion.style.display = 'none';
+  }
+});
+
+print('Welcome to inframirror.io terminal. Type "help" for commands.');
+</script>
+</body>
+</html>
