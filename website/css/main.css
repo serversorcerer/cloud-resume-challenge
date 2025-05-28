@@ -2706,13 +2706,3 @@ form .site-btn{
     height: 120px;
   }
 }
-/* ASCII Loader Styles */
-.ascii-loader {
-  font-family: monospace;
-  color: #79e0ff;
-  font-size: 10px;
-  line-height: 12px;
-  text-align: center;
-  white-space: pre-wrap;
-  margin-top: 20px;
-}
