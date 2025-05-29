@@ -651,7 +651,14 @@ source code        – browse source repo
 `,
 
     'aws s3 ls': `[bucket] josephaleto.io<br>[bucket] resume-storage<br>[bucket] inframirror-assets`,
-    'view counter': '__VISITOR_PLACEHOLDER__',
+    'view counter': (() => {
+      const footerCounter = document.querySelector(".counter-number");
+      if (footerCounter && !footerCounter.textContent.includes("Couldn't")) {
+        return `Total visitors: ${footerCounter.textContent}`;
+      } else {
+        return "Visitor count not yet loaded.";
+      }
+    })(),
     'terraform apply': `Applying changes...<br>✓ No drift detected<br>✓ Resources validated<br>✓ Lambda up-to-date<br>✓ DynamoDB consistent<br>✓ CloudFront deployed<br><br>✔ Terraform apply complete! Infrastructure looks good.`,
     motd: `Welcome to josephaleto.io — the AWS-powered terminal portfolio of Joe Leto.<br>Type <span style="color:#00ffff">help</span> to begin.`,
     whoami: `user: joe<br>domain: josephaleto.io<br>location: Ashburn, Virginia`,
@@ -698,16 +705,6 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
 
   // Command aliases for tab-completion
   const commandList = Object.keys(commands);
-
-  // Sync terminal visitor count from existing footer view counter
-  const footerCounter = document.querySelector(".counter-number");
-  if (footerCounter && footerCounter.textContent.includes("Couldn't")) {
-    commands["view counter"] = "View count not yet loaded.";
-  } else if (footerCounter) {
-    commands["view counter"] = `Total visitors: ${footerCounter.textContent}`;
-  } else {
-    commands["view counter"] = "Visitor count unavailable.";
-  }
 
   // Command history
   let commandHistory = [];
