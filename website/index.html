@@ -281,8 +281,22 @@
                   #infraMirrorConsole {
                     display: none;
                   }
+                  .mobile-terminal-toggle {
+                    display: block;
+                  }
+                }
+                @media screen and (min-width: 769px) {
+                  .mobile-terminal-toggle {
+                    display: none;
+                  }
                 }
               </style>
+              <!-- Mobile-only terminal toggle button -->
+              <div class="mobile-terminal-toggle" style="text-align: center; margin: 30px auto;">
+                <button onclick="toggleMobileTerminal()" style="padding: 10px 16px; font-family: monospace; background-color: #111; color: #00c3ff; border: 1px solid #00c3ff; border-radius: 6px; box-shadow: 0 0 8px #00c3ff;">
+                  🔧 Launch Terminal
+                </button>
+              </div>
               <section id="infraMirrorConsole" style="margin: 80px auto 60px; max-width: 960px;">
                 <h2 class="sr-only">Cloud Resume Terminal</h2>
                 <div style="border-radius: 8px; box-shadow: 0 0 20px rgba(0,195,255,0.5); background-color: #111;">
@@ -936,6 +950,17 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
     }
   `;
   document.head.appendChild(style);
+  </script>
+  <script>
+    function toggleMobileTerminal() {
+      const termSection = document.getElementById("infraMirrorConsole");
+      if (termSection.style.display === "none" || !termSection.style.display) {
+        termSection.style.display = "block";
+        termSection.scrollIntoView({ behavior: "smooth" });
+      } else {
+        termSection.style.display = "none";
+      }
+    }
   </script>
 </body>
 
