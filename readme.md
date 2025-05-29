@@ -8,13 +8,15 @@ Welcome to my Cloud Resume Challenge project — a real-world demonstration of m
 
 🚀 **Check out the live site:** [https://josephaleto.io](https://josephaleto.io)
 
-![Architecture Diagram](/website/images/architecture.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/serversorcerer/cloud-resume-challenge/main/website/images/architecture.png" alt="Architecture Diagram" width="720">
+</p>
 
 ## Features
 
-- 🔥 **Real-Time Visitor Counter:** Instantly tracks and displays page views using a serverless Lambda function, providing live engagement metrics.
-- 🎯 **Interactive Terminal Interface:** Engages visitors with an embedded terminal to explore commands about my experience and background, creating a memorable user experience.
-- ⚙️ **Automated CI/CD Pipeline:** Seamlessly deploys updates with GitHub Actions, ensuring the website stays current without manual intervention.
+- **Real-Time Visitor Counter:** Instantly tracks and displays page views using a serverless Lambda function, providing live engagement metrics.
+- **Interactive Terminal Interface:** Engages visitors with an embedded terminal to explore commands about my experience and background, creating a memorable user experience.
+- **Automated CI/CD Pipeline:** Seamlessly deploys updates with GitHub Actions, ensuring the website stays current without manual intervention.
 
 ## Stack Breakdown
 
@@ -35,9 +37,9 @@ For recruiters and hiring managers, this project highlights my ability to archit
 ## Directory Overview
 
 ```
-📁 /infra           → Terraform infrastructure code
-📁 /website         → Static site assets (HTML, CSS, JS)
-📁 /.github/workflows → CI/CD pipeline configuration
+/infra                # Terraform infrastructure code
+/website              # Static site assets (HTML, CSS, JS)
+/.github/workflows    # CI/CD pipeline configuration
 ```
 
 ## Building the Project
