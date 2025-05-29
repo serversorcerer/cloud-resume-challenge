@@ -9,6 +9,13 @@
   <meta name="keywords" content="personal, portfolio">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <style>
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
   input, textarea, select, button {
     font-size: 16px;
   }
@@ -190,7 +197,7 @@
   </style>
 </head>
 
-<body class=" dark-version onepage without-wrapper">
+<body class="dark-version onepage without-wrapper" style="min-height: 100vh; overflow-x: hidden;">
 
   <!-- 
      _   _   _   _   _   _   _   _  
@@ -305,10 +312,10 @@
                   </p>
                 </div>
 
-                <div class="desktop-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 0.9rem; margin-bottom: -40px;">
+                <div class="desktop-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 0.9rem; margin-top: 20px; margin-bottom: 20px;">
                   ↓ open terminal to explore
                 </div>
-                <div class="mobile-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 1rem; margin-top: 16px; background-color: rgba(0, 195, 255, 0.1); padding: 10px; border-radius: 6px; box-shadow: 0 0 10px rgba(0, 195, 255, 0.3);">
+                <div class="mobile-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 1rem; margin: 24px auto 10px; background-color: rgba(0, 195, 255, 0.12); padding: 14px 12px; border-radius: 8px; max-width: 92%; box-shadow: 0 0 14px rgba(0, 195, 255, 0.35);">
                   🧠 Tap <strong>'Launch Terminal'</strong> below to explore cloud projects interactively.
                 </div>
         
@@ -331,12 +338,12 @@
                 }
               </style>
               <!-- Mobile-only terminal toggle button -->
-              <div class="mobile-terminal-toggle" style="text-align: center; margin: 30px auto;">
+              <div class="mobile-terminal-toggle" style="text-align: center; margin: 20px auto 36px;">
                 <button onclick="toggleMobileTerminal()" style="padding: 10px 16px; font-family: monospace; background-color: #111; color: #00c3ff; border: 1px solid #00c3ff; border-radius: 6px; box-shadow: 0 0 8px #00c3ff;">
                   🔧 Launch Terminal
                 </button>
               </div>
-              <section id="infraMirrorConsole" style="margin: 80px auto 60px; max-width: 960px;">
+              <section id="infraMirrorConsole" style="margin: 80px auto 60px; max-width: 960px; min-height: 300px;">
                 <h2 class="sr-only">Cloud Resume Terminal</h2>
                 <div style="border-radius: 8px; box-shadow: 0 0 20px rgba(0,195,255,0.5); background-color: #111;">
                   <div style="padding-top: 30px; padding-bottom: 0;">
@@ -680,7 +687,7 @@
   startupMsg.style.whiteSpace = 'pre-line';
   startupMsg.style.color = '#b2eaff';
   startupMsg.innerHTML =
-    'joe@josephaleto.io — Cloud Resume Terminal\nCurated projects. Real infrastructure. Type "help" to begin.';
+    'joe@josephaleto.io — Cloud Resume Terminal\nCurated projects. Real infrastructure. Type "help" to begin.\n<span style="color:#00c3ff;">↳ Start typing here...</span>';
   terminalContent.appendChild(startupMsg);
   scrollToBottom();
 
@@ -977,13 +984,13 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
   terminalContent.style.fontFamily = "monospace";
   terminalInput.style.fontFamily = "monospace";
 
-  // Only scroll terminal into view on mobile if not visible
+  // Only scroll terminal into view on mobile if not visible, and reset scroll if needed
   window.addEventListener('load', () => {
     if (window.innerWidth < 768) {
       setTimeout(() => {
         const termRect = terminalWrapper.getBoundingClientRect();
         if (termRect.top > window.innerHeight || termRect.bottom < 0) {
-          terminalWrapper.scrollIntoView({ behavior: "smooth", block: "center" });
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }, 400);
     }
