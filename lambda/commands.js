@@ -35,7 +35,7 @@ exports.handler = async (event) => {
 
   const command = (body.command || '').trim().toLowerCase();
   if (!command) {
-    return { statusCode: 400, headers: { 'Content-Type': 'text/plain' }, body: 'No command provided.' };
+    return { statusCode: 400, headers: HEADERS, body: 'No command provided.' };
   }
 
   const output = RESPONSES[command];
