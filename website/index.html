@@ -411,8 +411,9 @@
                       animation: blink-caret 1.1s steps(1) infinite;
                       color: #00ffff;
                       font-weight: bold;
-                      margin-left: 1px;
-                      text-shadow: 0 0 6px #00ffff, 0 0 10px #00eaff;
+                      margin-left: 2px;
+                      font-size: 18px;
+                      text-shadow: 0 0 6px #00ffff, 0 0 14px #00eaff;
                     }
                     @keyframes blink-caret {
                       0%, 60% { opacity: 1; }
@@ -815,6 +816,16 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
       terminalWrapper.style.maxHeight = '480px';
       terminalWrapper.style.height = '480px';
       setTimeout(scrollToBottom, 200);
+      // Show mobile typing hint for better UX
+      const mobileHint = document.createElement('div');
+      mobileHint.textContent = '⬆ Tap here and start typing...';
+      mobileHint.style.color = '#00c3ff';
+      mobileHint.style.fontSize = '13px';
+      mobileHint.style.fontFamily = 'monospace';
+      mobileHint.style.marginTop = '8px';
+      mobileHint.style.opacity = '0.75';
+      terminalContent.appendChild(mobileHint);
+      setTimeout(() => mobileHint.remove(), 3000);
     }
   }, { once: true });
 
