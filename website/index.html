@@ -697,6 +697,39 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
 - Infra as Code: Terraform<br>
 - CI/CD: GitHub Actions<br>
 - Domain: Route 53`,
+    architecture: `Infrastructure Diagram:
+  +---------------------+
+  |       CI/CD         |
+  |---------------------|
+  |  GitHub Actions     |
+  +----------+----------+
+             |
+             v
+  +---------------------+
+  |     S3 Bucket       |
+  |  Static Website     |
+  +----------+----------+
+             |
+             v
+  +---------------------+
+  |    CloudFront CDN   |
+  +----+-----------+----+
+       |           |
+       v           v
+ +----------+   +------------------+
+ | Route 53 |   |   API Gateway    |
+ +----------+   +---------+--------+
+                          |
+                          v
+                    +-----------+
+                    |  Lambda   |
+                    +-----+-----+
+                          |
+                          v
+                    +-----------+
+                    | DynamoDB  |
+                    +-----------+
+`,
     quote: `“Ship often. Think big. Stay sharp.”<br>– J.L.`,
     clear: `__CLEAR__`,
     exit: `Logging out...<br>Session terminated.`,
