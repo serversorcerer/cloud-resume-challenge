@@ -699,17 +699,15 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
   // Command aliases for tab-completion
   const commandList = Object.keys(commands);
 
-  // Fetch the live visitor value for the view counter command
-  fetch("https://5yw6uexaub.execute-api.us-east-1.amazonaws.com/Prod/resume")
-    .then(res => res.json())
-    .then(data => {
-      if (data.views) {
-        commands["view counter"] = `Total visitors: ${data.views}`;
-      }
-    })
-    .catch(err => {
-      commands["view counter"] = "Error fetching visitor count.";
-    });
+  // Sync terminal visitor count from existing footer view counter
+  const footerCounter = document.querySelector(".counter-number");
+  if (footerCounter && footerCounter.textContent.includes("Couldn't")) {
+    commands["view counter"] = "View count not yet loaded.";
+  } else if (footerCounter) {
+    commands["view counter"] = `Total visitors: ${footerCounter.textContent}`;
+  } else {
+    commands["view counter"] = "Visitor count unavailable.";
+  }
 
   // Command history
   let commandHistory = [];
