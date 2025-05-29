@@ -29,116 +29,6 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-  <style>
-  canvas#awsMatrixRain {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    opacity: 0.3;
-    text-shadow: 0 0 6px #00c3ff, 0 0 12px #0077ff;
-    filter: blur(0.4px);
-  }
-
-  .overlay-shade {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(10, 15, 30, 0.8); /* Slightly darker navy overlay */
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  .floating-cloud {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    color: #00c3ff;
-    font-family: 'Poppins', monospace;
-    font-size: 13px;
-    opacity: 0.6;
-    z-index: 3;
-    animation: float 8s ease-in-out infinite;
-    text-shadow: 0 0 8px #00c3ff, 0 0 14px #00c3ff;
-  }
-  .profile-image {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: auto;
-    position: relative;
-    z-index: 10;
-  }
-
-  .profile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    display: block;
-  }
-
-  .loader-circle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 140px;
-    height: 140px;
-    animation: spin 2.5s linear infinite;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  @keyframes float {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(-20px); }
-    100% { transform: translateX(0); }
-  }
-
-  /* Responsive preloader ASCII art and profile image */
-  @media screen and (max-width: 600px) {
-    .ascii-header {
-      font-size: 10px;
-      line-height: 1.2;
-      padding: 0 5px;
-    }
-
-    .ascii-header pre {
-      display: none;
-    }
-
-    .profile-image {
-      width: 100px;
-      height: 100px;
-    }
-
-    .loader-circle {
-      width: 100px;
-      height: 100px;
-    }
-  }
-  </style>
-  <style>
-#terminal::-webkit-scrollbar {
-  width: 10px;
-}
-#terminal::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 195, 255, 0.5);
-  border-radius: 6px;
-}
-#terminal::-webkit-scrollbar-track {
-  background-color: #111;
-}
-  </style>
   <style>
     .glow-hover {
       transition: text-shadow 0.4s ease;
@@ -630,127 +520,47 @@
   terminalContent.appendChild(startupMsg);
   scrollToBottom();
 
-  // Command definitions and help text
-  const commands = {
-    help: `Available Commands:
---------------------
-aws s3 ls           – list S3 buckets
-view counter        – fetch visitor count
-terraform apply     – apply infra (simulated)
-motd                – welcome message
-whoami              – user identity
-bio                 – about Joe Leto
-resume              – open resume PDF
-linkedin            – LinkedIn profile
-github              – GitHub profile
-email               – contact via email
-projects            – list cloud projects
-stack               – show stack details
-architecture        – show architecture diagram
-quote               – inspiration
-clear               – clear screen
-exit                – log out
-source code         – browse source repo
-`,
+  // Terminal commands served by backend
+  const API_URL = 'https://example.execute-api.us-east-1.amazonaws.com/terminal';
 
-    'aws s3 ls': `[bucket] josephaleto.io<br>[bucket] resume-storage<br>[bucket] inframirror-assets`,
-    'view counter': () => {
-      const counter = document.querySelector(".counter-number");
-      if (counter && counter.textContent && !counter.textContent.includes("Couldn't")) {
-        return `Total visitors: ${counter.textContent}`;
-      } else {
-        return "View count not available.";
-      }
-    },
-    'terraform apply': `Applying changes...<br>✓ No drift detected<br>✓ Resources validated<br>✓ Lambda up-to-date<br>✓ DynamoDB consistent<br>✓ CloudFront deployed<br><br>✔ Terraform apply complete! Infrastructure looks good.`,
-    motd: `Welcome to josephaleto.io — the AWS-powered terminal portfolio of Joe Leto.<br>Type <span style="color:#00ffff">help</span> to begin.`,
-    whoami: `user: joe<br>domain: josephaleto.io<br>location: Ashburn, Virginia`,
-    bio: `Joe Leto: AWS-certified builder with a background in high-stakes poker. I build infrastructure that scales, scripts that save time, and UIs that tell a story. This terminal is proof.`,
-    resume: `Opening resume: <a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf" target="_blank" class="glow-hover" style="color:#00ffff;">View Resume PDF</a>`,
-    linkedin: `Opening LinkedIn: <a href="https://www.linkedin.com/in/joseph-leto/" target="_blank" class="glow-hover" style="color:#00ffff;">linkedin.com/in/joseph-leto</a>`,
-    github: `Opening GitHub: <a href="https://github.com/serversorcerer" target="_blank" class="glow-hover" style="color:#00ffff;">github.com/serversorcerer</a>`,
-    email: `Contact: <a href="mailto:joe@josephaleto.io" target="_blank" class="glow-hover" style="color:#00ffff;">joe@josephaleto.io</a>`,
-    projects: `Cloud Projects:<br>
-<span style="color:#00ffff; font-weight:bold;">cloud-resume</span> — This site. S3, Lambda, DynamoDB, CloudFront, CI/CD.<br>
-<span style="color:#00ffff; font-weight:bold;">beanstalk-app</span> — Deployed Python web app on Elastic Beanstalk.<br>
-<span style="color:#00ffff; font-weight:bold;">infra-dashboard</span> — Serverless dashboard with React & API Gateway.<br>
-<span style="color:#00ffff; font-weight:bold;">portfolio-api</span> — REST API for projects, built with Lambda & Terraform.<br>
-Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span style="color:#00ffff;">projects cloud-resume</span>)`,
-    'projects cloud-resume': `Cloud Resume Challenge:<br>
-• Static site hosted on S3, delivered via CloudFront.<br>
-• Lambda & DynamoDB power the live visitor counter.<br>
-• Fully automated CI/CD with GitHub Actions.<br>
-• All infra defined as code in Terraform.`,
-    'projects beanstalk-app': `Elastic Beanstalk App:<br>
-• Python web app deployed on AWS Elastic Beanstalk.<br>
-• Automated blue/green deployments.<br>
-• Custom domain via Route 53, HTTPS via ACM.`,
-    'projects infra-dashboard': `InfraMirror Dashboard:<br>
-• Serverless React dashboard.<br>
-• API Gateway + Lambda backend.<br>
-• User authentication via Cognito.`,
-    'projects portfolio-api': `Portfolio API:<br>
-• RESTful API for portfolio data.<br>
-• AWS Lambda, DynamoDB, Terraform.<br>
-• Used by this website for dynamic content.`,
-    stack: `Stack Details:<br>
-- Frontend: S3 + CloudFront<br>
-- Backend: Lambda + API Gateway<br>
-- Data: DynamoDB<br>
-- Infra as Code: Terraform<br>
-- CI/CD: GitHub Actions<br>
-- Domain: Route 53`,
-    architecture: `Infrastructure Diagram:
-  +---------------------+
-  |       CI/CD         |
-  |---------------------|
-  |  GitHub Actions     |
-  +----------+----------+
-             |
-             v
-  +---------------------+
-  |     S3 Bucket       |
-  |  Static Website     |
-  +----------+----------+
-             |
-             v
-  +---------------------+
-  |    CloudFront CDN   |
-  +----+-----------+----+
-       |           |
-       v           v
- +----------+   +------------------+
- | Route 53 |   |   API Gateway    |
- +----------+   +---------+--------+
-                          |
-                          v
-                    +-----------+
-                    |  Lambda   |
-                    +-----+-----+
-                          |
-                          v
-                    +-----------+
-                    | DynamoDB  |
-                    +-----------+
-`,
-    quote: `“Ship often. Think big. Stay sharp.”<br>– J.L.`,
-    clear: `__CLEAR__`,
-    exit: `Logging out...<br>Session terminated.`,
-    'source code': `Browse source: <a href="https://github.com/serversorcerer/cloud-resume-challenge" target="_blank" class="glow-hover" style="color:#00ffff;">GitHub repo link</a>`
-  };
+  const commandList = [
+    'help',
+    'aws s3 ls',
+    'view counter',
+    'terraform apply',
+    'motd',
+    'whoami',
+    'bio',
+    'resume',
+    'linkedin',
+    'github',
+    'email',
+    'projects',
+    'projects cloud-resume',
+    'projects beanstalk-app',
+    'projects infra-dashboard',
+    'projects portfolio-api',
+    'stack',
+    'architecture',
+    'quote',
+    'clear',
+    'exit',
+    'source code'
+  ];
 
-  // Command aliases for tab-completion
-  const commandList = Object.keys(commands);
-
-  // Sync terminal visitor count from existing footer view counter
-  commands["view counter"] = () => {
-    const footerCounter = document.querySelector(".counter-number");
-    if (footerCounter && !footerCounter.textContent.includes("Couldn't")) {
-      return `Total visitors: ${footerCounter.textContent}`;
-    } else {
-      return "View count not yet loaded.";
+  async function executeCommand(cmd) {
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command: cmd })
+      });
+      return await res.text();
+    } catch (err) {
+      console.error(err);
+      return 'Error processing command';
     }
-  };
+  }
 
   // Command history
   let commandHistory = [];
@@ -822,83 +632,41 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
       e.preventDefault();
     }
   });
-
-  terminalInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
+  terminalInput.addEventListener('keydown', async function(e) {
+    if (e.key === "Enter") {
       const input = terminalInput.value.trim();
       if (!input) return;
-      // Add to history
       commandHistory.push(input);
       historyIndex = commandHistory.length;
-      // Print command
-      const output = document.createElement('div');
+      const output = document.createElement("div");
       output.innerHTML = `<span style="color:#00ffff;">$</span> <span style="color:#e0f7ff;">${input}</span>`;
       terminalContent.appendChild(output);
-      // Hide suggestion
-      terminalSuggestion.style.display = 'none';
-      // Accept commands case-insensitive, support "projects [name]"
-      let matchedCommand = null;
-      let lowerInput = input.toLowerCase();
-      if (lowerInput.startsWith('projects ')) {
-        const proj = lowerInput.split(' ').slice(1).join(' ');
-        if (commands['projects ' + proj]) matchedCommand = 'projects ' + proj;
-      }
-      if (!matchedCommand) {
-        for (const key of commandList) {
-          if (key.toLowerCase() === lowerInput) {
-            matchedCommand = key;
-            break;
-          }
-        }
-      }
-      // GPT-4o chat integration removed
-      if (matchedCommand) {
-        if (commands[matchedCommand] === '__CLEAR__') {
-          // Fade out terminal content before clearing
-          terminalContent.classList.add('terminal-fade');
-          setTimeout(() => {
-            terminalContent.innerHTML = '';
-            terminalContent.classList.remove('terminal-fade');
-          }, 500);
-        } else {
-          const response = document.createElement('div');
-          const output = typeof commands[matchedCommand] === 'function'
-            ? commands[matchedCommand]()
-            : commands[matchedCommand];
-          response.innerHTML = `<span style="color:#33ff33;">${output}</span>`;
-          // Style all links: neon blue glow, open in new tab
-          setTimeout(() => {
-            [...response.querySelectorAll('a')].forEach(a => {
-              a.target = "_blank";
-              a.classList.add('glow-hover');
-              a.style.color = "#00ffff";
-              a.style.textShadow = "0 0 6px #00eaff, 0 0 10px #00ffff";
-            });
-          }, 0);
-          terminalContent.appendChild(response);
-        }
-      } else {
-        const error = document.createElement('div');
-        error.innerHTML = `<span style="color:#ff4e4e;">Command not found:</span> <span style="color:#e0f7ff;">${input}</span>`;
-        error.classList.add('flash-error');
-        terminalContent.appendChild(error);
+      terminalSuggestion.style.display = "none";
+      const resp = await executeCommand(input);
+      if (resp === "__CLEAR__") {
+        terminalContent.classList.add("terminal-fade");
         setTimeout(() => {
-          error.classList.remove('flash-error');
-          error.style.color = "#ff4e4e";
-        }, 1200);
-        // Suggest similar command if available
-        let suggestions = commandList.filter(c => c.toLowerCase().includes(lowerInput));
-        if (suggestions.length) {
-          const suggestionDiv = document.createElement('div');
-          suggestionDiv.className = 'terminal-suggestion';
-          suggestionDiv.innerHTML = `Did you mean: <span style="color:#00ffff;">${suggestions[0]}</span>?`;
-          terminalContent.appendChild(suggestionDiv);
-        }
+          terminalContent.innerHTML = "";
+          terminalContent.classList.remove("terminal-fade");
+        }, 500);
+      } else {
+        const response = document.createElement("div");
+        response.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
+        setTimeout(() => {
+          [...response.querySelectorAll("a")].forEach(a => {
+            a.target = "_blank";
+            a.classList.add("glow-hover");
+            a.style.color = "#00ffff";
+            a.style.textShadow = "0 0 6px #00eaff, 0 0 10px #00ffff";
+          });
+        }, 0);
+        terminalContent.appendChild(response);
       }
-      terminalInput.value = '';
+      terminalInput.value = "";
       scrollToBottom();
     }
   });
+
 
   // Ensure terminal auto-scrolls on input focus (for mobile/resize)
   terminalInput.addEventListener('focus', scrollToBottom);
@@ -940,18 +708,3 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
 </body>
 
 </html>
- 
-  <style>
-    @media screen and (max-width: 768px) {
-      .desktop-only {
-        display: none;
-      }
-    }
-  </style>
-  <style>
-    @media screen and (max-width: 768px) {
-      .desktop-only {
-        display: none;
-      }
-    }
-  </style>
