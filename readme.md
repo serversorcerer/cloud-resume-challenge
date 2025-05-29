@@ -1,29 +1,43 @@
 # Cloud Resume Challenge
 
-A hands-on project proving I can build and operate AWS infrastructure. This repository contains the code that powers [josephaleto.io](https://josephaleto.io), a resume site served entirely from AWS and deployed automatically from GitHub.
+[![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white)](https://www.terraform.io/)
+[![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
+[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
+
+Welcome to my Cloud Resume Challenge project — a real-world demonstration of my ability to design, build, and operate scalable AWS infrastructure while delivering a seamless and interactive web experience. This project showcases not only technical skills but also my commitment to automation, reliability, and user engagement.
+
+🚀 **Check out the live site:** [https://josephaleto.io](https://josephaleto.io)
+
+![Architecture Diagram](/website/images/architecture.png)
 
 ## Features
 
-- **Visitor Counter** – Serverless Lambda function tracks page views and updates in real time.
-- **Interactive Terminal** – Embedded terminal lets visitors explore commands about the site and my background.
-- **CI/CD Pipeline** – GitHub Actions syncs the website to S3 on every push.
+- 🔥 **Real-Time Visitor Counter:** Instantly tracks and displays page views using a serverless Lambda function, providing live engagement metrics.
+- 🎯 **Interactive Terminal Interface:** Engages visitors with an embedded terminal to explore commands about my experience and background, creating a memorable user experience.
+- ⚙️ **Automated CI/CD Pipeline:** Seamlessly deploys updates with GitHub Actions, ensuring the website stays current without manual intervention.
 
 ## Stack Breakdown
 
-- **Amazon S3** – Hosts the static website files.
-- **CloudFront** – Delivers content globally with HTTPS.
-- **Route 53** – Provides DNS routing for `josephaleto.io`.
-- **AWS Lambda** – Powers the visitor counter through a Lambda URL.
-- **Terraform** – Defines infrastructure as code for repeatable deployments.
-- **GitHub Actions** – Handles continuous integration and deployment.
+### Infrastructure & Deployment
+- **Terraform:** Infrastructure as Code for repeatable, scalable provisioning.
+- **GitHub Actions:** Automated build, test, and deployment workflows.
+
+### AWS Cloud Services
+- **Amazon S3:** Reliable, cost-effective static website hosting.
+- **CloudFront:** Global content delivery with SSL for secure, fast access.
+- **Route 53:** DNS management ensuring smooth domain routing.
+- **AWS Lambda:** Serverless compute powering the dynamic visitor counter.
+
+## Why This Matters
+
+For recruiters and hiring managers, this project highlights my ability to architect cloud-native solutions that combine automation, scalability, and user-centric design. It demonstrates proficiency in modern DevOps practices, cloud infrastructure, and front-end integration — all essential skills for driving impactful technology initiatives in any organization.
 
 ## Directory Overview
 
 ```
-/infra      # Terraform configuration
-/website    # HTML, CSS, JS for the resume site
-.github/
-  workflows # CI/CD pipeline
+📁 /infra           → Terraform infrastructure code
+📁 /website         → Static site assets (HTML, CSS, JS)
+📁 /.github/workflows → CI/CD pipeline configuration
 ```
 
 ## Building the Project
