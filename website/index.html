@@ -631,7 +631,7 @@
   scrollToBottom();
 
   // Terminal commands served by backend
-  const API_URL = 'https://example.execute-api.us-east-1.amazonaws.com/terminal';
+  const API_URL = "https://0r9smfrpxg.execute-api.us-east-1.amazonaws.com";
 
   const commandList = [
     'help',
@@ -660,7 +660,7 @@
 
   async function executeCommand(cmd) {
     try {
-      const res = await fetch(API_URL, {
+      const res = await fetch(`${API_URL}/command`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command: cmd })
