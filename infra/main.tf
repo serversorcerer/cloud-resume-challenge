@@ -42,8 +42,8 @@ resource "aws_route53_record" "site" {
   type    = "A"
 
   alias {
-    name                   = "d2xovx63dy2g1n.cloudfront.net"  # Replace with actual domain if different
-    zone_id                = "Z2FDTNDATAQYW2"                 # CloudFront hosted zone ID
+    name                   = "d2xovx63dy2g1n.cloudfront.net" # Replace with actual domain if different
+    zone_id                = "Z2FDTNDATAQYW2"                # CloudFront hosted zone ID
     evaluate_target_health = false
   }
 }
