@@ -370,8 +370,8 @@
                       font-size: 14px;
                       padding: 20px 18px 12px 18px !important;
                       border-radius: 0 0 8px 8px;
-                      max-height: 240px;
-                      height: 240px;
+                      max-height: 300px;
+                      height: 300px;
                       transition: max-height 0.6s cubic-bezier(.4,1.6,.4,1), height 0.6s cubic-bezier(.4,1.6,.4,1);
                       overflow: hidden;
                       overflow-y: auto;
@@ -979,13 +979,15 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
   terminalContent.style.fontFamily = "monospace";
   terminalInput.style.fontFamily = "monospace";
 
-  // Scroll to terminal on load if not visible
-  window.onload = function () {
-    const termRect = terminalWrapper.getBoundingClientRect();
-    if (termRect.top > window.innerHeight || termRect.bottom < 0) {
-      terminalWrapper.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  // Scroll to terminal on load if not visible, after DOM/rendering settles
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const termRect = terminalWrapper.getBoundingClientRect();
+      if (termRect.top > window.innerHeight || termRect.bottom < 0) {
+        terminalWrapper.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 300); // allow rendering to stabilize
+  });
 
   // Style scrollbar for neon blue glow
   const style = document.createElement('style');
