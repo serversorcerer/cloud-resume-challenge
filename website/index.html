@@ -308,8 +308,8 @@
                 <div class="desktop-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 0.9rem; margin-bottom: -40px;">
                   ↓ open terminal to explore
                 </div>
-                <div class="mobile-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 1rem; margin-top: 16px;">
-                  ⬇ Tap 'Launch Terminal' below to explore
+                <div class="mobile-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 1rem; margin-top: 16px; background-color: rgba(0, 195, 255, 0.1); padding: 10px; border-radius: 6px; box-shadow: 0 0 10px rgba(0, 195, 255, 0.3);">
+                  🧠 Tap <strong>'Launch Terminal'</strong> below to explore cloud projects interactively.
                 </div>
         
               </section>
@@ -400,7 +400,7 @@
                       outline: none;
                       width: calc(100% - 2em);
                       letter-spacing: 0.5px;
-                      caret-color: transparent;
+                      caret-color: #00ffff;
                       position: relative;
                       z-index: 2;
                     }
@@ -1015,6 +1015,7 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
         setTimeout(() => {
           termSection.scrollIntoView({ behavior: "smooth", block: "center" });
           input.focus();
+          input.setAttribute('placeholder', 'Type a command...');
         }, 300);
       } else {
         termSection.style.display = "none";
