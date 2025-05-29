@@ -9,9 +9,8 @@ This is a fully deployed and automated version of the Cloud Resume Challenge, de
 **Live Site:** [https://josephaleto.io](https://josephaleto.io)
 
 <p align="center">
-  <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="550"/>
+  <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="420" style="border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
 </p>
-
 ---
 
 ## Key Features
