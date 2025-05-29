@@ -7,7 +7,7 @@
   <meta name="description" content="The official cloud portfolio of Joe Leto — AWS-powered builds, DevOps execution, and real-world proof of skill.">
   <meta name="theme-color" content="#0a0a0a">
   <meta name="keywords" content="personal, portfolio">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <!-- Favicon -->
   <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
@@ -275,14 +275,7 @@
         
               </section>
 
-              <!-- Interactive Terminal Section -->
-              <style>
-                @media screen and (max-width: 768px) {
-                  #infraMirrorConsole {
-                    display: none;
-                  }
-                }
-              </style>
+                <!-- Interactive Terminal Section -->
               <section id="infraMirrorConsole" style="margin: 80px auto 60px; max-width: 960px;">
                 <h2 class="sr-only">Cloud Resume Terminal</h2>
                 <div style="border-radius: 8px; box-shadow: 0 0 20px rgba(0,195,255,0.5); background-color: #111;">
@@ -308,25 +301,35 @@
                       clip: rect(0,0,0,0);
                       border: 0;
                     }
-                    #terminal {
-                      background: #0a0a0a !important;
-                      color: #33ff33;
-                      font-family: monospace;
-                      font-size: 14px;
-                      padding: 20px 18px 12px 18px !important;
-                      border-radius: 0 0 8px 8px;
-                      max-height: 60px;
-                      height: 60px;
-                      transition: max-height 0.6s cubic-bezier(.4,1.6,.4,1), height 0.6s cubic-bezier(.4,1.6,.4,1);
-                      overflow: hidden;
-                      overflow-y: auto;
-                      box-sizing: border-box;
-                      scrollbar-color: #00c3ff #111;
-                      position: relative;
-                      display: flex;
-                      flex-direction: column;
-                      gap: 0;
-                    }
+                      #terminal {
+                        background: #0a0a0a !important;
+                        color: #33ff33;
+                        font-family: monospace;
+                        font-size: 14px;
+                        padding: 20px 18px 12px 18px !important;
+                        border-radius: 0 0 8px 8px;
+                        max-height: 60px;
+                        height: 60px;
+                        transition: max-height 0.6s cubic-bezier(.4,1.6,.4,1), height 0.6s cubic-bezier(.4,1.6,.4,1);
+                        overflow: hidden;
+                        overflow-y: auto;
+                        box-sizing: border-box;
+                        scrollbar-color: #00c3ff #111;
+                        position: relative;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0;
+                      }
+                      #terminal.expanded {
+                        max-height: 480px;
+                        height: 480px;
+                      }
+                      @media screen and (max-width: 768px) {
+                        #terminal.expanded {
+                          max-height: 60vh;
+                          height: 60vh;
+                        }
+                      }
                     #terminal, #terminal-content > div {
                       color: #33ff33; /* Classic green terminal look */
                     }
@@ -762,8 +765,7 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
     if (!terminalExpanded) {
       terminalExpanded = true;
       terminalWrapper.classList.remove('collapsed');
-      terminalWrapper.style.maxHeight = '480px';
-      terminalWrapper.style.height = '480px';
+      terminalWrapper.classList.add('expanded');
       setTimeout(scrollToBottom, 200);
     }
   }, { once: true });
@@ -901,7 +903,12 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
   });
 
   // Ensure terminal auto-scrolls on input focus (for mobile/resize)
-  terminalInput.addEventListener('focus', scrollToBottom);
+  terminalInput.addEventListener('focus', function() {
+    setTimeout(function() {
+      terminalWrapper.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      scrollToBottom();
+    }, 300);
+  });
 
   // Always focus input on click anywhere inside terminal area
   terminalWrapper.addEventListener('click', function(e) {
@@ -941,13 +948,6 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
 
 </html>
  
-  <style>
-    @media screen and (max-width: 768px) {
-      .desktop-only {
-        display: none;
-      }
-    }
-  </style>
   <style>
     @media screen and (max-width: 768px) {
       .desktop-only {
