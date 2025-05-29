@@ -651,14 +651,14 @@ source code        – browse source repo
 `,
 
     'aws s3 ls': `[bucket] josephaleto.io<br>[bucket] resume-storage<br>[bucket] inframirror-assets`,
-    'view counter': (() => {
-      const footerCounter = document.querySelector(".counter-number");
-      if (footerCounter && !footerCounter.textContent.includes("Couldn't")) {
-        return `Total visitors: ${footerCounter.textContent}`;
+    'view counter': () => {
+      const counter = document.querySelector(".counter-number");
+      if (counter && counter.textContent && !counter.textContent.includes("Couldn't")) {
+        return `Total visitors: ${counter.textContent}`;
       } else {
-        return "Visitor count not yet loaded.";
+        return "View count not available.";
       }
-    })(),
+    },
     'terraform apply': `Applying changes...<br>✓ No drift detected<br>✓ Resources validated<br>✓ Lambda up-to-date<br>✓ DynamoDB consistent<br>✓ CloudFront deployed<br><br>✔ Terraform apply complete! Infrastructure looks good.`,
     motd: `Welcome to josephaleto.io — the AWS-powered terminal portfolio of Joe Leto.<br>Type <span style="color:#00ffff">help</span> to begin.`,
     whoami: `user: joe<br>domain: josephaleto.io<br>location: Ashburn, Virginia`,
@@ -705,6 +705,16 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
 
   // Command aliases for tab-completion
   const commandList = Object.keys(commands);
+
+  // Sync terminal visitor count from existing footer view counter
+  commands["view counter"] = () => {
+    const footerCounter = document.querySelector(".counter-number");
+    if (footerCounter && !footerCounter.textContent.includes("Couldn't")) {
+      return `Total visitors: ${footerCounter.textContent}`;
+    } else {
+      return "View count not yet loaded.";
+    }
+  };
 
   // Command history
   let commandHistory = [];
@@ -816,7 +826,10 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
           }, 500);
         } else {
           const response = document.createElement('div');
-          response.innerHTML = `<span style="color:#33ff33;">${commands[matchedCommand]}</span>`;
+          const output = typeof commands[matchedCommand] === 'function'
+            ? commands[matchedCommand]()
+            : commands[matchedCommand];
+          response.innerHTML = `<span style="color:#33ff33;">${output}</span>`;
           // Style all links: neon blue glow, open in new tab
           setTimeout(() => {
             [...response.querySelectorAll('a')].forEach(a => {
