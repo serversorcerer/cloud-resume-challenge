@@ -633,7 +633,7 @@
   // Command definitions and help text
   const commands = {
     help: `aws s3 ls          – list S3 buckets
-lambda count       – simulate Lambda call
+view counter       – fetch visitor count
 terraform apply    – apply infra (simulated)
 motd               – welcome message
 whoami             – user identity
@@ -651,7 +651,7 @@ source code        – browse source repo
 `,
 
     'aws s3 ls': `[bucket] josephaleto.io<br>[bucket] resume-storage<br>[bucket] inframirror-assets`,
-    'lambda count': '__VISITOR_PLACEHOLDER__',
+    'view counter': '__VISITOR_PLACEHOLDER__',
     'terraform apply': `Applying changes...<br>✓ No drift detected<br>✓ Resources validated<br>✓ Lambda up-to-date<br>✓ DynamoDB consistent<br>✓ CloudFront deployed<br><br>✔ Terraform apply complete! Infrastructure looks good.`,
     motd: `Welcome to josephaleto.io — the AWS-powered terminal portfolio of Joe Leto.<br>Type <span style="color:#00ffff">help</span> to begin.`,
     whoami: `user: joe<br>domain: josephaleto.io<br>location: Ashburn, Virginia`,
@@ -698,6 +698,18 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
 
   // Command aliases for tab-completion
   const commandList = Object.keys(commands);
+
+  // Fetch the live visitor value for the view counter command
+  fetch("https://5yw6uexaub.execute-api.us-east-1.amazonaws.com/Prod/resume")
+    .then(res => res.json())
+    .then(data => {
+      if (data.views) {
+        commands["view counter"] = `Total visitors: ${data.views}`;
+      }
+    })
+    .catch(err => {
+      commands["view counter"] = "Error fetching visitor count.";
+    });
 
   // Command history
   let commandHistory = [];
@@ -885,17 +897,6 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
 
 </html>
  
-  // Fetch the live visitor value for the lambda count command
-  fetch("https://5yw6uexaub.execute-api.us-east-1.amazonaws.com/Prod/resume")
-    .then(res => res.json())
-    .then(data => {
-      if (data.views) {
-        commands["lambda count"] = `Invoking Lambda function "cloud-resume-visitor-counter"...<br>Response:<br>{<br>&nbsp;&nbsp;"statusCode": 200,<br>&nbsp;&nbsp;"body": "{\\"views\\": ${data.views}}"<br>}`;
-      }
-    })
-    .catch(err => {
-      commands["lambda count"] = "Error fetching view count.";
-    });
   <style>
     @media screen and (max-width: 768px) {
       .desktop-only {
