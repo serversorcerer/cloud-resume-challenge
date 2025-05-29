@@ -47,3 +47,9 @@ resource "aws_route53_record" "site" {
     evaluate_target_health = false
   }
 }
+
+module "command_api" {
+  source        = "./modules/command_api"
+  function_name = "terminal-commands"
+  source_file   = "${path.root}/../lambda/commands.js"
+}
