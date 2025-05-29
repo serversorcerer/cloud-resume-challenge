@@ -365,8 +365,8 @@
                       font-size: 14px;
                       padding: 20px 18px 12px 18px !important;
                       border-radius: 0 0 8px 8px;
-                      max-height: 60px;
-                      height: 60px;
+                      max-height: 240px;
+                      height: 240px;
                       transition: max-height 0.6s cubic-bezier(.4,1.6,.4,1), height 0.6s cubic-bezier(.4,1.6,.4,1);
                       overflow: hidden;
                       overflow-y: auto;
@@ -991,8 +991,12 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
     function toggleMobileTerminal() {
       const termSection = document.getElementById("infraMirrorConsole");
       const input = document.getElementById("terminal-input");
+      const terminal = document.getElementById("terminal");
       if (termSection.style.display === "none" || !termSection.style.display) {
         termSection.style.display = "block";
+        terminal.classList.remove('collapsed');
+        terminal.style.maxHeight = '320px';
+        terminal.style.height = '320px';
         setTimeout(() => {
           termSection.scrollIntoView({ behavior: "smooth", block: "center" });
           input.focus();
