@@ -7,7 +7,43 @@
   <meta name="description" content="The official cloud portfolio of Joe Leto — AWS-powered builds, DevOps execution, and real-world proof of skill.">
   <meta name="theme-color" content="#0a0a0a">
   <meta name="keywords" content="personal, portfolio">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <style>
+  input, textarea, select, button {
+    font-size: 16px;
+  }
+
+  #terminal-input {
+    font-size: 16px !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    #infraMirrorConsole {
+      display: block;
+      margin: 60px auto;
+      width: 95%;
+    }
+    #terminal {
+      font-size: 13px;
+      padding: 18px 14px 10px 14px !important;
+      max-height: 360px;
+      height: auto;
+      border-radius: 8px;
+    }
+    #terminal input {
+      font-size: 15px !important;
+    }
+    .terminal-input-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    #terminal-prompt {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+  }
+  </style>
   <!-- Favicon -->
   <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
