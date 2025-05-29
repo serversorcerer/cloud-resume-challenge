@@ -49,7 +49,5 @@ resource "aws_route53_record" "site" {
 }
 
 module "command_api" {
-  source        = "./modules/command_api"
-  function_name = "terminal-commands"
-  source_file   = "${path.root}/../lambda/commands.js"
+  source = "./modules/command_api"
 }

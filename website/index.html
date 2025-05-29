@@ -29,116 +29,6 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-  <style>
-  canvas#awsMatrixRain {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    opacity: 0.3;
-    text-shadow: 0 0 6px #00c3ff, 0 0 12px #0077ff;
-    filter: blur(0.4px);
-  }
-
-  .overlay-shade {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(10, 15, 30, 0.8); /* Slightly darker navy overlay */
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  .floating-cloud {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    color: #00c3ff;
-    font-family: 'Poppins', monospace;
-    font-size: 13px;
-    opacity: 0.6;
-    z-index: 3;
-    animation: float 8s ease-in-out infinite;
-    text-shadow: 0 0 8px #00c3ff, 0 0 14px #00c3ff;
-  }
-  .profile-image {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: auto;
-    position: relative;
-    z-index: 10;
-  }
-
-  .profile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    display: block;
-  }
-
-  .loader-circle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 140px;
-    height: 140px;
-    animation: spin 2.5s linear infinite;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  @keyframes float {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(-20px); }
-    100% { transform: translateX(0); }
-  }
-
-  /* Responsive preloader ASCII art and profile image */
-  @media screen and (max-width: 600px) {
-    .ascii-header {
-      font-size: 10px;
-      line-height: 1.2;
-      padding: 0 5px;
-    }
-
-    .ascii-header pre {
-      display: none;
-    }
-
-    .profile-image {
-      width: 100px;
-      height: 100px;
-    }
-
-    .loader-circle {
-      width: 100px;
-      height: 100px;
-    }
-  }
-  </style>
-  <style>
-#terminal::-webkit-scrollbar {
-  width: 10px;
-}
-#terminal::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 195, 255, 0.5);
-  border-radius: 6px;
-}
-#terminal::-webkit-scrollbar-track {
-  background-color: #111;
-}
-  </style>
   <style>
     .glow-hover {
       transition: text-shadow 0.4s ease;
@@ -631,7 +521,7 @@
   scrollToBottom();
 
   // Terminal commands served by backend
-  const API_URL = 'https://0r9smfrpxg.execute-api.us-east-1.amazonaws.com/command';
+  const API_URL = 'https://example.execute-api.us-east-1.amazonaws.com/terminal';
 
   const commandList = [
     'help',
@@ -818,18 +708,3 @@
 </body>
 
 </html>
- 
-  <style>
-    @media screen and (max-width: 768px) {
-      .desktop-only {
-        display: none;
-      }
-    }
-  </style>
-  <style>
-    @media screen and (max-width: 768px) {
-      .desktop-only {
-        display: none;
-      }
-    }
-  </style>

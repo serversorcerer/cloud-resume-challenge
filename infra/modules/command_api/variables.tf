@@ -1,28 +1,27 @@
 variable "function_name" {
-  description = "Name of the Lambda function"
   type        = string
+  description = "Name of the Lambda function"
   default     = "terminal-commands"
 }
 
-variable "source_file" {
-  description = "Path to commands.js file"
-  type        = string
-}
-
 variable "runtime" {
-  description = "Lambda runtime"
   type        = string
+  description = "Lambda runtime"
   default     = "nodejs18.x"
 }
 
+variable "source_path" {
+  type        = string
+  description = "Path to command handler JS file"
+  default     = "../../lambda/commands.js"
+}
+
 variable "memory_size" {
-  description = "Lambda memory size"
   type        = number
   default     = 128
 }
 
 variable "timeout" {
-  description = "Lambda timeout"
   type        = number
   default     = 5
 }
