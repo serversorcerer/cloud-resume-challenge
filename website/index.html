@@ -20,14 +20,14 @@
   @media screen and (max-width: 768px) {
     #infraMirrorConsole {
       display: block;
-      margin: 60px auto;
-      width: 95%;
+      margin: 40px auto;
+      width: 98%;
     }
     #terminal {
       font-size: 13px;
       padding: 18px 14px 10px 14px !important;
       max-height: 360px;
-      height: auto;
+      height: 240px;
       border-radius: 8px;
     }
     #terminal input {
@@ -990,9 +990,13 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
   <script>
     function toggleMobileTerminal() {
       const termSection = document.getElementById("infraMirrorConsole");
+      const input = document.getElementById("terminal-input");
       if (termSection.style.display === "none" || !termSection.style.display) {
         termSection.style.display = "block";
-        termSection.scrollIntoView({ behavior: "smooth" });
+        setTimeout(() => {
+          termSection.scrollIntoView({ behavior: "smooth", block: "center" });
+          input.focus();
+        }, 300);
       } else {
         termSection.style.display = "none";
       }
