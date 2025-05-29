@@ -4,12 +4,10 @@
 [![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 
-This is a fully deployed and automated version of the Cloud Resume Challenge, designed to reflect real-world AWS infrastructure and DevOps best practices. It demonstrates how to build, automate, and maintain a live cloud-native website using infrastructure as code and CI/CD pipelines.
-
-**Live Site:** [https://josephaleto.io](https://josephaleto.io)
+This project is a hands-on demonstration of designing and maintaining production-ready cloud systems using AWS and modern DevOps practices. Built entirely from scratch, it shows how infrastructure can be automated, resilient, and scalable—while remaining easy to update and transparent for teams and recruiters alike.
 
 <p align="center">
-  <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="420" style="border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
+  <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="360" />
 </p>
 ---
 
@@ -45,6 +43,8 @@ This project demonstrates not just theoretical knowledge but working, production
 - Clean, responsive front-end integration
 - Reliable, testable, and scalable system design
 
+This isn't just a static resume site—it's a fully integrated DevOps pipeline. From CI/CD to serverless backend logic and DNS routing, every piece of this infrastructure mirrors how modern cloud-native applications are built and maintained in the real world.
+
 Recruiters and engineers can quickly assess practical skills and real-world decision-making.
 
 ---
@@ -52,10 +52,10 @@ Recruiters and engineers can quickly assess practical skills and real-world deci
 ## Project Structure
 
 ```
-/infra               → Terraform infrastructure
-/website             → Static frontend (HTML, CSS, JS)
-/.github/workflows   → CI/CD automation
-README.md            → Project documentation
+/infra                → Infrastructure as Code (Terraform)
+/website              → Frontend (HTML, CSS, JS)
+/.github/workflows    → CI/CD automation configs
+README.md             → Full system documentation
 ```
 
 ---
@@ -80,4 +80,4 @@ README.md            → Project documentation
 
 ---
 
-**Built with intention. Designed for impact. Ready for production.**
+📌 Built from scratch. Architected for scale. Documented for clarity.
