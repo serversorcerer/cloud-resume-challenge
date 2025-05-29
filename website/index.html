@@ -632,22 +632,25 @@
 
   // Command definitions and help text
   const commands = {
-    help: `aws s3 ls          – list S3 buckets
-view counter       – fetch visitor count
-terraform apply    – apply infra (simulated)
-motd               – welcome message
-whoami             – user identity
-bio                – about Joe Leto
-resume             – open resume PDF
-linkedin           – LinkedIn profile
-github             – GitHub profile
-email              – contact via email
-projects           – list cloud projects
-stack              – show stack details
-quote              – inspiration
-clear              – clear screen
-exit               – log out
-source code        – browse source repo
+    help: `Available Commands:
+--------------------
+aws s3 ls           – list S3 buckets
+view counter        – fetch visitor count
+terraform apply     – apply infra (simulated)
+motd                – welcome message
+whoami              – user identity
+bio                 – about Joe Leto
+resume              – open resume PDF
+linkedin            – LinkedIn profile
+github              – GitHub profile
+email               – contact via email
+projects            – list cloud projects
+stack               – show stack details
+architecture        – show architecture diagram
+quote               – inspiration
+clear               – clear screen
+exit                – log out
+source code         – browse source repo
 `,
 
     'aws s3 ls': `[bucket] josephaleto.io<br>[bucket] resume-storage<br>[bucket] inframirror-assets`,
