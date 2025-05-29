@@ -294,9 +294,11 @@ html.push(textArray[i]);
   }
 
     var scrollbar = Scrollbar.init(
-      document.getElementById('page-scroll'), { 
-        damping: onur,  
+      document.getElementById('page-scroll'), {
+        damping: onur,
       });
+    // ensure page always loads scrolled to top
+    scrollbar.scrollTo(0, 0, 0);
 
   if( $('.onepage').length ){
 

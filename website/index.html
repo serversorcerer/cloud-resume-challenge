@@ -50,6 +50,13 @@ html, body {
       margin-bottom: 4px;
     }
   }
+  .desktop-only { display: block; }
+  .mobile-only { display: none; }
+
+  @media screen and (max-width: 768px) {
+    .desktop-only { display: none; }
+    .mobile-only { display: block; }
+  }
   </style>
   <!-- Favicon -->
   <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -291,7 +298,7 @@ html, body {
                     <div class="spacer-30"></div>
                     <hr class="clip-animation" data-delay="1">
                     <ul class="row profile-info clip-animation" data-delay="1">
-                      <li class="col-xl-4 col-lg-6"><a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf" target="_blank" title="Download CV"><i class="fas fa-file-alt">
+                      <li class="col-xl-4 col-lg-6"><a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-solutions-architect.pdf" target="_blank" title="Download CV"><i class="fas fa-file-alt">
 						  </i> <span>Download CV</span></a></li>
                       <li class="col-xl-4 col-lg-6"> <a target="_blank" href="mailto:joe@josephaleto.io"><i
                             class="fa-solid fa-at"></i> <span>joe@josephaleto.io</span></a></li>
@@ -727,7 +734,7 @@ source code         – browse source repo
     motd: `Welcome to josephaleto.io — the AWS-powered terminal portfolio of Joe Leto.<br>Type <span style="color:#00ffff">help</span> to begin.`,
     whoami: `user: joe<br>domain: josephaleto.io<br>location: Ashburn, Virginia`,
     bio: `Joe Leto: AWS-certified builder with a background in high-stakes poker. I build infrastructure that scales, scripts that save time, and UIs that tell a story. This terminal is proof.`,
-    resume: `Opening resume: <a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf" target="_blank" class="glow-hover" style="color:#00ffff;">View Resume PDF</a>`,
+    resume: `Opening resume: <a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-solutions-architect.pdf" target="_blank" class="glow-hover" style="color:#00ffff;">View Resume PDF</a>`,
     linkedin: `Opening LinkedIn: <a href="https://www.linkedin.com/in/joseph-leto/" target="_blank" class="glow-hover" style="color:#00ffff;">linkedin.com/in/joseph-leto</a>`,
     github: `Opening GitHub: <a href="https://github.com/serversorcerer" target="_blank" class="glow-hover" style="color:#00ffff;">github.com/serversorcerer</a>`,
     email: `Contact: <a href="mailto:joe@josephaleto.io" target="_blank" class="glow-hover" style="color:#00ffff;">joe@josephaleto.io</a>`,
@@ -1037,30 +1044,3 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
 
 </html>
  
-  <style>
-    @media screen and (max-width: 768px) {
-      .desktop-only {
-        display: none;
-      }
-    }
-  </style>
-  <style>
-    @media screen and (max-width: 768px) {
-      .desktop-only {
-        display: none;
-      }
-    }
-  </style>
-  <style>
-  @media screen and (max-width: 768px) {
-    .mobile-only {
-      display: block;
-    }
-  }
-
-  @media screen and (min-width: 769px) {
-    .mobile-only {
-      display: none;
-    }
-  }
-  </style>
