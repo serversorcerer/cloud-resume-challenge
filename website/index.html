@@ -521,7 +521,8 @@
   scrollToBottom();
 
   // Terminal commands served by backend
-  const API_URL = 'https://vgtzr9dy4g.execute-api.us-east-1.amazonaws.com/';
+  // Endpoint for Lambda-backed command processor
+  const API_URL = 'https://vgtzr9dy4g.execute-api.us-east-1.amazonaws.com/command';
 
   const commandList = [
     'help',

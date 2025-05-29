@@ -1,8 +1,3 @@
-const HEADERS = {
-  'Content-Type': 'text/plain',
-  'Access-Control-Allow-Origin': '*'
-};
-
 const RESPONSES = {
   help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
   'aws s3 ls': '[bucket] josephaleto.io\n[bucket] resume-storage\n[bucket] inframirror-assets',
@@ -35,7 +30,7 @@ exports.handler = async (event) => {
     }
   } catch (err) {
     console.error('Invalid request body', err);
-    return { statusCode: 400, headers: HEADERS, body: 'Invalid request body' };
+    return { statusCode: 400, headers: { 'Content-Type': 'text/plain' }, body: 'Invalid request body' };
   }
 
   const command = (body.command || '').trim().toLowerCase();
@@ -45,8 +40,8 @@ exports.handler = async (event) => {
 
   const output = RESPONSES[command];
   if (!output) {
-    return { statusCode: 404, headers: HEADERS, body: `Command not found: ${command}` };
+    return { statusCode: 404, headers: { 'Content-Type': 'text/plain' }, body: `Command not found: ${command}` };
   }
 
-  return { statusCode: 200, headers: HEADERS, body: output };
+  return { statusCode: 200, headers: { 'Content-Type': 'text/plain' }, body: output };
 };
