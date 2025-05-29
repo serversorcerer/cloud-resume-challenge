@@ -308,6 +308,9 @@
                 <div class="desktop-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 0.9rem; margin-bottom: -40px;">
                   ↓ open terminal to explore
                 </div>
+                <div class="mobile-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 1rem; margin-top: 16px;">
+                  ⬇ Tap 'Launch Terminal' below to explore
+                </div>
         
               </section>
 
@@ -816,16 +819,17 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
       terminalWrapper.style.maxHeight = '480px';
       terminalWrapper.style.height = '480px';
       setTimeout(scrollToBottom, 200);
-      // Show mobile typing hint for better UX
+      // Mobile: flash input field or show typing hint
       const mobileHint = document.createElement('div');
-      mobileHint.textContent = '⬆ Tap here and start typing...';
+      mobileHint.textContent = '⬆ Start typing here...';
       mobileHint.style.color = '#00c3ff';
       mobileHint.style.fontSize = '13px';
       mobileHint.style.fontFamily = 'monospace';
       mobileHint.style.marginTop = '8px';
-      mobileHint.style.opacity = '0.75';
+      mobileHint.style.textAlign = 'left';
+      mobileHint.style.opacity = '0.85';
       terminalContent.appendChild(mobileHint);
-      setTimeout(() => mobileHint.remove(), 3000);
+      setTimeout(() => mobileHint.remove(), 2500);
     }
   }, { once: true });
 
@@ -1034,4 +1038,17 @@ Type <span style="color:#00ffff;">projects [name]</span> for details (e.g. <span
         display: none;
       }
     }
+  </style>
+  <style>
+  @media screen and (max-width: 768px) {
+    .mobile-only {
+      display: block;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .mobile-only {
+      display: none;
+    }
+  }
   </style>
