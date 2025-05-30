@@ -34,6 +34,7 @@ exports.handler = async (event) => {
     stack: `Stack:\n- Terminal UI: React + Custom Command Handler\n- Hosting: S3 + CloudFront\n- Backend: Lambda + API Gateway\n- Data: DynamoDB\n- Infra as Code: Terraform\n- CI/CD: GitHub Actions\n- DNS: Route 53`,
     architecture: `Infrastructure Diagram:\n+---------------------+\n|       CI/CD         |\n|---------------------|\n|  GitHub Actions     |\n+----------+----------+\n           |\n           v\n+---------------------+\n|     S3 Bucket       |\n|  Static Website     |\n+----------+----------+\n           |\n           v\n+---------------------+\n|    CloudFront CDN   |\n+----+-----------+----+\n     |           |\n     v           v\n+----------+   +------------------+\n| Route 53 |   |   API Gateway    |\n+----------+   +---------+--------+\n                      |\n                      v\n                +-----------+\n                |  Lambda   |\n                +-----+-----+\n                      |\n                      v\n                +-----------+\n                | DynamoDB  |\n                +-----------+`,
     quote: '“Ship often. Think big. Stay sharp.” – J.L.',
+    offer: 'Offer command is handled client-side.',
     clear: '__CLEAR__',
     exit: 'Logging out...\nSession terminated.',
     'source code': 'Browse source: https://github.com/serversorcerer/cloud-resume-challenge'
