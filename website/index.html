@@ -42,14 +42,62 @@
       color: #e0e0e0;
     }
     #matrixRain {
+      opacity: 0.12;
+      transition: opacity 0.5s ease-in-out;
+      pointer-events: none;
       position: fixed;
+      z-index: -1;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
-      z-index: -1;
-      opacity: 0.15;
+    }
+
+    #terminal.joker-active {
+      animation: jokerGlow 1.5s infinite;
+    }
+
+    @keyframes jokerGlow {
+      0%, 100% { box-shadow: 0 0 4px #00ffff; }
+      50% { box-shadow: 0 0 15px #ff00ff; }
+    }
+
+    #scrollCue {
+      display: inline-block;
+      font-size: 1.5rem;
+      color: #00c3ff;
+      animation: bounce 2s infinite;
+      margin-top: 20px;
+    }
+
+    @keyframes bounce {
+      0%,20%,50%,80%,100% { transform: translateY(0); }
+      40% { transform: translateY(-8px); }
+      60% { transform: translateY(-4px); }
+    }
+
+    .try-me-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #00c3ff;
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: monospace;
+      box-shadow: 0 0 10px rgba(0,195,255,0.6);
+      z-index: 10;
+    }
+
+    .joker-flash {
+      animation: jokerFlash 0.4s;
+    }
+
+    @keyframes jokerFlash {
+      from { background-color: #ff00ff; }
+      to { background-color: transparent; }
     }
   </style>
 </head>
@@ -173,7 +221,7 @@
                 </div>
 
                 <div class="desktop-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 0.9rem; margin-bottom: -40px;">
-                  ↓ open terminal to explore
+                  <a id="scrollCue" href="#infraMirrorConsole">↓</a>
                 </div>
         
               </section>
@@ -194,7 +242,9 @@
                     <!-- Removed InfraMirror Console title for cleaner appearance -->
                   </div>
                   <div style="background-color: #222; padding: 10px 16px; color: #ccc; font-family: monospace; font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #333;">
-                    <span style="color: #4caf50;">joe@josephaleto.io</span><span style="opacity: 0.6;">:~$</span>
+                    <div>
+                      <span style="color: #4caf50;">joe@josephaleto.io</span><span style="opacity: 0.6;">:~$</span><span id="modeIndicator" style="margin-left:8px; color:#33ff33;">PRO</span>
+                    </div>
                     <div style="display: flex; gap: 6px;">
                       <div style="height: 12px; width: 12px; background: #ff5f56; border-radius: 50%;"></div>
                       <div style="height: 12px; width: 12px; background: #ffbd2e; border-radius: 50%;"></div>
@@ -478,22 +528,31 @@
     "Lambda", "S3", "API Gateway", "DynamoDB",
     "CloudFront", "Route 53", "GitHub Actions", "Terraform"
   ];
-  const fontSize = 16;
+  let fontSize = 16;
   let columns = Math.floor(canvas.width / fontSize);
   let drops = Array(columns).fill(1);
+  let terminalMode = 'professional';
 
   function drawMatrixRain() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.font = fontSize + "px monospace";
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, "#00c3ff");
-    gradient.addColorStop(1, "#001b44");
+    if (terminalMode === 'joker') {
+      gradient.addColorStop(0, '#00ffff');
+      gradient.addColorStop(0.5, '#ff00ff');
+      gradient.addColorStop(1, '#00ff66');
+    } else {
+      gradient.addColorStop(0, '#00c3ff');
+      gradient.addColorStop(1, '#001b44');
+    }
     ctx.fillStyle = gradient;
     for (let i = 0; i < drops.length; i++) {
       // Pick a random AWS term for each drop
       const text = awsTerms[Math.floor(Math.random() * awsTerms.length)];
-      ctx.globalAlpha = 0.7 + Math.random() * 0.3;
+      ctx.globalAlpha = terminalMode === 'joker'
+        ? 0.9 + Math.random() * 0.1
+        : 0.7 + Math.random() * 0.2;
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
       ctx.globalAlpha = 1.0;
       // Reset drop to top with some randomness for spacing
@@ -506,7 +565,50 @@
 
   let frameDelay = 80;
   if (window.matchMedia('(max-width: 600px)').matches) frameDelay = 150;
-  setInterval(drawMatrixRain, frameDelay);
+  let matrixInterval = setInterval(drawMatrixRain, frameDelay);
+
+  function startMatrixRain() {
+    clearInterval(matrixInterval);
+    matrixInterval = setInterval(drawMatrixRain, frameDelay);
+  }
+
+  function activateJokerMode() {
+    terminalMode = 'joker';
+    fontSize = 20;
+    document.getElementById('matrixRain').style.opacity = '0.3';
+    frameDelay = 40;
+    columns = Math.floor(canvas.width / fontSize);
+    drops = Array(columns).fill(1);
+    startMatrixRain();
+    terminalWrapper.classList.add('joker-active');
+    modeIndicator.textContent = 'JOKER';
+    modeIndicator.style.color = '#ff66ff';
+    document.body.classList.add('joker-flash');
+    setTimeout(() => document.body.classList.remove('joker-flash'), 400);
+    const msg = document.createElement('div');
+    msg.textContent = 'Wake up, Neo...';
+    msg.style.color = '#ff66ff';
+    terminalContent.appendChild(msg);
+    scrollToBottom();
+  }
+
+  function activateProfessionalMode() {
+    terminalMode = 'professional';
+    fontSize = 16;
+    document.getElementById('matrixRain').style.opacity = '0.12';
+    frameDelay = window.matchMedia('(max-width: 600px)').matches ? 150 : 80;
+    columns = Math.floor(canvas.width / fontSize);
+    drops = Array(columns).fill(1);
+    startMatrixRain();
+    terminalWrapper.classList.remove('joker-active');
+    modeIndicator.textContent = 'PRO';
+    modeIndicator.style.color = '#33ff33';
+    const msg = document.createElement('div');
+    msg.textContent = 'Professional mode activated';
+    msg.style.color = '#33ff33';
+    terminalContent.appendChild(msg);
+    scrollToBottom();
+  }
 
   // Recalculate columns and drops on resize
   window.addEventListener("resize", () => {
@@ -521,6 +623,20 @@
   const terminalWrapper = document.getElementById('terminal');
   const terminalPrompt = document.getElementById('terminal-prompt');
   const terminalSuggestion = document.getElementById('terminal-suggestion');
+  const modeIndicator = document.getElementById('modeIndicator');
+  const quotes = [
+    'Deploy with purpose.',
+    'Automation unlocks innovation.',
+    'Simplicity scales best.',
+    'Code is the new poker.',
+    'Focus on value, ship often.'
+  ];
+  const motds = [
+    'Welcome to the Cloud Terminal.',
+    'Dream big, deploy bigger.',
+    'Every line ships value.'
+  ];
+  let chooseModePending = false;
 
   function scrollToBottom() {
     // Always scroll terminal to show latest input/output, smoothly
@@ -561,7 +677,10 @@
     'quote',
     'clear',
     'exit',
-    'source code'
+    'source code',
+    'joker mode',
+    'professional mode',
+    'choose mode'
   ];
 
   const openCommands = {
@@ -599,6 +718,11 @@
       terminalWrapper.style.maxHeight = '60vh';
       terminalWrapper.style.height = '60vh';
       setTimeout(scrollToBottom, 200);
+      const motdDiv = document.createElement('div');
+      motdDiv.textContent = motds[Math.floor(Math.random() * motds.length)];
+      motdDiv.style.color = '#b2eaff';
+      terminalContent.appendChild(motdDiv);
+      scrollToBottom();
     }
   }, { once: true });
 
@@ -690,7 +814,67 @@
         return;
       }
 
+      if (cmdLower === 'joker mode') {
+        activateJokerMode();
+        terminalInput.value = "";
+        return;
+      }
+
+      if (cmdLower === 'professional mode') {
+        activateProfessionalMode();
+        terminalInput.value = "";
+        return;
+      }
+
+      if (cmdLower === 'choose mode') {
+        const choose = document.createElement('div');
+        choose.textContent = 'Choose a mode: [1] Professional  [2] Joker  [3] Random';
+        choose.style.color = '#00ffff';
+        terminalContent.appendChild(choose);
+        chooseModePending = true;
+        terminalInput.value = '';
+        scrollToBottom();
+        return;
+      }
+
+      if (chooseModePending && ['1','2','3'].includes(cmdLower)) {
+        chooseModePending = false;
+        if (cmdLower === '1') activateProfessionalMode();
+        else if (cmdLower === '2') activateJokerMode();
+        else { Math.random() < 0.5 ? activateProfessionalMode() : activateJokerMode(); }
+        terminalInput.value = '';
+        return;
+      }
+
+      if (cmdLower === 'motd') {
+        const motd = motds[Math.floor(Math.random() * motds.length)];
+        const motdDiv = document.createElement('div');
+        motdDiv.textContent = motd;
+        motdDiv.style.color = '#b2eaff';
+        terminalContent.appendChild(motdDiv);
+        terminalInput.value = '';
+        scrollToBottom();
+        return;
+      }
+
+      if (cmdLower === 'quote') {
+        const q = quotes[Math.floor(Math.random() * quotes.length)];
+        const qDiv = document.createElement('div');
+        qDiv.textContent = q;
+        qDiv.style.color = '#33ff33';
+        terminalContent.appendChild(qDiv);
+        terminalInput.value = '';
+        scrollToBottom();
+        return;
+      }
+
+      const processing = document.createElement('div');
+      processing.textContent = 'Processing...';
+      processing.style.color = '#00c3ff';
+      terminalContent.appendChild(processing);
+      scrollToBottom();
       const resp = await executeCommand(input);
+      processing.remove();
       if (resp === "__CLEAR__") {
         terminalContent.classList.add("terminal-fade");
         setTimeout(() => {
@@ -738,6 +922,14 @@
     if (termRect.top > window.innerHeight || termRect.bottom < 0) {
       terminalWrapper.scrollIntoView({ behavior: "smooth" });
     }
+    const btn = document.getElementById('tryMeButton');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        terminalWrapper.scrollIntoView({ behavior: 'smooth' });
+        terminalInput.focus();
+        terminalInput.value = 'help';
+      });
+    }
   };
 
   // Style scrollbar for neon blue glow
@@ -757,6 +949,7 @@
   `;
   document.head.appendChild(style);
   </script>
+  <button id="tryMeButton" class="try-me-btn" title="Focus terminal and type help">Try Me</button>
 </body>
 
 </html>
