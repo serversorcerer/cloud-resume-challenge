@@ -60,6 +60,7 @@
     @keyframes jokerGlow {
       0%, 100% { box-shadow: 0 0 4px #00ffff; }
       50% { box-shadow: 0 0 15px #ff00ff; }
+ ikw1et-codex/implement-hybrid-matrix-rain-and-joker-mode
     }
 
     #scrollCue {
@@ -98,6 +99,7 @@
     @keyframes jokerFlash {
       from { background-color: #ff00ff; }
       to { background-color: transparent; }
+main
     }
   </style>
 </head>
@@ -581,10 +583,13 @@
     drops = Array(columns).fill(1);
     startMatrixRain();
     terminalWrapper.classList.add('joker-active');
+ ikw1et-codex/implement-hybrid-matrix-rain-and-joker-mode
     modeIndicator.textContent = 'JOKER';
     modeIndicator.style.color = '#ff66ff';
     document.body.classList.add('joker-flash');
     setTimeout(() => document.body.classList.remove('joker-flash'), 400);
+=======
+ main
     const msg = document.createElement('div');
     msg.textContent = 'Wake up, Neo...';
     msg.style.color = '#ff66ff';
@@ -601,8 +606,11 @@
     drops = Array(columns).fill(1);
     startMatrixRain();
     terminalWrapper.classList.remove('joker-active');
+ ikw1et-codex/implement-hybrid-matrix-rain-and-joker-mode
     modeIndicator.textContent = 'PRO';
     modeIndicator.style.color = '#33ff33';
+
+ main
     const msg = document.createElement('div');
     msg.textContent = 'Professional mode activated';
     msg.style.color = '#33ff33';
@@ -677,10 +685,16 @@
     'quote',
     'clear',
     'exit',
+ ikw1et-codex/implement-hybrid-matrix-rain-and-joker-mode
     'source code',
     'joker mode',
     'professional mode',
     'choose mode'
+
+    'source code'
+    ,'joker mode'
+    ,'professional mode'
+ main
   ];
 
   const openCommands = {
@@ -826,6 +840,7 @@
         return;
       }
 
+ ikw1et-codex/implement-hybrid-matrix-rain-and-joker-mode
       if (cmdLower === 'choose mode') {
         const choose = document.createElement('div');
         choose.textContent = 'Choose a mode: [1] Professional  [2] Joker  [3] Random';
@@ -873,6 +888,7 @@
       processing.style.color = '#00c3ff';
       terminalContent.appendChild(processing);
       scrollToBottom();
+ main
       const resp = await executeCommand(input);
       processing.remove();
       if (resp === "__CLEAR__") {
