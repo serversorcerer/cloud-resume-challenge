@@ -7,7 +7,7 @@
   <meta name="description" content="Proof-of-work portfolio. Explore live AWS infrastructure through a terminal interface.">
   <meta name="theme-color" content="#0a0a0a">
   <meta name="keywords" content="personal, portfolio">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <!-- Favicon -->
   <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
@@ -40,6 +40,16 @@
       line-height: 1.7;
       max-width: 800px;
       color: #e0e0e0;
+    }
+    #matrixRain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.15;
     }
   </style>
 </head>
@@ -119,8 +129,8 @@
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    width: 260px;
-    height: 260px;
+    width: 14rem;
+    height: 14rem;
     overflow: hidden;
     box-shadow: 0 0 30px rgba(0,195,255,0.7), 0 0 60px rgba(0,195,255,0.4);
     border: 5px solid rgba(0,195,255,0.5);
@@ -172,11 +182,12 @@
               <style>
                 @media screen and (max-width: 768px) {
                   #infraMirrorConsole {
-                    display: none;
+                    margin: 2rem 1rem;
+                    max-width: 100%;
                   }
                 }
               </style>
-              <section id="infraMirrorConsole" style="margin: 80px auto 60px; max-width: 960px;">
+              <section id="infraMirrorConsole" style="margin: 4rem auto 3rem; max-width: 960px;">
                 <h2 class="sr-only">Cloud Resume Terminal</h2>
                 <div style="border-radius: 8px; box-shadow: 0 0 20px rgba(0,195,255,0.5); background-color: #111;">
                   <div style="padding-top: 30px; padding-bottom: 0;">
@@ -208,8 +219,8 @@
                       font-size: 14px;
                       padding: 20px 18px 12px 18px !important;
                       border-radius: 0 0 8px 8px;
-                      max-height: 60px;
-                      height: 60px;
+                      max-height: 3.5rem;
+                      height: 3.5rem;
                       transition: max-height 0.6s cubic-bezier(.4,1.6,.4,1), height 0.6s cubic-bezier(.4,1.6,.4,1);
                       overflow: hidden;
                       overflow-y: auto;
@@ -449,10 +460,10 @@
   <script src="js/main.js"></script>
 
   <!-- Subtle cloud-themed matrix rain background -->
-  <canvas id="awsMatrixRain"></canvas>
+  <canvas id="matrixRain"></canvas>
   <script>
   // Subtle cloud-themed matrix rain background
-  const canvas = document.getElementById("awsMatrixRain");
+  const canvas = document.getElementById("matrixRain");
   const ctx = canvas.getContext("2d");
 
   function resizeCanvas() {
@@ -464,9 +475,8 @@
 
   // List of AWS/cloud terms for the rain effect
   const awsTerms = [
-    "S3", "Lambda", "EC2", "DynamoDB", "IAM", "CloudFront", "Route 53",
-    "EFS", "API Gateway", "RDS", "Athena", "SNS", "SQS", "Aurora",
-    "Kinesis", "Glue", "Fargate", "CloudWatch", "VPC", "Step Functions"
+    "Lambda", "S3", "API Gateway", "DynamoDB",
+    "CloudFront", "Route 53", "GitHub Actions", "Terraform"
   ];
   const fontSize = 16;
   let columns = Math.floor(canvas.width / fontSize);
@@ -494,7 +504,9 @@
     }
   }
 
-  setInterval(drawMatrixRain, 80); // Optimized visual speed
+  let frameDelay = 80;
+  if (window.matchMedia('(max-width: 600px)').matches) frameDelay = 150;
+  setInterval(drawMatrixRain, frameDelay);
 
   // Recalculate columns and drops on resize
   window.addEventListener("resize", () => {
@@ -584,8 +596,8 @@
     if (!terminalExpanded) {
       terminalExpanded = true;
       terminalWrapper.classList.remove('collapsed');
-      terminalWrapper.style.maxHeight = '480px';
-      terminalWrapper.style.height = '480px';
+      terminalWrapper.style.maxHeight = '60vh';
+      terminalWrapper.style.height = '60vh';
       setTimeout(scrollToBottom, 200);
     }
   }, { once: true });
