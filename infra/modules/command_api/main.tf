@@ -67,7 +67,7 @@ resource "aws_apigatewayv2_stage" "default" {
 }
 
 resource "aws_lambda_permission" "api" {
-  statement_id  = "AllowApiInvoke"
+  statement_id = "AllowApiInvokeV2"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.command.arn
   principal     = "apigateway.amazonaws.com"
