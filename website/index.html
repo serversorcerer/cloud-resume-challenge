@@ -42,14 +42,24 @@
       color: #e0e0e0;
     }
     #matrixRain {
+      opacity: 0.12;
+      transition: opacity 0.5s ease-in-out;
+      pointer-events: none;
       position: fixed;
+      z-index: -1;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
-      z-index: -1;
-      opacity: 0.15;
+    }
+
+    #terminal.joker-active {
+      animation: jokerGlow 1.5s infinite;
+    }
+
+    @keyframes jokerGlow {
+      0%, 100% { box-shadow: 0 0 4px #00ffff; }
+      50% { box-shadow: 0 0 15px #ff00ff; }
     }
   </style>
 </head>
@@ -478,22 +488,31 @@
     "Lambda", "S3", "API Gateway", "DynamoDB",
     "CloudFront", "Route 53", "GitHub Actions", "Terraform"
   ];
-  const fontSize = 16;
+  let fontSize = 16;
   let columns = Math.floor(canvas.width / fontSize);
   let drops = Array(columns).fill(1);
+  let terminalMode = 'professional';
 
   function drawMatrixRain() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.font = fontSize + "px monospace";
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, "#00c3ff");
-    gradient.addColorStop(1, "#001b44");
+    if (terminalMode === 'joker') {
+      gradient.addColorStop(0, '#00ffff');
+      gradient.addColorStop(0.5, '#ff00ff');
+      gradient.addColorStop(1, '#00ff66');
+    } else {
+      gradient.addColorStop(0, '#00c3ff');
+      gradient.addColorStop(1, '#001b44');
+    }
     ctx.fillStyle = gradient;
     for (let i = 0; i < drops.length; i++) {
       // Pick a random AWS term for each drop
       const text = awsTerms[Math.floor(Math.random() * awsTerms.length)];
-      ctx.globalAlpha = 0.7 + Math.random() * 0.3;
+      ctx.globalAlpha = terminalMode === 'joker'
+        ? 0.9 + Math.random() * 0.1
+        : 0.7 + Math.random() * 0.2;
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
       ctx.globalAlpha = 1.0;
       // Reset drop to top with some randomness for spacing
@@ -506,7 +525,44 @@
 
   let frameDelay = 80;
   if (window.matchMedia('(max-width: 600px)').matches) frameDelay = 150;
-  setInterval(drawMatrixRain, frameDelay);
+  let matrixInterval = setInterval(drawMatrixRain, frameDelay);
+
+  function startMatrixRain() {
+    clearInterval(matrixInterval);
+    matrixInterval = setInterval(drawMatrixRain, frameDelay);
+  }
+
+  function activateJokerMode() {
+    terminalMode = 'joker';
+    fontSize = 20;
+    document.getElementById('matrixRain').style.opacity = '0.3';
+    frameDelay = 40;
+    columns = Math.floor(canvas.width / fontSize);
+    drops = Array(columns).fill(1);
+    startMatrixRain();
+    terminalWrapper.classList.add('joker-active');
+    const msg = document.createElement('div');
+    msg.textContent = 'Wake up, Neo...';
+    msg.style.color = '#ff66ff';
+    terminalContent.appendChild(msg);
+    scrollToBottom();
+  }
+
+  function activateProfessionalMode() {
+    terminalMode = 'professional';
+    fontSize = 16;
+    document.getElementById('matrixRain').style.opacity = '0.12';
+    frameDelay = window.matchMedia('(max-width: 600px)').matches ? 150 : 80;
+    columns = Math.floor(canvas.width / fontSize);
+    drops = Array(columns).fill(1);
+    startMatrixRain();
+    terminalWrapper.classList.remove('joker-active');
+    const msg = document.createElement('div');
+    msg.textContent = 'Professional mode activated';
+    msg.style.color = '#33ff33';
+    terminalContent.appendChild(msg);
+    scrollToBottom();
+  }
 
   // Recalculate columns and drops on resize
   window.addEventListener("resize", () => {
@@ -562,6 +618,8 @@
     'clear',
     'exit',
     'source code'
+    ,'joker mode'
+    ,'professional mode'
   ];
 
   const openCommands = {
@@ -687,6 +745,18 @@
         terminalContent.appendChild(response);
         terminalInput.value = "";
         scrollToBottom();
+        return;
+      }
+
+      if (cmdLower === 'joker mode') {
+        activateJokerMode();
+        terminalInput.value = "";
+        return;
+      }
+
+      if (cmdLower === 'professional mode') {
+        activateProfessionalMode();
+        terminalInput.value = "";
         return;
       }
 
