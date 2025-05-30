@@ -595,6 +595,7 @@
   // Terminal commands served by backend
   // Endpoint for Lambda-backed command processor
   const API_URL = 'https://4wmuu5rp71.execute-api.us-east-1.amazonaws.com/';
+  const OFFER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/23156361/2v4xduy/';
 
   const commandList = [
     'help',
@@ -620,6 +621,7 @@
     'source code'
     ,'joker mode'
     ,'professional mode'
+    ,'offer'
   ];
 
   const openCommands = {
@@ -629,6 +631,9 @@
     'email': 'mailto:joe@josephaleto.io',
     'source code': 'https://github.com/serversorcerer/cloud-resume-challenge'
   };
+
+  let offerState = null; // null | 'name' | 'email'
+  let offerData = { name: '', email: '' };
 
   async function executeCommand(cmd) {
     try {
@@ -718,6 +723,7 @@
     if (e.key === "Enter") {
       const input = terminalInput.value.trim();
       if (!input) return;
+      const cmdLower = input.toLowerCase();
       commandHistory.push(input);
       historyIndex = commandHistory.length;
       const output = document.createElement("div");
@@ -725,7 +731,83 @@
       terminalContent.appendChild(output);
       terminalSuggestion.style.display = "none";
 
-      const cmdLower = input.toLowerCase();
+      if (offerState) {
+        if (['clear','exit'].includes(cmdLower)) {
+          if (cmdLower === 'clear') {
+            const clrResp = await executeCommand('clear');
+            if (clrResp === "__CLEAR__") {
+              terminalContent.classList.add("terminal-fade");
+              setTimeout(() => {
+                terminalContent.innerHTML = "";
+                terminalContent.classList.remove("terminal-fade");
+              }, 500);
+            }
+          } else {
+            const cancelMsg = document.createElement('div');
+            cancelMsg.textContent = 'Offer cancelled.';
+            cancelMsg.style.color = '#33ff33';
+            terminalContent.appendChild(cancelMsg);
+          }
+          offerState = null;
+          terminalInput.value = "";
+          scrollToBottom();
+          return;
+        }
+
+        if (offerState === 'name') {
+          offerData.name = input;
+          const askEmail = document.createElement('div');
+          askEmail.textContent = "What's your email?";
+          askEmail.style.color = '#33ff33';
+          terminalContent.appendChild(askEmail);
+          offerState = 'email';
+          terminalInput.value = "";
+          scrollToBottom();
+          return;
+        } else if (offerState === 'email') {
+          offerData.email = input;
+          const emailRegex = /^\S+@\S+\.\S+$/;
+          if (!emailRegex.test(offerData.email)) {
+            const invalid = document.createElement('div');
+            invalid.textContent = "Invalid email format. Try again or type 'exit' to cancel.";
+            invalid.style.color = '#ff3333';
+            terminalContent.appendChild(invalid);
+            terminalInput.value = "";
+            scrollToBottom();
+            return;
+          }
+          try {
+            await fetch(OFFER_WEBHOOK, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ command: 'offer', name: offerData.name, email: offerData.email, time: new Date().toISOString() })
+            });
+          } catch (err) {
+            console.error(err);
+          }
+          const doneMsg = document.createElement('div');
+          doneMsg.textContent = '✅ Offer received — I\u2019ll follow up soon.';
+          doneMsg.style.color = '#33ff33';
+          terminalContent.appendChild(doneMsg);
+          offerState = null;
+          terminalInput.value = "";
+          scrollToBottom();
+          return;
+        }
+      }
+
+      if (cmdLower === 'offer') {
+        offerState = 'name';
+        offerData = { name: '', email: '' };
+        const askName = document.createElement('div');
+        askName.textContent = "What's your name?";
+        askName.style.color = '#33ff33';
+        terminalContent.appendChild(askName);
+        terminalInput.value = "";
+        scrollToBottom();
+        return;
+      }
+
       if (openCommands[cmdLower]) {
         window.open(openCommands[cmdLower], '_blank');
         const response = document.createElement('div');
