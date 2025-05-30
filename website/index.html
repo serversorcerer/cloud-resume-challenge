@@ -549,6 +549,14 @@
     'source code'
   ];
 
+  const openCommands = {
+    'resume': 'https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf',
+    'linkedin': 'https://www.linkedin.com/in/joseph-leto/',
+    'github': 'https://github.com/serversorcerer',
+    'email': 'mailto:joe@josephaleto.io',
+    'source code': 'https://github.com/serversorcerer/cloud-resume-challenge'
+  };
+
   async function executeCommand(cmd) {
     try {
       const res = await fetch(API_URL, {
@@ -643,6 +651,30 @@
       output.innerHTML = `<span style="color:#00ffff;">$</span> <span style="color:#e0f7ff;">${input}</span>`;
       terminalContent.appendChild(output);
       terminalSuggestion.style.display = "none";
+
+      const cmdLower = input.toLowerCase();
+      if (openCommands[cmdLower]) {
+        window.open(openCommands[cmdLower], '_blank');
+        const response = document.createElement('div');
+        response.textContent = `Opening ${cmdLower}...`;
+        response.style.color = '#33ff33';
+        terminalContent.appendChild(response);
+        terminalInput.value = "";
+        scrollToBottom();
+        return;
+      }
+
+      if (cmdLower === 'view counter') {
+        const count = document.querySelector('.counter-number')?.textContent.trim() || 'Unknown';
+        const response = document.createElement('div');
+        response.textContent = `Total views: ${count}`;
+        response.style.color = '#33ff33';
+        terminalContent.appendChild(response);
+        terminalInput.value = "";
+        scrollToBottom();
+        return;
+      }
+
       const resp = await executeCommand(input);
       if (resp === "__CLEAR__") {
         terminalContent.classList.add("terminal-fade");
@@ -652,7 +684,11 @@
         }, 500);
       } else {
         const response = document.createElement("div");
-        response.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
+        if (resp.includes('<img')) {
+          response.innerHTML = resp;
+        } else {
+          response.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
+        }
         setTimeout(() => {
           [...response.querySelectorAll("a")].forEach(a => {
             a.target = "_blank";
