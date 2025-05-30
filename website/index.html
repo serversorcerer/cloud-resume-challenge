@@ -776,17 +776,19 @@
             scrollToBottom();
             return;
           }
-          // Add console.log before sending to webhook
-          console.log("Sending to webhook:", {
+          // Build payload and log before sending
+          const payload = {
+            command: 'offer',
             name: offerData.name,
             email: offerData.email,
             time: new Date().toISOString()
-          });
+          };
+          console.log("Sending payload:", payload);
           try {
             await fetch(OFFER_WEBHOOK, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ command: 'offer', name: offerData.name, email: offerData.email, time: new Date().toISOString() })
+              body: JSON.stringify(payload)
             });
           } catch (err) {
             console.error(err);
