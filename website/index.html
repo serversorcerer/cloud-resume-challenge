@@ -549,6 +549,14 @@
     'source code'
   ];
 
+  const interactiveCommands = {
+    resume: 'https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf',
+    linkedin: 'https://www.linkedin.com/in/joseph-leto/',
+    github: 'https://github.com/serversorcerer',
+    email: 'mailto:joe@josephaleto.io',
+    'source code': 'https://github.com/serversorcerer/cloud-resume-challenge'
+  };
+
   async function executeCommand(cmd) {
     try {
       const res = await fetch(API_URL, {
@@ -643,6 +651,24 @@
       output.innerHTML = `<span style="color:#00ffff;">$</span> <span style="color:#e0f7ff;">${input}</span>`;
       terminalContent.appendChild(output);
       terminalSuggestion.style.display = "none";
+
+      const normalized = input.toLowerCase();
+      if (interactiveCommands.hasOwnProperty(normalized)) {
+        const url = interactiveCommands[normalized];
+        const notice = document.createElement('div');
+        notice.textContent = `Opening ${normalized}...`;
+        notice.style.color = '#33ff33';
+        terminalContent.appendChild(notice);
+        if (url.startsWith('http') || url.startsWith('mailto:')) {
+          window.open(url, '_blank');
+        } else {
+          window.location.href = url;
+        }
+        terminalInput.value = '';
+        scrollToBottom();
+        return;
+      }
+
       const resp = await executeCommand(input);
       if (resp === "__CLEAR__") {
         terminalContent.classList.add("terminal-fade");
@@ -652,7 +678,15 @@
         }, 500);
       } else {
         const response = document.createElement("div");
-        response.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
+        if (resp.includes('<img')) {
+          response.innerHTML = resp;
+        } else {
+          const pre = document.createElement('pre');
+          pre.textContent = resp;
+          pre.style.margin = '0';
+          pre.style.color = '#33ff33';
+          response.appendChild(pre);
+        }
         setTimeout(() => {
           [...response.querySelectorAll("a")].forEach(a => {
             a.target = "_blank";
