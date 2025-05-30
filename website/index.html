@@ -595,7 +595,6 @@
   // Terminal commands served by backend
   // Endpoint for Lambda-backed command processor
   const API_URL = 'https://4wmuu5rp71.execute-api.us-east-1.amazonaws.com/';
-  const OFFER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/23156361/2v4xduy/';
 
   const commandList = [
     'help',
@@ -776,17 +775,19 @@
             scrollToBottom();
             return;
           }
-          // Add console.log before sending to webhook
-          console.log("Sending to webhook:", {
+          // Build payload and log before sending
+          const payload = {
+            command: 'offer',
             name: offerData.name,
             email: offerData.email,
             time: new Date().toISOString()
-          });
+          };
+          console.log("Sending payload:", payload);
           try {
-            await fetch(OFFER_WEBHOOK, {
+            await fetch(API_URL, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ command: 'offer', name: offerData.name, email: offerData.email, time: new Date().toISOString() })
+              body: JSON.stringify(payload)
             });
           } catch (err) {
             console.error(err);
