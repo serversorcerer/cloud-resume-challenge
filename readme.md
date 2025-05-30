@@ -1,10 +1,10 @@
-# Cloud Resume Challenge
+# The Cloud Terminal
 
 [![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 
-This project is a hands-on demonstration of designing and maintaining production-ready cloud systems using AWS and modern DevOps practices. Built entirely from scratch, it shows how infrastructure can be automated, resilient, and scalable—while remaining easy to update and transparent for teams and recruiters alike.
+This site is a proof-of-work portfolio powered by real AWS services. Every terminal command runs live infrastructure that I built with Terraform and deploy through GitHub Actions.
 
 <p align="center">
   <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="360" />
