@@ -776,6 +776,12 @@
             scrollToBottom();
             return;
           }
+          // Add console.log before sending to webhook
+          console.log("Sending to webhook:", {
+            name: offerData.name,
+            email: offerData.email,
+            time: new Date().toISOString()
+          });
           try {
             await fetch(OFFER_WEBHOOK, {
               method: 'POST',
