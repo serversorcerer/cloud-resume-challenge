@@ -6,6 +6,18 @@ const HEADERS = {
 };
 
 exports.handler = async (event) => {
+  if (event.requestContext.http.method === 'OPTIONS') {
+    return {
+      statusCode: 204,
+      headers: {
+        'Content-Type': 'text/plain',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      },
+      body: ''
+    };
+  }
   let body = {};
   try {
     body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
