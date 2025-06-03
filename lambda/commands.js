@@ -5,6 +5,9 @@ const HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
+// Webhook for Zapier integration. Prefer environment variable so it can be
+// updated without code changes. Falls back to a placeholder URL so local
+// execution does not break if the variable isn't set.
 const ZAP_WEBHOOK_URL = process.env.ZAP_WEBHOOK_URL ||
   'https://hooks.zapier.com/hooks/catch/000000/placeholder/';
 
@@ -55,12 +58,21 @@ exports.handler = async (event) => {
   try {
     if (command === 'offer') {
       const { name = '', email = '' } = body;
+      const payload = { name, email, time: new Date().toISOString() };
+      console.log('Sending to Zapier:', payload);
+
       const res = await fetch(ZAP_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email })
+        body: JSON.stringify(payload)
       });
-      if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
+
+      if (!res.ok) {
+        const text = await res.text().catch(() => '');
+        console.error('Webhook failed:', res.status, text);
+        throw new Error(`Webhook error: ${res.status}`);
+      }
+
       return { statusCode: 200, headers: HEADERS, body: 'Offer received' };
     }
 
