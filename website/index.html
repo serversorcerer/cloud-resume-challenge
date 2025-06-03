@@ -615,6 +615,7 @@
     'stack',
     'architecture',
     'quote',
+    'offer',
     'clear',
     'exit',
     'source code'
@@ -647,6 +648,8 @@
   // Command history
   let commandHistory = [];
   let historyIndex = -1;
+  let offerState = null; // null, 'name', or 'email'
+  let offerName = '';
 
   // Expand terminal on first keystroke in input
   let terminalExpanded = false;
@@ -726,6 +729,86 @@
       terminalSuggestion.style.display = "none";
 
       const cmdLower = input.toLowerCase();
+
+      if (offerState) {
+        if (cmdLower === 'clear' || cmdLower === 'exit') {
+          offerState = null;
+          offerName = '';
+          const resp = await executeCommand(cmdLower);
+          if (resp === "__CLEAR__") {
+            terminalContent.classList.add("terminal-fade");
+            setTimeout(() => {
+              terminalContent.innerHTML = "";
+              terminalContent.classList.remove("terminal-fade");
+            }, 500);
+          } else {
+            const r = document.createElement('div');
+            r.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
+            terminalContent.appendChild(r);
+          }
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
+        }
+
+        if (offerState === 'name') {
+          offerName = input;
+          offerState = 'email';
+          const prompt = document.createElement('div');
+          prompt.textContent = 'Enter your email:';
+          prompt.style.color = '#33ff33';
+          terminalContent.appendChild(prompt);
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
+        } else if (offerState === 'email') {
+          const email = input;
+          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+          if (!valid) {
+            const err = document.createElement('div');
+            err.textContent = 'Invalid email. Try again:';
+            err.style.color = '#ff6666';
+            terminalContent.appendChild(err);
+            terminalInput.value = '';
+            scrollToBottom();
+            return;
+          }
+          offerState = null;
+          console.log('Sending payload:', { command: 'offer', name: offerName, email });
+          try {
+            const res = await fetch(API_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ command: 'offer', name: offerName, email })
+            });
+            const text = await res.text();
+            const msg = document.createElement('div');
+            msg.textContent = res.ok ? '✅ Offer sent!' : text;
+            msg.style.color = '#33ff33';
+            terminalContent.appendChild(msg);
+          } catch (err) {
+            const errDiv = document.createElement('div');
+            errDiv.textContent = 'Error sending offer';
+            errDiv.style.color = '#ff6666';
+            terminalContent.appendChild(errDiv);
+          }
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
+        }
+      }
+
+      if (cmdLower === 'offer') {
+        offerState = 'name';
+        offerName = '';
+        const prompt = document.createElement('div');
+        prompt.textContent = 'Enter your name:';
+        prompt.style.color = '#33ff33';
+        terminalContent.appendChild(prompt);
+        terminalInput.value = '';
+        scrollToBottom();
+        return;
+      }
       if (openCommands[cmdLower]) {
         window.open(openCommands[cmdLower], '_blank');
         const response = document.createElement('div');

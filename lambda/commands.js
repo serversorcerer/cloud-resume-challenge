@@ -5,13 +5,22 @@ const HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
+const ZAP_WEBHOOK_URL = process.env.ZAP_WEBHOOK_URL ||
+  'https://hooks.zapier.com/hooks/catch/000000/placeholder/';
+
 exports.handler = async (event) => {
+  if (event?.requestContext?.http?.method === 'OPTIONS') {
+    return { statusCode: 204, headers: HEADERS, body: '' };
+  }
+
   let body = {};
   try {
-    body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+    body = event?.body ?
+      (typeof event.body === 'string' ? JSON.parse(event.body) : event.body)
+      : {};
   } catch (err) {
     console.error('Invalid request body', err);
-    return { statusCode: 400, headers: HEADERS, body: 'Invalid request body' };
+    return { statusCode: 500, headers: HEADERS, body: 'Invalid request body' };
   }
 
   const command = (body.command || '').trim().toLowerCase();
@@ -40,13 +49,29 @@ exports.handler = async (event) => {
   };
 
   if (!command) {
-    return { statusCode: 400, headers: HEADERS, body: 'No command provided.' };
+    return { statusCode: 500, headers: HEADERS, body: 'No command provided.' };
   }
 
-  const output = responses[command];
-  if (!output) {
-    return { statusCode: 404, headers: HEADERS, body: `Command not found: ${command}` };
-  }
+  try {
+    if (command === 'offer') {
+      const { name = '', email = '' } = body;
+      const res = await fetch(ZAP_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email })
+      });
+      if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
+      return { statusCode: 200, headers: HEADERS, body: 'Offer received' };
+    }
 
-  return { statusCode: 200, headers: HEADERS, body: output };
+    const output = responses[command];
+    if (!output) {
+      return { statusCode: 200, headers: HEADERS, body: `Command not found: ${command}` };
+    }
+
+    return { statusCode: 200, headers: HEADERS, body: output };
+  } catch (err) {
+    console.error(err);
+    return { statusCode: 500, headers: HEADERS, body: err.message };
+  }
 };
