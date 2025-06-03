@@ -68,7 +68,8 @@ README.md             → Full system documentation
    terraform init
    terraform apply
    ```
-3. Push changes to `main`. GitHub Actions will handle deployment.
+3. Push changes to `main`. GitHub Actions syncs the `website` folder to S3.
+4. After deploy, invalidate CloudFront: `aws cloudfront create-invalidation --distribution-id <id> --paths /*`.
 
 ---
 
