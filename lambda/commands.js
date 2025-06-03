@@ -23,8 +23,30 @@ exports.handler = async (event) => {
   const command = (body.command || '').trim().toLowerCase();
 
   const responses = {
-    help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\noffer               – send your info\njoker mode          – activate Matrix rain\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
-    'aws s3 ls': '[bucket] josephaleto.io\n[bucket] resume-storage\n[bucket] inframirror-assets',
+    help: `Available Commands:
+--------------------
+aws s3 ls           – list S3 buckets
+view counter        – fetch visitor count
+terraform apply     – apply infra (simulated)
+motd                – welcome message
+whoami              – user identity
+bio                 – about Joe Leto
+resume              – open resume PDF
+linkedin            – LinkedIn profile
+github              – GitHub profile
+email               – contact via email
+projects            – list cloud projects
+stack               – show stack details
+architecture        – show architecture diagram
+quote               – inspiration
+offer               – send your info
+joker mode          – activate Matrix rain
+professional mode   – normal theme
+view classic        – classic scroll view
+clear               – clear screen
+exit                – log out
+source code         – browse source repo`,
+'aws s3 ls': '[bucket] josephaleto.io\n[bucket] resume-storage\n[bucket] inframirror-assets',
     'terraform apply': 'Applying changes...\n✓ No drift detected\n✓ Resources validated\n✓ Lambda up-to-date\n✓ DynamoDB consistent\n✓ CloudFront deployed\n\n✔ Terraform apply complete! Infrastructure looks good.',
     motd: `~~~ cloud initialized ~~~\n\nI'm Joe Leto — from high-stakes poker to cloud systems.\n\nThis isn’t just a portfolio. It’s a working terminal powered by real AWS infrastructure. Every command triggers live code I built and deployed myself.\n\nType "help" to explore.`,
     whoami: 'user: joe\ndomain: josephaleto.io\nlocation: Ashburn, Virginia',
@@ -42,7 +64,8 @@ exports.handler = async (event) => {
     quote: '“Ship often. Think big. Stay sharp.” – J.L.',
     clear: '__CLEAR__',
     exit: 'Logging out...\nSession terminated.',
-    'source code': 'Browse source: https://github.com/serversorcerer/cloud-resume-challenge'
+    'source code': 'Browse source: https://github.com/serversorcerer/cloud-resume-challenge',
+    'view classic': 'Opening classic view: https://josephaleto.io/classic.html'
   };
 
   if (!command) {
@@ -52,7 +75,7 @@ exports.handler = async (event) => {
   try {
     if (command === 'offer') {
       const { name = '', email = '' } = body;
-      const payload = { name, email, time: new Date().toISOString() };
+      const payload = { command: 'offer', name, email, time: new Date().toISOString() };
       console.log('Sending to Zapier:', payload);
       const res = await fetch(ZAP_WEBHOOK_URL, {
         method: 'POST',
