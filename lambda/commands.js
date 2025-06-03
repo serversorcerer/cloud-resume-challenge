@@ -6,7 +6,11 @@ const HEADERS = {
 };
 
 const ZAP_WEBHOOK_URL = process.env.ZAP_WEBHOOK_URL ||
+e0e6qq-codex/restore-terminal-command-system
   'https://hooks.zapier.com/hooks/catch/23156361/2v4xduy/';
+=======
+  'https://hooks.zapier.com/hooks/catch/000000/placeholder/';
+main
 
 exports.handler = async (event) => {
   if (event?.requestContext?.http?.method === 'OPTIONS') {
@@ -55,12 +59,19 @@ exports.handler = async (event) => {
   try {
     if (command === 'offer') {
       const { name = '', email = '' } = body;
+e0e6qq-codex/restore-terminal-command-system
       const payload = { name, email, time: new Date().toISOString() };
       console.log('Sending to Zapier:', payload);
       const res = await fetch(ZAP_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
+
+      const res = await fetch(ZAP_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email })
+ main
       });
       if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
       return { statusCode: 200, headers: HEADERS, body: 'Offer received' };
