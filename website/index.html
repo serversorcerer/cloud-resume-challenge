@@ -314,6 +314,14 @@
                       60% { background: #440000; color: #ff4e4e; opacity: 1;}
                       100% { background: none; color: #ff4e4e; opacity: 0;}
                     }
+                    .flash-success {
+                      animation: flashSuccess 1s ease;
+                    }
+                    @keyframes flashSuccess {
+                      0% { opacity: 0; }
+                      40% { opacity: 1; }
+                      100% { opacity: 0.85; }
+                    }
                     /* Tab suggestion style */
                     .terminal-suggestion {
                       color: #00ffff;
@@ -785,6 +793,10 @@
             const msg = document.createElement('div');
             msg.textContent = res.ok ? '✅ Offer sent!' : text;
             msg.style.color = '#33ff33';
+ e0e6qq-codex/restore-terminal-command-system
+            msg.classList.add('flash-success');
+
+main
             terminalContent.appendChild(msg);
           } catch (err) {
             const errDiv = document.createElement('div');

@@ -6,7 +6,11 @@ const HEADERS = {
 };
 
 const ZAP_WEBHOOK_URL = process.env.ZAP_WEBHOOK_URL ||
+e0e6qq-codex/restore-terminal-command-system
+  'https://hooks.zapier.com/hooks/catch/23156361/2v4xduy/';
+=======
   'https://hooks.zapier.com/hooks/catch/000000/placeholder/';
+main
 
 exports.handler = async (event) => {
   if (event?.requestContext?.http?.method === 'OPTIONS') {
@@ -26,7 +30,7 @@ exports.handler = async (event) => {
   const command = (body.command || '').trim().toLowerCase();
 
   const responses = {
-    help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
+    help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\noffer               – send your info\njoker mode          – activate Matrix rain\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
     'aws s3 ls': '[bucket] josephaleto.io\n[bucket] resume-storage\n[bucket] inframirror-assets',
     'terraform apply': 'Applying changes...\n✓ No drift detected\n✓ Resources validated\n✓ Lambda up-to-date\n✓ DynamoDB consistent\n✓ CloudFront deployed\n\n✔ Terraform apply complete! Infrastructure looks good.',
     motd: `~~~ cloud initialized ~~~\n\nI'm Joe Leto — from high-stakes poker to cloud systems.\n\nThis isn’t just a portfolio. It’s a working terminal powered by real AWS infrastructure. Every command triggers live code I built and deployed myself.\n\nType "help" to explore.`,
@@ -55,10 +59,19 @@ exports.handler = async (event) => {
   try {
     if (command === 'offer') {
       const { name = '', email = '' } = body;
+e0e6qq-codex/restore-terminal-command-system
+      const payload = { name, email, time: new Date().toISOString() };
+      console.log('Sending to Zapier:', payload);
+      const res = await fetch(ZAP_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+
       const res = await fetch(ZAP_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email })
+ main
       });
       if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
       return { statusCode: 200, headers: HEADERS, body: 'Offer received' };
