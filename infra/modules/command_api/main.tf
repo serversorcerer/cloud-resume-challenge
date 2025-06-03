@@ -45,6 +45,11 @@ resource "aws_lambda_function" "command" {
 resource "aws_apigatewayv2_api" "api" {
   name          = "${var.function_name}-api"
   protocol_type = "HTTP"
+  cors_configuration {
+    allow_origins = ["*"]
+    allow_methods = ["POST", "OPTIONS"]
+    allow_headers = ["content-type"]
+  }
 }
 
 resource "aws_apigatewayv2_integration" "lambda" {
