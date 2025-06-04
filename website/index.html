@@ -61,6 +61,48 @@
       0%, 100% { box-shadow: 0 0 4px #00ffff; }
       50% { box-shadow: 0 0 15px #ff00ff; }
     }
+    .landing-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #e0f7ff;
+    }
+    .landing-buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+    .landing-btn {
+      background: #00c3ff;
+      border: none;
+      color: #0a0a0a;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .landing-btn:hover,
+    .landing-btn:focus {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #00eaff;
+      outline: none;
+    }
+    @media(max-width:768px) {
+      .landing-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 260px;
+      }
+      .landing-btn {
+        margin: 0.25rem 0;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 
@@ -116,76 +158,12 @@
               <header id="fixed">
               </header>
               
-              <section class="hero" id="home">
-                <div class="row">
-                  <div class="col-xl-3 col-lg-4 col-md-6 profile-pic" style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 10px;">
-                    <div class="image clip-animation from-left profile-image-hero"></div>
-                    <div class="social-links clip-animation">
-                      <ul>
-                        <li><a href="https://www.linkedin.com/in/joseph-leto/" target="_blank"><i class="fab fa-linkedin" style="font-size: 1.5rem;"></i></a></li>
-                        <li><a href="https://github.com/serversorcerer" target="_blank"><i class="fab fa-github" style="font-size: 1.5rem;"></i></a></li>
-                        <li><a href="https://medium.com/@joe_92405" target="_blank"><i class="fab fa-medium" style="font-size: 1.5rem;"></i></a></li>
-                      </ul>
-                    </div>
-                  </div>
-<style>
-  /* Hero profile image: class-based, not inline */
-  .profile-image-hero {
-    background-image: url(images/profile.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    width: 14rem;
-    height: 14rem;
-    overflow: hidden;
-    box-shadow: 0 0 30px rgba(0,195,255,0.7), 0 0 60px rgba(0,195,255,0.4);
-    border: 5px solid rgba(0,195,255,0.5);
-    transition: transform 0.3s ease-in-out;
-  }
-</style>
-                  <div class="col-xl-9 col-lg-8 col-md-6 right-content">
-                    <h5 class="hi classic-animation" data-delay=".5">Welcome — stay curious, build smart <span style="margin-left: 8px;">☁️</span></h5>
-                    <div class="spacer-15"></div>
-                    <h1 class="hero-big classic-animation" data-delay=".7">
-                      I'm <span class="glow-hover" style="color:#00c3ff; font-weight: 700; text-shadow: 0 0 4px #00c3ff, 0 0 8px #005eff;">Joe Leto</span><br>
-                      From high-stakes poker to cloud systems.<br>
-                      This isn't just a portfolio — it's a live terminal powered by AWS.
-                    </h1>
-                    <div class="spacer-30"></div>
-                    <hr class="clip-animation" data-delay="1">
-                    <ul class="row profile-info clip-animation" data-delay="1">
-                      <li class="col-xl-4 col-lg-6"><a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf" target="_blank" title="Download CV"><i class="fas fa-file-alt">
-						  </i> <span>Download CV</span></a></li>
-                      <li class="col-xl-4 col-lg-6"> <a target="_blank" href="mailto:joe@josephaleto.io"><i
-                            class="fa-solid fa-at"></i> <span>joe@josephaleto.io</span></a></li>
-                      <li class="col-xl-4 col-lg-6"> <i class="fa-solid fa-location-dot"></i> <span>Ashburn, Virginia</span></li>
-                    </ul>
-                  </div>
+              <section class="hero landing-hero" id="home">
+                <h1 class="hero-tagline">AWS-powered. Lambda-backed. Not your average résumé.</h1>
+                <div class="landing-buttons">
+                  <button id="launchTerminal" class="landing-btn" aria-label="Launch interactive terminal">&#9654; Launch Terminal</button>
+                  <a href="#resume" class="landing-btn" aria-label="View résumé">&#128196; View Résumé</a>
                 </div>
-                <div class="spacer-30"></div>
-                <div class="clip-animation" data-delay="1.1" style="max-width: 820px; color: #d0d0d0; text-align: center; margin: 0 auto;">
-                  <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1rem;">
-                    I come from the world of high-stakes poker — where pressure, timing, and trust matter.
-                  </p>
-                  <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1rem;">
-                    Now I bring that same edge to infrastructure. Clean systems. Real deployments. No fluff.
-                  </p>
-                  <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1rem;">
-                    This terminal connects to live AWS services: Lambda, API Gateway, DynamoDB, S3 — all built with Terraform, deployed through GitHub Actions, and versioned from the ground up.
-                  </p>
-                  <p style="line-height: 1.8; font-size: 1rem;">
-                    I learn best by building — and this is what I’ve built.
-                  </p>
-                </div>
-
-                <div class="desktop-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 0.9rem; margin-bottom: -40px;">
-                  ↓ open terminal to explore
-                </div>
-        
               </section>
 
               <!-- Interactive Terminal Section -->
@@ -656,6 +634,19 @@
 
   // Expand terminal on first keystroke in input
   let terminalExpanded = false;
+  const launchBtn = document.getElementById('launchTerminal');
+  if (launchBtn) {
+    launchBtn.addEventListener('click', () => {
+      if (!terminalExpanded) {
+        terminalExpanded = true;
+        terminalWrapper.classList.remove('collapsed');
+        terminalWrapper.style.maxHeight = '80vh';
+        terminalWrapper.style.height = '80vh';
+      }
+      terminalWrapper.scrollIntoView({ behavior: 'smooth' });
+      terminalInput.focus();
+    });
+  }
   terminalInput.addEventListener('keydown', function(e) {
     if (!terminalExpanded) {
       terminalExpanded = true;
