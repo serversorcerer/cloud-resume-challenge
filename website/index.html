@@ -615,7 +615,7 @@
     'stack',
     'architecture',
     'quote',
-    'offer',
+    'contact',
     'clear',
     'exit',
     'source code'
@@ -648,8 +648,8 @@
   // Command history
   let commandHistory = [];
   let historyIndex = -1;
-  let offerState = null; // null, 'name', or 'email'
-  let offerName = '';
+  let contactState = null; // null, 'name', or 'email'
+  let contactName = '';
 
   // Expand terminal on first keystroke in input
   let terminalExpanded = false;
@@ -730,10 +730,10 @@
 
       const cmdLower = input.toLowerCase();
 
-      if (offerState) {
+      if (contactState) {
         if (cmdLower === 'clear' || cmdLower === 'exit') {
-          offerState = null;
-          offerName = '';
+          contactState = null;
+          contactName = '';
           const resp = await executeCommand(cmdLower);
           if (resp === "__CLEAR__") {
             terminalContent.classList.add("terminal-fade");
@@ -751,9 +751,9 @@
           return;
         }
 
-        if (offerState === 'name') {
-          offerName = input;
-          offerState = 'email';
+        if (contactState === 'name') {
+          contactName = input;
+          contactState = 'email';
           const prompt = document.createElement('div');
           prompt.textContent = 'Enter your email:';
           prompt.style.color = '#33ff33';
@@ -761,7 +761,7 @@
           terminalInput.value = '';
           scrollToBottom();
           return;
-        } else if (offerState === 'email') {
+        } else if (contactState === 'email') {
           const email = input;
           const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
           if (!valid) {
@@ -773,22 +773,22 @@
             scrollToBottom();
             return;
           }
-          offerState = null;
-          console.log('Sending payload:', { command: 'offer', name: offerName, email });
+          contactState = null;
+          console.log('Sending payload:', { command: 'contact', name: contactName, email });
           try {
             const res = await fetch(API_URL, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ command: 'offer', name: offerName, email })
+              body: JSON.stringify({ command: 'contact', name: contactName, email })
             });
             const text = await res.text();
             const msg = document.createElement('div');
-            msg.textContent = res.ok ? '✅ Offer sent!' : text;
+            msg.textContent = res.ok ? '✅ Message sent!' : text;
             msg.style.color = '#33ff33';
             terminalContent.appendChild(msg);
           } catch (err) {
             const errDiv = document.createElement('div');
-            errDiv.textContent = 'Error sending offer';
+            errDiv.textContent = 'Error sending message';
             errDiv.style.color = '#ff6666';
             terminalContent.appendChild(errDiv);
           }
@@ -798,9 +798,9 @@
         }
       }
 
-      if (cmdLower === 'offer') {
-        offerState = 'name';
-        offerName = '';
+      if (cmdLower === 'contact') {
+        contactState = 'name';
+        contactName = '';
         const prompt = document.createElement('div');
         prompt.textContent = 'Enter your name:';
         prompt.style.color = '#33ff33';
