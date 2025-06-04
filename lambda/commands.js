@@ -56,12 +56,12 @@ exports.handler = async (event) => {
     if (command === 'offer' || command === 'contact') {
       const name = (body.name || '').toString().trim();
       const email = (body.email || '').toString().trim();
-      const role = (body.role || '').toString().trim();
       const company = (body.company || '').toString().trim();
+      const message = (body.message || '').toString().trim();
       if (!name || !email) {
         return { statusCode: 500, headers: HEADERS, body: 'Name and email required' };
       }
-      const payload = { name, email, role, company };
+      const payload = { name, email, company, message };
       console.log('Sending payload:', payload);
       const res = await fetch(ZAP_WEBHOOK_URL, {
         method: 'POST',
@@ -69,10 +69,11 @@ exports.handler = async (event) => {
         body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
+      const companyPhrase = company ? ` at ${company}` : '';
       return {
         statusCode: 200,
         headers: HEADERS,
-        body: '🔐 Offer received.\nI\'ll be in touch — or faster.\n— Sent live from your terminal.'
+        body: `✅ Offer received from ${name}${companyPhrase}.\nI\u2019ll be in touch shortly.\n— Sent live from your terminal.`
       };
     }
 
