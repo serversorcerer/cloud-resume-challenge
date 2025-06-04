@@ -26,7 +26,7 @@ exports.handler = async (event) => {
   const command = (body.command || '').trim().toLowerCase();
 
   const responses = {
-    help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
+    help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\nstory               – Joe's journey\nwhyhire             – quick value prop\nstatus              – system status\nview classic        – open original site\nrandom              – suggest a command\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
     'aws s3 ls': '[bucket] josephaleto.io\n[bucket] resume-storage\n[bucket] inframirror-assets',
     'terraform apply': 'Applying changes...\n✓ No drift detected\n✓ Resources validated\n✓ Lambda up-to-date\n✓ DynamoDB consistent\n✓ CloudFront deployed\n\n✔ Terraform apply complete! Infrastructure looks good.',
     motd: `~~~ cloud initialized ~~~\n\nI'm Joe Leto — from high-stakes poker to cloud systems.\n\nThis isn’t just a portfolio. It’s a working terminal powered by real AWS infrastructure. Every command triggers live code I built and deployed myself.\n\nType "help" to explore.`,
@@ -43,6 +43,10 @@ exports.handler = async (event) => {
     stack: `Stack:\n- Terminal UI: React + Custom Command Handler\n- Hosting: S3 + CloudFront\n- Backend: Lambda + API Gateway\n- Data: DynamoDB\n- Infra as Code: Terraform\n- CI/CD: GitHub Actions\n- DNS: Route 53`,
     architecture: `Infrastructure Diagram:\n+---------------------+\n|       CI/CD         |\n|---------------------|\n|  GitHub Actions     |\n+----------+----------+\n           |\n           v\n+---------------------+\n|     S3 Bucket       |\n|  Static Website     |\n+----------+----------+\n           |\n           v\n+---------------------+\n|    CloudFront CDN   |\n+----+-----------+----+\n     |           |\n     v           v\n+----------+   +------------------+\n| Route 53 |   |   API Gateway    |\n+----------+   +---------+--------+\n                      |\n                      v\n                +-----------+\n                |  Lambda   |\n                +-----+-----+\n                      |\n                      v\n                +-----------+\n                | DynamoDB  |\n                +-----------+`,
     quote: '“Ship often. Think big. Stay sharp.” – J.L.',
+    story: `Joe started out counting cards at the poker table. The stakes were high and the pressure real.\n\nThat obsession with precision led him to AWS where every service is another piece on the board.\n\nToday he architects cloud systems with the same focus that once won big pots.`,
+    whyhire: '1. Deep AWS knowledge\n2. Obsessed with automation\n3. Delivers under pressure',
+    status: 'API: OK\nCounter: OK\nWebhook: OK',
+    'view classic': 'Opening classic view...',
     clear: '__CLEAR__',
     exit: 'Logging out...\nSession terminated.',
     'source code': 'Browse source: https://github.com/serversorcerer/cloud-resume-challenge'
@@ -62,6 +66,12 @@ exports.handler = async (event) => {
       });
       if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
       return { statusCode: 200, headers: HEADERS, body: 'Offer received' };
+    }
+
+    if (command === 'random') {
+      const keys = Object.keys(responses).filter(k => !['random', 'offer'].includes(k));
+      const suggestion = keys[Math.floor(Math.random() * keys.length)];
+      return { statusCode: 200, headers: HEADERS, body: `Try command: ${suggestion}` };
     }
 
     const output = responses[command];
