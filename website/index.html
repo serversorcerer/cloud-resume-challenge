@@ -615,6 +615,7 @@
     'stack',
     'architecture',
     'quote',
+    'offer',
     'contact',
     'clear',
     'exit',
@@ -648,8 +649,10 @@
   // Command history
   let commandHistory = [];
   let historyIndex = -1;
-  let contactState = null; // null, 'name', or 'email'
-  let contactName = '';
+  let offerState = null; // null, 'name', 'email', 'role', or 'company'
+  let offerData = { name: '', email: '', role: '', company: '' };
+  let offerSubmitted = false;
+  let offerConfirm = false;
 
   // Expand terminal on first keystroke in input
   let terminalExpanded = false;
@@ -730,10 +733,11 @@
 
       const cmdLower = input.toLowerCase();
 
-      if (contactState) {
+      if (offerState) {
         if (cmdLower === 'clear' || cmdLower === 'exit') {
-          contactState = null;
-          contactName = '';
+          offerState = null;
+          offerConfirm = false;
+          offerData = { name: '', email: '', role: '', company: '' };
           const resp = await executeCommand(cmdLower);
           if (resp === "__CLEAR__") {
             terminalContent.classList.add("terminal-fade");
@@ -751,9 +755,9 @@
           return;
         }
 
-        if (contactState === 'name') {
-          contactName = input;
-          contactState = 'email';
+        if (offerState === 'name') {
+          offerData.name = input;
+          offerState = 'email';
           const prompt = document.createElement('div');
           prompt.textContent = 'Enter your email:';
           prompt.style.color = '#33ff33';
@@ -761,7 +765,7 @@
           terminalInput.value = '';
           scrollToBottom();
           return;
-        } else if (contactState === 'email') {
+        } else if (offerState === 'email') {
           const email = input;
           const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
           if (!valid) {
@@ -773,34 +777,68 @@
             scrollToBottom();
             return;
           }
-          contactState = null;
-          console.log('Sending payload:', { command: 'contact', name: contactName, email });
+          offerData.email = email;
+          offerState = 'role';
+          const prompt = document.createElement('div');
+          prompt.textContent = 'Role (optional):';
+          prompt.style.color = '#33ff33';
+          terminalContent.appendChild(prompt);
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
+        } else if (offerState === 'role') {
+          offerData.role = input;
+          offerState = 'company';
+          const prompt = document.createElement('div');
+          prompt.textContent = 'Company (optional):';
+          prompt.style.color = '#33ff33';
+          terminalContent.appendChild(prompt);
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
+        } else if (offerState === 'company') {
+          offerData.company = input;
+          offerState = null;
+          offerConfirm = false;
+          console.log('Sending payload:', { command: 'offer', ...offerData });
           try {
             const res = await fetch(API_URL, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ command: 'contact', name: contactName, email })
+              body: JSON.stringify({ command: 'offer', ...offerData })
             });
             const text = await res.text();
             const msg = document.createElement('div');
-            msg.textContent = res.ok ? '✅ Message sent!' : text;
+            msg.textContent = text;
             msg.style.color = '#33ff33';
             terminalContent.appendChild(msg);
           } catch (err) {
             const errDiv = document.createElement('div');
-            errDiv.textContent = 'Error sending message';
+            errDiv.textContent = 'Error sending offer';
             errDiv.style.color = '#ff6666';
             terminalContent.appendChild(errDiv);
           }
+          offerSubmitted = true;
           terminalInput.value = '';
           scrollToBottom();
           return;
         }
       }
 
-      if (cmdLower === 'contact') {
-        contactState = 'name';
-        contactName = '';
+      if (cmdLower === 'offer' || cmdLower === 'contact') {
+        if (offerSubmitted && !offerConfirm) {
+          const msg = document.createElement('div');
+          msg.textContent = "Want to update your offer? Type 'offer' again.";
+          msg.style.color = '#33ff33';
+          terminalContent.appendChild(msg);
+          offerConfirm = true;
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
+        }
+        offerConfirm = false;
+        offerState = 'name';
+        offerData = { name: '', email: '', role: '', company: '' };
         const prompt = document.createElement('div');
         prompt.textContent = 'Enter your name:';
         prompt.style.color = '#33ff33';
