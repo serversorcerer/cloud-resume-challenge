@@ -1,83 +1,38 @@
-# The Cloud Terminal
+# josephaleto.io — The Cloud Terminal Portfolio
 
-[![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white)](https://www.terraform.io/)
-[![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
-[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
+This is not your typical portfolio.
 
-This site is a proof-of-work portfolio powered by real AWS services. Every terminal command runs live infrastructure that I built with Terraform and deploy through GitHub Actions.
+`josephaleto.io` is a terminal-first, AWS-powered portfolio interface. Visitors interact through a live terminal, where every command triggers real infrastructure — not simulated shell commands.
 
-<p align="center">
-  <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="360" />
-</p>
----
+## \u2699\ufe0f Core Features
 
-## Key Features
+- **Terminal UI:** Built with vanilla JS and React hooks. Emulates a real command-line interface with glowing prompt animations and typed command history.
+- **Lambda-Backed Commands:** All major commands are routed through AWS Lambda using API Gateway. Responses are live and configurable from backend code.
+- **`offer` Command (Live Lead Capture):** Sends recruiter info (name, email, company, optional message) through a Zapier webhook. Delivered instantly to the candidate via custom email.
+- **`resume` Command:** Instantly opens a PDF resume in a new browser tab.
+- **`infra` Command (In Progress):** Will dynamically render or visualize the AWS architecture behind this site.
+- **View Counter:** Reads from DynamoDB via Lambda to return a live page view count to the terminal.
+- **`help`, `bio`, `projects`, `stack`, `source code`:** All command outputs are dynamically served via Lambda and can be extended or aliased.
 
-- **Live Visitor Counter** — Tracks and stores page views using AWS Lambda and DynamoDB.
-- **Interactive Terminal Interface** — Users can explore a simulated terminal with resume commands.
-- **CI/CD Deployment** — GitHub Actions automates updates from Git push to production.
+## \ud83c\udf10 Hybrid Experience
 
----
+- On **desktop**, users are dropped directly into the terminal interface.
+- On **mobile**, users are given the option to either enter the terminal or view a simplified scroll-based r\u00e9sum\u00e9.
+- A persistent `exit terminal` option allows any visitor to access a recruiter-friendly fallback page.
 
-## Technology Stack
+## \ud83d\udcaa Infrastructure Overview
 
-### Infrastructure
-- **Terraform** — Infrastructure as Code used to provision and manage all AWS services.
-- **GitHub Actions** — Continuous Integration and Deployment for both infrastructure and frontend.
+- **Frontend:** React + JS Terminal Emulator
+- **Backend:** AWS Lambda + API Gateway
+- **Hosting:** S3 + CloudFront + Route 53
+- **Automation:** Zapier Webhooks, Airtable Feedback Tracking
+- **IaC:** Terraform-managed infrastructure
+- **CI/CD:** GitHub Actions with deploy-on-commit for Lambda/API infra
 
-### AWS Services
-- **S3** — Hosts the static website.
-- **CloudFront** — Distributes content globally with HTTPS.
-- **Route 53** — Manages DNS and custom domain.
-- **Lambda** — Handles visitor counter logic.
-- **DynamoDB** — Stores view counts reliably.
+## \ud83d\ude80 Try It
 
----
-
-## Why This Project Matters
-
-This project demonstrates not just theoretical knowledge but working, production-grade DevOps. It reflects:
-
-- Strong understanding of cloud architecture
-- Ability to automate infrastructure and deployments
-- Clean, responsive front-end integration
-- Reliable, testable, and scalable system design
-
-This isn't just a static resume site—it's a fully integrated DevOps pipeline. From CI/CD to serverless backend logic and DNS routing, every piece of this infrastructure mirrors how modern cloud-native applications are built and maintained in the real world.
-
-Recruiters and engineers can quickly assess practical skills and real-world decision-making.
+Type `help`, `resume`, or `offer` at [https://josephaleto.io](https://josephaleto.io)    
+See the terminal come to life — and maybe send an offer.
 
 ---
 
-## Project Structure
-
-```
-/infra                → Infrastructure as Code (Terraform)
-/website              → Frontend (HTML, CSS, JS)
-/.github/workflows    → CI/CD automation configs
-README.md             → Full system documentation
-```
-
----
-
-## How to Deploy
-
-1. Clone this repository.
-2. Navigate to `/infra` and run:
-   ```bash
-   terraform init
-   terraform apply
-   ```
-3. Push changes to `main`. GitHub Actions will handle deployment.
-
----
-
-## Contact
-
-- Email: [joe@josephaleto.io](mailto:joe@josephaleto.io)
-- GitHub: [serversorcerer](https://github.com/serversorcerer)
-- LinkedIn: [joseph-leto](https://www.linkedin.com/in/joseph-leto)
-
----
-
-📌 Built from scratch. Architected for scale. Documented for clarity.
