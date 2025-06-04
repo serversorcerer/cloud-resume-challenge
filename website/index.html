@@ -649,8 +649,8 @@
   // Command history
   let commandHistory = [];
   let historyIndex = -1;
-  let offerState = null; // null, 'name', 'email', 'role', or 'company'
-  let offerData = { name: '', email: '', role: '', company: '' };
+  let offerState = null; // null, 'name', 'email', 'company', or 'message'
+  let offerData = { name: '', email: '', company: '', message: '' };
   let offerSubmitted = false;
   let offerConfirm = false;
 
@@ -737,7 +737,7 @@
         if (cmdLower === 'clear' || cmdLower === 'exit') {
           offerState = null;
           offerConfirm = false;
-          offerData = { name: '', email: '', role: '', company: '' };
+          offerData = { name: '', email: '', company: '', message: '' };
           const resp = await executeCommand(cmdLower);
           if (resp === "__CLEAR__") {
             terminalContent.classList.add("terminal-fade");
@@ -778,16 +778,6 @@
             return;
           }
           offerData.email = email;
-          offerState = 'role';
-          const prompt = document.createElement('div');
-          prompt.textContent = 'Role (optional):';
-          prompt.style.color = '#33ff33';
-          terminalContent.appendChild(prompt);
-          terminalInput.value = '';
-          scrollToBottom();
-          return;
-        } else if (offerState === 'role') {
-          offerData.role = input;
           offerState = 'company';
           const prompt = document.createElement('div');
           prompt.textContent = 'Company (optional):';
@@ -798,6 +788,16 @@
           return;
         } else if (offerState === 'company') {
           offerData.company = input;
+          offerState = 'message';
+          const prompt = document.createElement('div');
+          prompt.textContent = 'Message (optional):';
+          prompt.style.color = '#33ff33';
+          terminalContent.appendChild(prompt);
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
+        } else if (offerState === 'message') {
+          offerData.message = input;
           offerState = null;
           offerConfirm = false;
           console.log('Sending payload:', { command: 'offer', ...offerData });
@@ -828,7 +828,7 @@
       if (cmdLower === 'offer' || cmdLower === 'contact') {
         if (offerSubmitted && !offerConfirm) {
           const msg = document.createElement('div');
-          msg.textContent = "Want to update your offer? Type 'offer' again.";
+          msg.textContent = "Want to update your info? Type 'offer' again.";
           msg.style.color = '#33ff33';
           terminalContent.appendChild(msg);
           offerConfirm = true;
@@ -838,7 +838,7 @@
         }
         offerConfirm = false;
         offerState = 'name';
-        offerData = { name: '', email: '', role: '', company: '' };
+        offerData = { name: '', email: '', company: '', message: '' };
         const prompt = document.createElement('div');
         prompt.textContent = 'Enter your name:';
         prompt.style.color = '#33ff33';
