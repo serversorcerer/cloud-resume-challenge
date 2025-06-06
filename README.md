@@ -1,10 +1,12 @@
-# josephaleto.io — The Cloud Terminal Portfolio
+# josephaleto.io — Cloud Engineering Portfolio
 
 [![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 
 **josephaleto.io** is a terminal-driven resume that runs entirely on AWS. Every command you type hits real Lambda code deployed through Terraform and GitHub Actions. It's part portfolio, part lab, and all proof‑of‑work.
+
+Built to highlight my skills as a cloud engineer, this project demonstrates how I design, automate, and deploy modern infrastructure.
 
 <p align="center">
   <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="600" />
