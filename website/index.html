@@ -648,8 +648,11 @@
   // Command history
   let commandHistory = [];
   let historyIndex = -1;
-  let offerState = null; // null, 'name', or 'email'
-  let offerName = '';
+let offerState = null; // null, 'name', 'email', 'company', 'message'
+let offerName = '';
+let offerEmail = '';
+let offerCompany = '';
+let offerMessage = '';
 
   // Expand terminal on first keystroke in input
   let terminalExpanded = false;
@@ -734,6 +737,9 @@
         if (cmdLower === 'clear' || cmdLower === 'exit') {
           offerState = null;
           offerName = '';
+          offerEmail = '';
+          offerCompany = '';
+          offerMessage = '';
           const resp = await executeCommand(cmdLower);
           if (resp === "__CLEAR__") {
             terminalContent.classList.add("terminal-fade");
@@ -751,6 +757,7 @@
           return;
         }
 
+        // Updated offer flow logic
         if (offerState === 'name') {
           offerName = input;
           offerState = 'email';
@@ -762,8 +769,8 @@
           scrollToBottom();
           return;
         } else if (offerState === 'email') {
-          const email = input;
-          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+          offerEmail = input;
+          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(offerEmail);
           if (!valid) {
             const err = document.createElement('div');
             err.textContent = 'Invalid email. Try again:';
@@ -773,13 +780,40 @@
             scrollToBottom();
             return;
           }
+          offerState = 'company';
+          const prompt = document.createElement('div');
+          prompt.textContent = 'Enter your company (optional):';
+          prompt.style.color = '#33ff33';
+          terminalContent.appendChild(prompt);
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
+        } else if (offerState === 'company') {
+          offerCompany = input;
+          offerState = 'message';
+          const prompt = document.createElement('div');
+          prompt.textContent = 'Enter your message (optional):';
+          prompt.style.color = '#33ff33';
+          terminalContent.appendChild(prompt);
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
+        } else if (offerState === 'message') {
+          offerMessage = input;
           offerState = null;
-          console.log('Sending payload:', { command: 'offer', name: offerName, email });
+          const payload = {
+            command: 'offer',
+            name: offerName,
+            email: offerEmail,
+            company: offerCompany,
+            message: offerMessage
+          };
+          console.log('Sending payload:', payload);
           try {
             const res = await fetch(API_URL, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ command: 'offer', name: offerName, email })
+              body: JSON.stringify(payload)
             });
             const text = await res.text();
             const msg = document.createElement('div');
@@ -801,6 +835,9 @@
       if (cmdLower === 'offer') {
         offerState = 'name';
         offerName = '';
+        offerEmail = '';
+        offerCompany = '';
+        offerMessage = '';
         const prompt = document.createElement('div');
         prompt.textContent = 'Enter your name:';
         prompt.style.color = '#33ff33';
