@@ -7,7 +7,7 @@
 **josephaleto.io** is a terminal-driven resume that runs entirely on AWS. Every command you type hits real Lambda code deployed through Terraform and GitHub Actions. It's part portfolio, part lab, and all proof‑of‑work.
 
 <p align="center">
-  <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="360" />
+  <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="600" />
 </p>
 
 ---
