@@ -1,10 +1,16 @@
+ codex/rewrite-portfolio-to-target-specific-tech-role
+# josephaleto.io — Cloud Engineering Portfolio
+
 # josephaleto.io — A Cloud Terminal Story
+main
 
 [![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 
 Welcome! I'm **Joseph Leto**, a cloud architect focused on AWS (not currently AWS certified). I still deal poker on the side and code between shifts. I prefer to show rather than tell. This repository contains the source for my interactive terminal portfolio at [josephaleto.io](https://josephaleto.io). Every command you run on the site executes live Lambda code that I deployed through Terraform and GitHub Actions. It's a resume, a lab, and a real proof of how I build in the cloud.
+
+Built to highlight my skills as a cloud engineer, this project demonstrates how I design, automate, and deploy modern infrastructure.
 
 <p align="center">
   <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="600" />
