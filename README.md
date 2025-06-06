@@ -1,10 +1,14 @@
+ codex/rewrite-portfolio-to-target-specific-tech-role
 # josephaleto.io — Cloud Engineering Portfolio
+
+# josephaleto.io — A Cloud Terminal Story
+main
 
 [![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 
-**josephaleto.io** is a terminal-driven resume that runs entirely on AWS. Every command you type hits real Lambda code deployed through Terraform and GitHub Actions. It's part portfolio, part lab, and all proof‑of‑work.
+Welcome! I'm **Joseph Leto**, a cloud architect focused on AWS (not currently AWS certified). I still deal poker on the side and code between shifts. I prefer to show rather than tell. This repository contains the source for my interactive terminal portfolio at [josephaleto.io](https://josephaleto.io). Every command you run on the site executes live Lambda code that I deployed through Terraform and GitHub Actions. It's a resume, a lab, and a real proof of how I build in the cloud.
 
 Built to highlight my skills as a cloud engineer, this project demonstrates how I design, automate, and deploy modern infrastructure.
 
@@ -14,72 +18,73 @@ Built to highlight my skills as a cloud engineer, this project demonstrates how 
 
 ---
 
-## Live Demo
+## Try It Yourself
 
-👉 [https://josephaleto.io](https://josephaleto.io) — open the terminal and run `help` to see what you can do.
-
----
-
-## Project Description
-
-This project started as the classic Cloud Resume Challenge and morphed into a full‑blown terminal experience. Instead of a static portfolio, visitors interact with a CLI that mirrors real infrastructure. Commands like `resume`, `stack`, and `offer` trigger a Lambda function that returns live responses or posts data to Zapier. The goal is to show how I design, deploy, and automate cloud systems, not just talk about them.
+👉 Head over to [https://josephaleto.io](https://josephaleto.io) and type `help` in the terminal. From there you can explore commands like `resume`, `stack`, `architecture`, or even `offer` to send me your details.
 
 ---
 
-## Architecture Overview
+## How It Started
 
-- **S3** hosts the static site
-- **CloudFront** serves it securely worldwide
-- **API Gateway** routes terminal commands
-- **Lambda** processes each command
-- **DynamoDB** stores visitor stats and command data
-- **Terraform** defines every resource
-- **GitHub Actions** handles CI/CD
+This project began with the [Cloud Resume Challenge](https://cloudresumechallenge.dev/). I wanted more than a static page, so I built a full CLI experience. Visitors interact with a simulated shell that mirrors real AWS resources. Each command maps to a Lambda function—no demos or mock-ups, just working code.
 
-Everything is versioned and repeatable. A push to `main` triggers the pipeline and syncs the latest build to S3.
+---
+
+## Architecture at a Glance
+
+- **S3** hosts the static website
+- **CloudFront** distributes content globally
+- **API Gateway** receives each terminal command
+- **Lambda** processes those commands
+- **DynamoDB** tracks visitors and command usage
+- **Terraform** manages every resource as code
+- **GitHub Actions** drives continuous deployment
+
+Pushing to `main` triggers a pipeline that builds the Lambda package and syncs the site to S3. It's the same process I use on client projects—automated, repeatable, and visible in version control.
 
 ---
 
 ## Key Features
 
-- **Real Terminal UI** — Tab completion, command history, and colored output.
-- **InfraMirror** — Visualizes the backend stack directly in the terminal.
-- **Zapier Contact Flow** — The `offer` command sends your info through a Zapier webhook.
-- **Built‑in Commands** — `resume`, `stack`, `architecture`, `quote`, `offer`, `source code`, and more.
-- **Live Visitor Counter** — Backed by Lambda and DynamoDB.
+- **Real Terminal Interface** — command history, tab completion, and colorful output
+- **InfraMirror** — see the live stack directly from the terminal
+- **Zapier Integration** — `offer` posts your info to a Zap for follow‑ups
+- **Visitor Counter** — stored in DynamoDB and displayed via Lambda
+- **Built‑in Commands** — from `resume` to `source code`, everything is a quick type away
 
 ---
 
 ## Technologies Used
 
-- **React & JavaScript** for the terminal interface
-- **AWS** — S3, CloudFront, Lambda, API Gateway, DynamoDB, Route 53
-- **Terraform** for Infrastructure as Code
+- **React & JavaScript** for the terminal UI
+- **AWS** — S3, CloudFront, API Gateway, Lambda, DynamoDB, Route 53
+- **Terraform** for infrastructure as code
 - **GitHub Actions** for CI/CD
 
 ---
 
-## Setup Instructions
+## Getting Started
 
 1. Fork this repo.
-2. Set your AWS credentials and domain information in `infra/variables.tf`.
+2. In `infra/variables.tf`, set your AWS region, domain, and hosted zone ID.
 3. From the `infra` directory run:
    ```bash
    terraform init
    terraform apply
    ```
-4. Push to `main` to deploy via GitHub Actions.
+4. Push your changes to `main` to deploy via GitHub Actions.
 
-You can tweak the terminal commands by editing `lambda/commands.js`.
+To customize terminal commands, edit `lambda/commands.js` and redeploy.
 
 ---
 
-## Author / Contact
+## About Me
 
-**Joseph Leto**  
-[josephaleto.io](https://josephaleto.io)  
-[joe@josephaleto.io](mailto:joe@josephaleto.io)  
-[github.com/serversorcerer](https://github.com/serversorcerer)
+I'm **Joseph Leto**—a poker dealer who builds AWS solutions whenever I'm off the tables. Feel free to reach out or explore more of my work:
+
+- [josephaleto.io](https://josephaleto.io)
+- [joe@josephaleto.io](mailto:joe@josephaleto.io)
+- [github.com/serversorcerer](https://github.com/serversorcerer)
 
 ---
 
