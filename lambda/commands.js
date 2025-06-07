@@ -6,7 +6,7 @@ const HEADERS = {
 };
 
 const ZAP_WEBHOOK_URL = process.env.ZAP_WEBHOOK_URL ||
-  'https://hooks.zapier.com/hooks/catch/000000/placeholder/';
+  'https://hooks.zapier.com/hooks/catch/23156361/2vwx0r3/';
 
 exports.handler = async (event) => {
   if (event?.requestContext?.http?.method === 'OPTIONS') {
@@ -26,7 +26,7 @@ exports.handler = async (event) => {
   const command = (body.command || '').trim().toLowerCase();
 
   const responses = {
-    help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
+    help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\noffer               – send your info\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
     'aws s3 ls': '[bucket] josephaleto.io\n[bucket] resume-storage\n[bucket] inframirror-assets',
     'terraform apply': 'Applying changes...\n✓ No drift detected\n✓ Resources validated\n✓ Lambda up-to-date\n✓ DynamoDB consistent\n✓ CloudFront deployed\n\n✔ Terraform apply complete! Infrastructure looks good.',
     motd: `~~~ cloud initialized ~~~\n\nI'm Joe Leto — cloud engineer focused on AWS automation.\n\nThis isn’t just a portfolio. It’s a working terminal powered by real AWS infrastructure. Every command triggers live code I built and deployed myself.\n\nType "help" to explore.`,
@@ -41,7 +41,40 @@ exports.handler = async (event) => {
     'projects cloud-resume': `Cloud Resume Challenge (2024):\n• Hosted on S3, delivered through CloudFront, routed via Route 53.\n• Resume views tracked using Lambda, API Gateway, and DynamoDB.\n• CI/CD set up through GitHub Actions for zero-touch deployment.`,
     'projects terraform': `Infrastructure as Code (Terraform) (2024):\n• Modular Terraform configs for all services: Lambda, IAM, S3, DNS, APIs.\n• Enabled rollback, change previews, and infrastructure drift detection.\n• Integrated into CI/CD pipeline for automated deployments.`,
     stack: `Stack:\n- Terminal UI: React + Custom Command Handler\n- Hosting: S3 + CloudFront\n- Backend: Lambda + API Gateway\n- Data: DynamoDB\n- Infra as Code: Terraform\n- CI/CD: GitHub Actions\n- DNS: Route 53`,
-    architecture: `Infrastructure Diagram:\n+---------------------+\n|       CI/CD         |\n|---------------------|\n|  GitHub Actions     |\n+----------+----------+\n           |\n           v\n+---------------------+\n|     S3 Bucket       |\n|  Static Website     |\n+----------+----------+\n           |\n           v\n+---------------------+\n|    CloudFront CDN   |\n+----+-----------+----+\n     |           |\n     v           v\n+----------+   +------------------+\n| Route 53 |   |   API Gateway    |\n+----------+   +---------+--------+\n                      |\n                      v\n                +-----------+\n                |  Lambda   |\n                +-----+-----+\n                      |\n                      v\n                +-----------+\n                | DynamoDB  |\n                +-----------+`,
+    architecture: `Infrastructure Diagram:\n\
+    +---------------------+\n\
+    |        USER         |\n\
+    +---------------------+\n\
+              |\n\
+              v\n\
+    +---------------------+\n\
+    |   CloudFront (CDN)  |\n\
+    +---------------------+\n\
+              |\n\
+              v\n\
+    +-------------------------------+\n\
+    |   S3 Static Site Hosting      |\n\
+    |  (index.html + JS Terminal)   |\n\
+    +-------------------------------+\n\
+              |\n\
+              v\n\
+    +----------------------------+\n\
+    |   API Gateway (HTTP API)  |\n\
+    +----------------------------+\n\
+              |\n\
+              v\n\
+    +---------------------+\n\
+    |   Lambda Function   |\n\
+    +---------------------+\n\
+        |           |\n\
+        v           v\n\
+    +-----------+  +---------------------------+\n\
+    | DynamoDB  |  |   Zapier Webhook (Leads)  |\n\
+    | (Counter) |  +---------------------------+\n\
+    +-----------+\n\
+    \n\
+    + Terraform provisions all infrastructure\n\
+    + GitHub Actions handles CI/CD deployments`,
     quote: '“Ship often. Think big. Stay sharp.” – J.L.',
     clear: '__CLEAR__',
     exit: 'Logging out...\nSession terminated.',
@@ -54,14 +87,31 @@ exports.handler = async (event) => {
 
   try {
     if (command === 'offer') {
-      const { name = '', email = '' } = body;
+      const name = (body.name || '').toString().trim();
+      const email = (body.email || '').toString().trim();
+      const company = (body.company || '').toString().trim();
+      const message = (body.message || '').toString().trim();
+
+      if (!name || !email) {
+        return { statusCode: 500, headers: HEADERS, body: 'Name and email required' };
+      }
+
+      const payload = { name, email, company, message };
+      console.log('Sending payload:', payload);
+
       const res = await fetch(ZAP_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email })
+        body: JSON.stringify(payload)
       });
+
       if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
-      return { statusCode: 200, headers: HEADERS, body: 'Offer received' };
+      const companyPhrase = company ? ` at ${company}` : '';
+      return {
+        statusCode: 200,
+        headers: HEADERS,
+        body: `✅ Offer received from ${name}${companyPhrase}.\nI'll be in touch shortly.\n— Sent live from your terminal.`
+      };
     }
 
     const output = responses[command];
