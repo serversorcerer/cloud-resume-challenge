@@ -1,0 +1,132 @@
+/* Professional portfolio styles */
+
+:root {
+  --mono: 'Fira Mono', monospace;
+  --sans: 'Inter', sans-serif;
+  --blue: #0070f3;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  line-height: 1.6;
+  color: #111;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  font-family: var(--mono);
+}
+header a {
+  text-decoration: none;
+  color: var(--blue);
+}
+header a:hover {
+  text-decoration: underline;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+.hero img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+.hero h1 {
+  font-family: var(--mono);
+  margin: 1rem 0 0.5rem;
+  font-size: 2.5rem;
+}
+.hero h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: normal;
+}
+.hero .subtitle {
+  color: #555;
+  margin-top: 0.5rem;
+}
+.hero .cta {
+  display: inline-block;
+  margin-top: 1.5rem;
+  background: var(--blue);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+section {
+  padding: 3rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+section h2 {
+  font-family: var(--mono);
+  margin-bottom: 1rem;
+}
+
+.projects .project {
+  margin-bottom: 2rem;
+}
+.projects .project img {
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.stack-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.stack-group ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#terminal {
+  background: #000;
+  color: #33ff33;
+  font-family: var(--mono);
+  padding: 1rem;
+  border-radius: 4px;
+  height: 300px;
+  overflow-y: auto;
+}
+#terminal input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #e0f7ff;
+  outline: none;
+  font: inherit;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #f5f5f5;
+  font-size: 0.9rem;
+}
+footer .social a {
+  margin: 0 0.5rem;
+  color: var(--blue);
+  text-decoration: none;
+}
+footer .social a:hover {
+  text-decoration: underline;
+}
+footer .counter {
+  font-family: var(--mono);
+  margin-bottom: 0.5rem;
+}
