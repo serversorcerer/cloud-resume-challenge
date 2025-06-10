@@ -6,11 +6,12 @@
   <title>Joe Leto | Cloud Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/simple.css">
 </head>
 <body>
   <section class="hero">
+    <span class="badge">Cloud Resume Terminal</span>
     <img src="images/profile.png" alt="Joe Leto">
     <h1>Joe Leto | Cloud Engineer focused on AWS automation</h1>
     <p class="subtitle">From high-stakes poker to highly-available systems</p>
@@ -30,10 +31,14 @@
     <p>My poker background keeps my risk calculations sharp and my infrastructure resilient.</p>
   </section>
 
-  <section class="experience" id="experience">
-    <h2>Technical Experience</h2>
+  <section class="featured" id="featured">
+    <h2>Featured Project: The Cloud Terminal</h2>
     <img src="images/architecture.png" alt="Architecture diagram" style="width:100%;max-width:600px">
-    <p>The Cloud Terminal is a serverless application using Lambda, API Gateway, DynamoDB and S3. Infrastructure is managed with Terraform and deployed via GitHub Actions.</p>
+    <ul class="feature-list">
+      <li>Terminal triggers live Lambda commands</li>
+      <li>Built with Terraform and GitHub Actions</li>
+      <li>Serverless, observable, versioned infra</li>
+    </ul>
   </section>
 
   <section class="projects" id="projects">
@@ -407,8 +412,8 @@ terminalInput.addEventListener('keydown', async function(e) {
 
 terminalInput.addEventListener('focus', scrollToBottom);
 terminalWrapper.addEventListener('click', function(e) { if (e.target !== terminalInput) terminalInput.focus(); });
-terminalContent.style.fontFamily = 'monospace';
-terminalInput.style.fontFamily = 'monospace';
+terminalContent.style.fontFamily = 'Fira Code, monospace';
+terminalInput.style.fontFamily = 'Fira Code, monospace';
 </script>
 </body>
 </html>
