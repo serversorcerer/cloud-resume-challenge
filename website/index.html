@@ -1,676 +1,249 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <title>Joe Leto | The Cloud Terminal</title>
   <meta charset="UTF-8">
-  <meta name="description" content="Proof-of-work portfolio. Explore live AWS infrastructure through a terminal interface.">
-  <meta name="theme-color" content="#0a0a0a">
-  <meta name="keywords" content="personal, portfolio">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- Favicon -->
-  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/main.css" />
-
-  <!-- Google Web fonts -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joe Leto | Cloud Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Font icons -->
-  <link rel="stylesheet" href="icon-fonts/flat-icon/flaticon.css" />
-  <link rel="stylesheet" href="icon-fonts/font-awesome/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
-
-
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-  <style>
-    .glow-hover {
-      transition: text-shadow 0.4s ease;
-    }
-    .glow-hover:hover {
-      text-shadow: 0 0 6px #00c3ff, 0 0 14px #00c3ff;
-    }
-    p.clip-animation {
-      line-height: 1.7;
-      max-width: 800px;
-      color: #e0e0e0;
-    }
-    #matrixRain {
-      opacity: 0.12;
-      transition: opacity 0.5s ease-in-out;
-      pointer-events: none;
-      position: fixed;
-      z-index: -1;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    #terminal.joker-active {
-      animation: jokerGlow 1.5s infinite;
-    }
-
-    @keyframes jokerGlow {
-      0%, 100% { box-shadow: 0 0 4px #00ffff; }
-      50% { box-shadow: 0 0 15px #ff00ff; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/simple.css">
 </head>
+<body>
+  <section class="hero">
+    <img src="images/profile.png" alt="Joe Leto">
+    <h1>Joe Leto | Cloud Engineer focused on AWS automation</h1>
+    <p class="subtitle">From high-stakes poker to highly-available systems</p>
+    <a class="cta-btn" href="mailto:joe@josephaleto.io">Contact Me</a>
+    <div class="nav-links">
+      <a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf" target="_blank">Resume</a>
+      <a href="https://github.com/serversorcerer" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/joseph-leto/" target="_blank">LinkedIn</a>
+      <a href="mailto:joe@josephaleto.io" target="_blank">Email</a>
+      <a href="https://medium.com/@joe_92405" target="_blank">Blog</a>
+    </div>
+  </section>
 
-<body class=" dark-version onepage without-wrapper">
+  <section class="about" id="about">
+    <h2>About Me</h2>
+    <p>I’m a professional poker dealer turned Cloud Engineer. Years dealing cards taught me discipline and quick decision-making. Now I design AWS systems that stay up under pressure.</p>
+    <p>My poker background keeps my risk calculations sharp and my infrastructure resilient.</p>
+  </section>
 
-  <!-- 
-     _   _   _   _   _   _   _   _  
-  / \ / \ / \ / \ / \ / \ / \ / \ 
- ( C | L | O | U | D |   | D | E )
-  \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ 
-  -->
-  <div class="overlay-shade"></div>
-  <div class="floating-cloud">~~~ cloud initialized ~~~</div>
+  <section class="experience" id="experience">
+    <h2>Technical Experience</h2>
+    <img src="images/architecture.png" alt="Architecture diagram" style="width:100%;max-width:600px">
+    <p>The Cloud Terminal is a serverless application using Lambda, API Gateway, DynamoDB and S3. Infrastructure is managed with Terraform and deployed via GitHub Actions.</p>
+  </section>
 
-  <!-- Preloader  -->
-  <div id="loader" class="preloader">
-    <div class="loading">
-      <div class="ascii-header" style="text-align: center; color: #00c3ff; font-family: monospace; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-        <pre style="margin: 0; padding: 0;">
+  <section class="projects" id="projects">
+    <h2>Additional Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>ShowdownStats</h3>
+        <p>Poker analytics built with Python and DynamoDB.</p>
+        <small>Python · DynamoDB · API Gateway</small><br>
+        <a href="#">Learn More</a>
+      </div>
+      <div class="project-card"><h3>Cloud Resume Challenge</h3></div>
+      <div class="project-card"><h3>Infrastructure as Code</h3></div>
+      <div class="project-card"><h3>More Projects</h3></div>
+    </div>
+  </section>
 
+  <section class="stack" id="stack">
+    <h2>Stack & Tools</h2>
+    <h3>Cloud</h3>
+    <ul>
+      <li>Lambda</li>
+      <li>DynamoDB</li>
+      <li>S3</li>
+      <li>EventBridge</li>
+    </ul>
+    <h3>Programming</h3>
+    <ul>
+      <li>Python</li>
+      <li>Go</li>
+      <li>JavaScript</li>
+    </ul>
+    <h3>DevOps</h3>
+    <ul>
+      <li>GitHub Actions</li>
+      <li>Docker</li>
+      <li>Linux</li>
+    </ul>
+  </section>
 
-:'######::'##::::::::'#######::'##::::'##:'########:::::'########::'########:'##::::'##:
-'##... ##: ##:::::::'##.... ##: ##:::: ##: ##.... ##:::: ##.... ##: ##.....:: ##:::: ##:
- ##:::..:: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ##::::::: ##:::: ##:
- ##::::::: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ######::: ##:::: ##:
- ##::::::: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ##...::::. ##:: ##::
- ##::: ##: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ##::::::::. ## ##:::
-. ######:: ########:. #######::. #######:: ########::::: ########:: ########:::. ###::::
-:......:::........:::.......::::.......:::........::::::........:::........:::::...:::::
+  <section class="certifications" id="certifications">
+    <h2>Certifications</h2>
+    <p>Studying for AWS Solutions Architect — coming soon!</p>
+  </section>
 
+  <section class="blog" id="blog">
+    <h2>Blog Posts</h2>
+    <ul>
+      <li><a href="https://medium.com/@joe_92405" target="_blank">How I Built the Cloud Terminal</a></li>
+      <li><a href="https://medium.com/@joe_92405" target="_blank">Terraform Tips for Beginners</a></li>
+    </ul>
+  </section>
 
-        </pre>
-<p style="margin-top: 10px; font-size: 12px; color: #79e0ff;">
-  The Cloud Terminal · Joe Leto<br>
-  Real Cloud · Proof of Work
-</p>      </div>
-      <div class="profile-image">
-        <img src="images/profile.png" alt="Loading Profile">
+  <section id="terminal-section" class="terminal">
+    <h2 class="sr-only">Interactive Terminal</h2>
+    <div id="terminal">
+      <div id="terminal-content"></div>
+      <div id="terminal-suggestion" class="terminal-suggestion" style="display:none;"></div>
+      <div class="terminal-input-row">
+        <span id="terminal-prompt">joe@josephaleto.io:~$</span><input id="terminal-input" type="text" autocomplete="off" autofocus />
       </div>
     </div>
-  </div>
-  <!-- Preloader End -->
+  </section>
 
-
-  <div class="page-cover">
-    <div id="page-scroll">
-      <div class="barba-wrapper" data-barba="wrapper">
-        <main data-barba="container">
-          <!-- Page Wrapper -->
-          <div class="container">
-            <div class="page-wrapper">
-
-              <header id="fixed">
-              </header>
-              
-              <section class="hero" id="home">
-                <div class="row">
-                  <div class="col-xl-3 col-lg-4 col-md-6 profile-pic" style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 10px;">
-                    <div class="image clip-animation from-left profile-image-hero"></div>
-                    <div class="social-links clip-animation">
-                      <ul>
-                        <li><a href="https://www.linkedin.com/in/joseph-leto/" target="_blank"><i class="fab fa-linkedin" style="font-size: 1.5rem;"></i></a></li>
-                        <li><a href="https://github.com/serversorcerer" target="_blank"><i class="fab fa-github" style="font-size: 1.5rem;"></i></a></li>
-                        <li><a href="https://medium.com/@joe_92405" target="_blank"><i class="fab fa-medium" style="font-size: 1.5rem;"></i></a></li>
-                      </ul>
-                    </div>
-                  </div>
-<style>
-  /* Hero profile image: class-based, not inline */
-  .profile-image-hero {
-    background-image: url(images/profile.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    width: 14rem;
-    height: 14rem;
-    overflow: hidden;
-    box-shadow: 0 0 30px rgba(0,195,255,0.7), 0 0 60px rgba(0,195,255,0.4);
-    border: 5px solid rgba(0,195,255,0.5);
-    transition: transform 0.3s ease-in-out;
-  }
-</style>
-                  <div class="col-xl-9 col-lg-8 col-md-6 right-content">
-                    <h5 class="hi classic-animation" data-delay=".5">Welcome — stay curious, build smart <span style="margin-left: 8px;">☁️</span></h5>
-                    <div class="spacer-15"></div>
-                    <h1 class="hero-big classic-animation" data-delay=".7">
-                      I'm <span class="glow-hover" style="color:#00c3ff; font-weight: 700; text-shadow: 0 0 4px #00c3ff, 0 0 8px #005eff;">Joe Leto</span><br>
-                      Cloud engineer focused on AWS automation.<br>
-                      This isn't just a portfolio — it's a live terminal powered by AWS.
-                    </h1>
-                    <div class="spacer-30"></div>
-                    <hr class="clip-animation" data-delay="1">
-                    <ul class="row profile-info clip-animation" data-delay="1">
-                      <li class="col-xl-4 col-lg-6"><a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf" target="_blank" title="Download CV"><i class="fas fa-file-alt">
-						  </i> <span>Download CV</span></a></li>
-                      <li class="col-xl-4 col-lg-6"> <a target="_blank" href="mailto:joe@josephaleto.io"><i
-                            class="fa-solid fa-at"></i> <span>joe@josephaleto.io</span></a></li>
-                      <li class="col-xl-4 col-lg-6"> <i class="fa-solid fa-location-dot"></i> <span>Ashburn, Virginia</span></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="spacer-30"></div>
-                <div class="clip-animation" data-delay="1.1" style="max-width: 820px; color: #d0d0d0; text-align: center; margin: 0 auto;">
-                  <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1rem;">
-                    Hands-on cloud engineer specializing in AWS automation and infrastructure as code.
-                  </p>
-                  <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1rem;">
-                    This terminal connects to live AWS services: Lambda, API Gateway, DynamoDB, S3 — all built with Terraform, deployed through GitHub Actions, and versioned from the ground up.
-                  </p>
-                  <p style="line-height: 1.8; font-size: 1rem;">
-                    I learn best by building — and this is what I’ve built.
-                  </p>
-                </div>
-
-                <div class="desktop-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 0.9rem; margin-bottom: -40px;">
-                  ↓ open terminal to explore
-                </div>
-        
-              </section>
-
-              <!-- Interactive Terminal Section -->
-              <style>
-                @media screen and (max-width: 768px) {
-                  #infraMirrorConsole {
-                    margin: 2rem 1rem;
-                    max-width: 100%;
-                  }
-                }
-              </style>
-              <section id="infraMirrorConsole" style="margin: 4rem auto 3rem; max-width: 960px;">
-                <h2 class="sr-only">Cloud Resume Terminal</h2>
-                <div style="border-radius: 8px; box-shadow: 0 0 20px rgba(0,195,255,0.5); background-color: #111;">
-                  <div style="padding-top: 30px; padding-bottom: 0;">
-                    <!-- Removed InfraMirror Console title for cleaner appearance -->
-                  </div>
-                  <div style="background-color: #222; padding: 10px 16px; color: #ccc; font-family: monospace; font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #333;">
-                    <span style="color: #4caf50;">joe@josephaleto.io</span><span style="opacity: 0.6;">:~$</span>
-                    <div style="display: flex; gap: 6px;">
-                      <div style="height: 12px; width: 12px; background: #ff5f56; border-radius: 50%;"></div>
-                      <div style="height: 12px; width: 12px; background: #ffbd2e; border-radius: 50%;"></div>
-                      <div style="height: 12px; width: 12px; background: #27c93f; border-radius: 50%;"></div>
-                    </div>
-                  </div>
-                  <style>
-                    .sr-only {
-                      position: absolute;
-                      width: 1px;
-                      height: 1px;
-                      padding: 0;
-                      margin: -1px;
-                      overflow: hidden;
-                      clip: rect(0,0,0,0);
-                      border: 0;
-                    }
-                    #terminal {
-                      background: #0a0a0a !important;
-                      color: #33ff33;
-                      font-family: monospace;
-                      font-size: 14px;
-                      padding: 20px 18px 12px 18px !important;
-                      border-radius: 0 0 8px 8px;
-                      max-height: 3.5rem;
-                      height: 3.5rem;
-                      transition: max-height 0.6s cubic-bezier(.4,1.6,.4,1), height 0.6s cubic-bezier(.4,1.6,.4,1);
-                      overflow: hidden;
-                      overflow-y: auto;
-                      box-sizing: border-box;
-                      scrollbar-color: #00c3ff #111;
-                      position: relative;
-                      display: flex;
-                      flex-direction: column;
-                      gap: 0;
-                    }
-                    #terminal, #terminal-content > div {
-                      color: #33ff33; /* Classic green terminal look */
-                    }
-                    #terminal-content {
-                      flex: 1 1 auto;
-                      width: 100%;
-                      margin-bottom: 0;
-                      overflow: visible;
-                    }
-                    #terminal input {
-                      font-family: inherit;
-                      font-size: 14px;
-                      padding: 0 0 0 0;
-                      margin: 0;
-                      background: transparent;
-                      border: none;
-                      color: #e0f7ff;
-                      outline: none;
-                      width: calc(100% - 2em);
-                      letter-spacing: 0.5px;
-                      caret-color: transparent;
-                      position: relative;
-                      z-index: 2;
-                    }
-                    #terminal-input {
-                      color: #e0f7ff;
-                      background: none;
-                    }
-                    #terminal-input::after {
-                      content: '▉';
-                      display: inline-block;
-                      animation: blink-caret 1.1s steps(1) infinite;
-                      color: #00ffff;
-                      font-weight: bold;
-                      margin-left: 1px;
-                      text-shadow: 0 0 6px #00ffff, 0 0 10px #00eaff;
-                    }
-                    @keyframes blink-caret {
-                      0%, 60% { opacity: 1; }
-                      61%, 100% { opacity: 0; }
-                    }
-                    #terminal-content > div {
-                      white-space: pre-wrap;
-                      margin-bottom: 4px;
-                      font-family: inherit;
-                      font-size: inherit;
-                      color: inherit;
-                      word-break: break-word;
-                    }
-                    .terminal-input-row {
-                      display: flex;
-                      align-items: center;
-                      gap: 0;
-                      margin: 0;
-                      padding: 0;
-                    }
-                    .terminal-input-row span {
-                      color: #00ffff;
-                      font-weight: bold;
-                      font-size: 15px;
-                      margin-right: 4px;
-                      letter-spacing: 0.5px;
-                      text-shadow: 0 0 6px #00eaff, 0 0 10px #00ffff;
-                    }
-                    .flash-error {
-                      animation: flashError 1.3s ease;
-                    }
-                    @keyframes flashError {
-                      0% { background: none; color: #ff4e4e; opacity: 0.2;}
-                      15% { background: #440000; color: #ff4e4e; opacity: 1;}
-                      60% { background: #440000; color: #ff4e4e; opacity: 1;}
-                      100% { background: none; color: #ff4e4e; opacity: 0;}
-                    }
-                    /* Tab suggestion style */
-                    .terminal-suggestion {
-                      color: #00ffff;
-                      margin-top: 2px;
-                      font-size: 13px;
-                      font-family: monospace;
-                      opacity: 0.85;
-                      text-shadow: 0 0 6px #00eaff, 0 0 10px #00ffff;
-                      padding-left: 12px;
-                      transition: opacity 0.2s;
-                    }
-                    /* Terminal content fade for clear */
-                    .terminal-fade {
-                      transition: opacity 0.5s;
-                      opacity: 0;
-                    }
-                  </style>
-                    <div id="terminal" class="collapsed">
-                      <div id="terminal-content"></div>
-                      <div id="terminal-suggestion" class="terminal-suggestion" style="display:none;"></div>
-                      <div class="terminal-input-row">
-                        <span id="terminal-prompt">joe@josephaleto.io:~$</span><input id="terminal-input" type="text" autocomplete="off" autofocus />
-                      </div>
-                    </div>
-                </div>
-              </section>
-    
-
-              <!-- RESUME -->
-              <section id="resume">
-                <div class="spacer-75"></div>
-              <!-- Page Caption -->
-              <div class="section-title page-caption">
-                <h5>My Resume</h5>
-                    <div class="zigzag">
-                      <hr class="left">
-                      <hr class="right">
-                      <svg xml:space="preserve" viewBox="0 0 69.172 14.975" width="37" height="28" y="0px" x="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1">
-                      <path d="M1.357,12.26 10.807,2.81 20.328,12.332
-                      29.781,2.879 39.223,12.321 48.754,2.79 58.286,12.321 67.815,2.793 " style="stroke-dasharray: 93.9851, 93.9851; stroke-dashoffset: 0;"></path>
-                      </svg>
-                    </div>
-              </div>
-
-                <!-- Timeline Work -->
-                <div class="spacer-45"></div>
-                <div class="timeline-caption-outer">
-                  <div class="timeline-caption">👨‍💻 <span>Projects and Cloud Skills in Action</span></div>
-                </div>
-                <div class="timeline row">
-                  <!-- The Cloud Terminal -->
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2025</span>
-                      <h5 class="timeline-title">The Cloud Terminal</h5>
-                      <p class="timeline-description">
-                        A terminal interface built directly into my site — fully powered by AWS. Every command triggers real infrastructure. This is my resume, my lab, and my proof of work.
-                      </p>
-                      <ul class="timeline-list">
-                        <li>Commands like 'resume', 'view counter', and 'architecture' run live backend logic</li>
-                        <li>Lambda functions handle execution, API Gateway routes requests, DynamoDB stores data</li>
-                        <li>Infrastructure provisioned with Terraform and deployed through GitHub Actions</li>
-                        <li>Built to demonstrate how I design, deploy, and maintain real cloud systems</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <!-- Cloud Resume Challenge -->
-                  <div class="col-xl-6 offset-xl-6 col-lg-6 offset-lg-6 col-md-6 offset-md-6 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5" data-delay=".6">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2024</span>
-                      <h5 class="timeline-title">Cloud Resume Challenge</h5>
-                      <p class="timeline-description">
-                        My first cloud project. What started as a static resume became a functioning serverless stack that showed me how to think in infrastructure.
-                      </p>
-                      <ul class="timeline-list">
-                        <li>Hosted on S3, delivered through CloudFront, routed via Route 53</li>
-                        <li>Resume views tracked using Lambda, API Gateway, and DynamoDB</li>
-                        <li>CI/CD set up through GitHub Actions for zero-touch deployment</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <!-- Terraform Infra -->
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5" data-delay=".8">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2024</span>
-                      <h5 class="timeline-title">Infrastructure as Code (Terraform)</h5>
-                      <p class="timeline-description">
-                        I codified my full AWS stack using Terraform — no manual clicking, just clean, versioned infrastructure that can be deployed and destroyed in minutes.
-                      </p>
-                      <ul class="timeline-list">
-                        <li>Modular Terraform configs for all services: Lambda, IAM, S3, DNS, APIs</li>
-                        <li>Enabled rollback, change previews, and infrastructure drift detection</li>
-                        <li>Integrated into CI/CD pipeline for automated deployments</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="spacer-45"></div>
-                  <hr>
-                  <div class="spacer-45"></div>
-                </div>
-              </section>
-
-       
-    
-        </div> <!-- page wrapper end -->
-      </div><!-- container -->
-
-
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="view-counter" style="text-align: center; margin: 20px 0;">
-        <span class="counter-number">Couldn't read views</span>
-      </div>
-      <div style="text-align: center; font-family: monospace; font-size: 12px; color: #888; padding-bottom: 10px;">
-        <!-- Cloud engineering with hands-on infrastructure. -->
-      </div>
-      <div class="copyright">
-        <p>© 2025 Joe Leto — Cloud engineering with hands-on infrastructure.</p>
-      </div>
-      <ul class="social">      
-        <li>
-          <a target="_blank" href="https://www.linkedin.com/in/joseph-leto/">
-             <i class="fab fa-linkedin"></i> LinkedIn
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://github.com/serversorcerer">
-             <i class="fab fa-github"></i> Github
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://medium.com/@joe_92405">
-            <i class="fab fa-medium"></i> Medium
-          </a>
-        </li>
-      </ul>
+  <footer>
+    <div class="counter-number">Views: 0</div>
+    <div>
+      <a href="https://www.linkedin.com/in/joseph-leto/" target="_blank">LinkedIn</a> |
+      <a href="https://github.com/serversorcerer" target="_blank">GitHub</a> |
+      <a href="https://medium.com/@joe_92405" target="_blank">Medium</a>
     </div>
-  </div>
-</footer>
-        </main>
-      </div>
-    </div>
-  </div>
+    <div>&copy; <span id="year"></span> Joe Leto</div>
+  </footer>
 
-  <!-- Javascripts -->
-  <script src="js/jquery.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/map.js"></script>
-  <script src="js/main.js"></script>
-
-  <!-- Subtle cloud-themed matrix rain background -->
-  <canvas id="matrixRain"></canvas>
-  <script>
-  // Subtle cloud-themed matrix rain background
-  const canvas = document.getElementById("matrixRain");
-  const ctx = canvas.getContext("2d");
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+<script>
+const counterEl = document.querySelector('.counter-number');
+async function updateCounter() {
+  try {
+    const res = await fetch('https://p2g657yagqa4o4llp63id3dmgq0xzcun.lambda-url.us-east-1.on.aws/');
+    const data = await res.json();
+    counterEl.textContent = `Views: ${data.views}`;
+  } catch (e) {
+    console.error(e);
   }
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
+}
+updateCounter();
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 
-  // List of AWS/cloud terms for the rain effect
-  const awsTerms = [
-    "Lambda", "S3", "API Gateway", "DynamoDB",
-    "CloudFront", "Route 53", "GitHub Actions", "Terraform"
-  ];
-  let fontSize = 16;
-  let columns = Math.floor(canvas.width / fontSize);
-  let drops = Array(columns).fill(1);
-  let terminalMode = 'professional';
+<script>
+const terminalContent = document.getElementById('terminal-content');
+const terminalInput = document.getElementById('terminal-input');
+const terminalWrapper = document.getElementById('terminal');
+const terminalPrompt = document.getElementById('terminal-prompt');
+const terminalSuggestion = document.getElementById('terminal-suggestion');
 
-  function drawMatrixRain() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = fontSize + "px monospace";
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    if (terminalMode === 'joker') {
-      gradient.addColorStop(0, '#00ffff');
-      gradient.addColorStop(0.5, '#ff00ff');
-      gradient.addColorStop(1, '#00ff66');
-    } else {
-      gradient.addColorStop(0, '#00c3ff');
-      gradient.addColorStop(1, '#001b44');
-    }
-    ctx.fillStyle = gradient;
-    for (let i = 0; i < drops.length; i++) {
-      // Pick a random AWS term for each drop
-      const text = awsTerms[Math.floor(Math.random() * awsTerms.length)];
-      ctx.globalAlpha = terminalMode === 'joker'
-        ? 0.9 + Math.random() * 0.1
-        : 0.7 + Math.random() * 0.2;
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-      ctx.globalAlpha = 1.0;
-      // Reset drop to top with some randomness for spacing
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) {
-        drops[i] = 0;
-      }
-      drops[i] += 0.8 + Math.random() * 0.5;
-    }
+function scrollToBottom() {
+  terminalWrapper.scrollTo({ top: terminalWrapper.scrollHeight, behavior: 'smooth' });
+}
+
+const startupMsg = document.createElement('div');
+startupMsg.style.whiteSpace = 'pre-line';
+startupMsg.style.color = '#b2eaff';
+startupMsg.innerHTML = 'joe@josephaleto.io — Cloud Resume Terminal\nCurated projects. Real infrastructure. Type "help" to begin.';
+terminalContent.appendChild(startupMsg);
+scrollToBottom();
+
+const API_URL = 'https://4wmuu5rp71.execute-api.us-east-1.amazonaws.com/';
+
+const commandList = [
+  'help',
+  'aws s3 ls',
+  'view counter',
+  'terraform apply',
+  'motd',
+  'whoami',
+  'bio',
+  'resume',
+  'linkedin',
+  'github',
+  'email',
+  'projects',
+  'projects cloud-terminal',
+  'projects cloud-resume',
+  'projects terraform',
+  'stack',
+  'architecture',
+  'quote',
+  'offer',
+  'clear',
+  'exit',
+  'source code'
+];
+
+const openCommands = {
+  'resume': 'https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf',
+  'linkedin': 'https://www.linkedin.com/in/joseph-leto/',
+  'github': 'https://github.com/serversorcerer',
+  'email': 'mailto:joe@josephaleto.io',
+  'source code': 'https://github.com/serversorcerer/cloud-resume-challenge'
+};
+
+async function executeCommand(cmd) {
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ command: cmd })
+    });
+    return await res.text();
+  } catch (err) {
+    console.error(err);
+    return 'Error processing command';
   }
+}
 
-  let frameDelay = 80;
-  if (window.matchMedia('(max-width: 600px)').matches) frameDelay = 150;
-  let matrixInterval = setInterval(drawMatrixRain, frameDelay);
-
-  function startMatrixRain() {
-    clearInterval(matrixInterval);
-    matrixInterval = setInterval(drawMatrixRain, frameDelay);
-  }
-
-  function activateJokerMode() {
-    terminalMode = 'joker';
-    fontSize = 20;
-    document.getElementById('matrixRain').style.opacity = '0.3';
-    frameDelay = 40;
-    columns = Math.floor(canvas.width / fontSize);
-    drops = Array(columns).fill(1);
-    startMatrixRain();
-    terminalWrapper.classList.add('joker-active');
-    const msg = document.createElement('div');
-    msg.textContent = 'Wake up, Neo...';
-    msg.style.color = '#ff66ff';
-    terminalContent.appendChild(msg);
-    scrollToBottom();
-  }
-
-  function activateProfessionalMode() {
-    terminalMode = 'professional';
-    fontSize = 16;
-    document.getElementById('matrixRain').style.opacity = '0.12';
-    frameDelay = window.matchMedia('(max-width: 600px)').matches ? 150 : 80;
-    columns = Math.floor(canvas.width / fontSize);
-    drops = Array(columns).fill(1);
-    startMatrixRain();
-    terminalWrapper.classList.remove('joker-active');
-    const msg = document.createElement('div');
-    msg.textContent = 'Professional mode activated';
-    msg.style.color = '#33ff33';
-    terminalContent.appendChild(msg);
-    scrollToBottom();
-  }
-
-  // Recalculate columns and drops on resize
-  window.addEventListener("resize", () => {
-    columns = Math.floor(canvas.width / fontSize);
-    drops = Array(columns).fill(1);
-  });
-  </script>
-
-  <script>
-  const terminalContent = document.getElementById('terminal-content');
-  const terminalInput = document.getElementById('terminal-input');
-  const terminalWrapper = document.getElementById('terminal');
-  const terminalPrompt = document.getElementById('terminal-prompt');
-  const terminalSuggestion = document.getElementById('terminal-suggestion');
-
-  function scrollToBottom() {
-    // Always scroll terminal to show latest input/output, smoothly
-    terminalWrapper.scrollTo({ top: terminalWrapper.scrollHeight, behavior: 'smooth' });
-  }
-
-  // Simulated startup message for terminal
-  const startupMsg = document.createElement('div');
-  startupMsg.style.whiteSpace = 'pre-line';
-  startupMsg.style.color = '#b2eaff';
-  startupMsg.innerHTML =
-    'joe@josephaleto.io — Cloud Resume Terminal\nCurated projects. Real infrastructure. Type "help" to begin.';
-  terminalContent.appendChild(startupMsg);
-  scrollToBottom();
-
-  // Terminal commands served by backend
-  // Endpoint for Lambda-backed command processor
-  const API_URL = 'https://4wmuu5rp71.execute-api.us-east-1.amazonaws.com/';
-
-  const commandList = [
-    'help',
-    'aws s3 ls',
-    'view counter',
-    'terraform apply',
-    'motd',
-    'whoami',
-    'bio',
-    'resume',
-    'linkedin',
-    'github',
-    'email',
-    'projects',
-    'projects cloud-terminal',
-    'projects cloud-resume',
-    'projects terraform',
-    'stack',
-    'architecture',
-    'quote',
-    'offer',
-    'clear',
-    'exit',
-    'source code'
-    ,'joker mode'
-    ,'professional mode'
-  ];
-
-  const openCommands = {
-    'resume': 'https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf',
-    'linkedin': 'https://www.linkedin.com/in/joseph-leto/',
-    'github': 'https://github.com/serversorcerer',
-    'email': 'mailto:joe@josephaleto.io',
-    'source code': 'https://github.com/serversorcerer/cloud-resume-challenge'
-  };
-
-  async function executeCommand(cmd) {
-    try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ command: cmd })
-      });
-      return await res.text();
-    } catch (err) {
-      console.error(err);
-      return 'Error processing command';
-    }
-  }
-
-  // Command history
-  let commandHistory = [];
-  let historyIndex = -1;
-let offerState = null; // null, 'name', 'email', 'company', 'message'
+let commandHistory = [];
+let historyIndex = -1;
+let offerState = null;
 let offerName = '';
 let offerEmail = '';
 let offerCompany = '';
 let offerMessage = '';
 
-  // Expand terminal on first keystroke in input
-  let terminalExpanded = false;
-  terminalInput.addEventListener('keydown', function(e) {
-    if (!terminalExpanded) {
-      terminalExpanded = true;
-      terminalWrapper.classList.remove('collapsed');
-      terminalWrapper.style.maxHeight = '60vh';
-      terminalWrapper.style.height = '60vh';
-      setTimeout(scrollToBottom, 200);
-    }
-  }, { once: true });
+let terminalExpanded = false;
+terminalInput.addEventListener('keydown', function(e) {
+  if (!terminalExpanded) {
+    terminalExpanded = true;
+    terminalWrapper.style.maxHeight = '60vh';
+    terminalWrapper.style.height = '60vh';
+    setTimeout(scrollToBottom, 200);
+  }
+}, { once: true });
 
-  // Tab-completion and suggestion
-  terminalInput.addEventListener('input', function(e) {
+terminalInput.addEventListener('input', function() {
+  const val = terminalInput.value.trim().toLowerCase();
+  if (!val) { terminalSuggestion.style.display = 'none'; return; }
+  let matches = commandList.filter(cmd => cmd.startsWith(val));
+  if (!matches.length) matches = commandList.filter(cmd => cmd.includes(val));
+  if (matches.length && matches[0].toLowerCase() !== val) {
+    terminalSuggestion.style.display = 'block';
+    terminalSuggestion.textContent = matches[0];
+  } else {
+    terminalSuggestion.style.display = 'none';
+  }
+});
+
+terminalInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Tab') {
+    e.preventDefault();
     const val = terminalInput.value.trim().toLowerCase();
-    if (!val) {
+    let matches = commandList.filter(cmd => cmd.startsWith(val));
+    if (!matches.length) matches = commandList.filter(cmd => cmd.includes(val));
+    if (matches.length) {
+      terminalInput.value = matches[0];
       terminalSuggestion.style.display = 'none';
-      return;
     }
-    // Show closest matching command if not exact
+  }
+});
+
+terminalInput.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+    if (commandHistory.length === 0) return;
+    if (e.key === 'ArrowUp') {
+      historyIndex = (historyIndex <= 0) ? commandHistory.length - 1 : historyIndex - 1;
+    } else if (e.key === 'ArrowDown') {
+      historyIndex = (historyIndex >= commandHistory.length - 1) ? 0 : historyIndex + 1;
+    }
+    terminalInput.value = commandHistory[historyIndex];
+    const val = terminalInput.value.trim().toLowerCase();
     let matches = commandList.filter(cmd => cmd.startsWith(val));
     if (!matches.length) matches = commandList.filter(cmd => cmd.includes(val));
     if (matches.length && matches[0].toLowerCase() !== val) {
@@ -679,271 +252,163 @@ let offerMessage = '';
     } else {
       terminalSuggestion.style.display = 'none';
     }
-  });
-  // Tab-complete on Tab
-  terminalInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      const val = terminalInput.value.trim().toLowerCase();
-      let matches = commandList.filter(cmd => cmd.startsWith(val));
-      if (!matches.length) matches = commandList.filter(cmd => cmd.includes(val));
-      if (matches.length) {
-        terminalInput.value = matches[0];
-        terminalSuggestion.style.display = 'none';
-      }
-    }
-  });
+    e.preventDefault();
+  }
+});
 
-  // Command history navigation
-  terminalInput.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-      if (commandHistory.length === 0) return;
-      if (e.key === 'ArrowUp') {
-        historyIndex = (historyIndex <= 0) ? commandHistory.length - 1 : historyIndex - 1;
-      } else if (e.key === 'ArrowDown') {
-        historyIndex = (historyIndex >= commandHistory.length - 1) ? 0 : historyIndex + 1;
-      }
-      terminalInput.value = commandHistory[historyIndex];
-      // Show suggestion for history entry
-      const val = terminalInput.value.trim().toLowerCase();
-      let matches = commandList.filter(cmd => cmd.startsWith(val));
-      if (!matches.length) matches = commandList.filter(cmd => cmd.includes(val));
-      if (matches.length && matches[0].toLowerCase() !== val) {
-        terminalSuggestion.style.display = 'block';
-        terminalSuggestion.textContent = matches[0];
-      } else {
-        terminalSuggestion.style.display = 'none';
-      }
-      e.preventDefault();
-    }
-  });
-  terminalInput.addEventListener('keydown', async function(e) {
-    if (e.key === "Enter") {
-      const input = terminalInput.value.trim();
-      if (!input) return;
-      commandHistory.push(input);
-      historyIndex = commandHistory.length;
-      const output = document.createElement("div");
-      output.innerHTML = `<span style="color:#00ffff;">$</span> <span style="color:#e0f7ff;">${input}</span>`;
-      terminalContent.appendChild(output);
-      terminalSuggestion.style.display = "none";
+terminalInput.addEventListener('keydown', async function(e) {
+  if (e.key === 'Enter') {
+    const input = terminalInput.value.trim();
+    if (!input) return;
+    commandHistory.push(input);
+    historyIndex = commandHistory.length;
+    const output = document.createElement('div');
+    output.innerHTML = `<span style="color:#00ffff;">$</span> <span style="color:#e0f7ff;">${input}</span>`;
+    terminalContent.appendChild(output);
+    terminalSuggestion.style.display = 'none';
+    const cmdLower = input.toLowerCase();
 
-      const cmdLower = input.toLowerCase();
-
-      if (offerState) {
-        if (cmdLower === 'clear' || cmdLower === 'exit') {
-          offerState = null;
-          offerName = '';
-          offerEmail = '';
-          offerCompany = '';
-          offerMessage = '';
-          const resp = await executeCommand(cmdLower);
-          if (resp === "__CLEAR__") {
-            terminalContent.classList.add("terminal-fade");
-            setTimeout(() => {
-              terminalContent.innerHTML = "";
-              terminalContent.classList.remove("terminal-fade");
-            }, 500);
-          } else {
-            const r = document.createElement('div');
-            r.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
-            terminalContent.appendChild(r);
-          }
-          terminalInput.value = '';
-          scrollToBottom();
-          return;
-        }
-
-        // Updated offer flow logic
-        if (offerState === 'name') {
-          offerName = input;
-          offerState = 'email';
-          const prompt = document.createElement('div');
-          prompt.textContent = 'Enter your email:';
-          prompt.style.color = '#33ff33';
-          terminalContent.appendChild(prompt);
-          terminalInput.value = '';
-          scrollToBottom();
-          return;
-        } else if (offerState === 'email') {
-          offerEmail = input;
-          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(offerEmail);
-          if (!valid) {
-            const err = document.createElement('div');
-            err.textContent = 'Invalid email. Try again:';
-            err.style.color = '#ff6666';
-            terminalContent.appendChild(err);
-            terminalInput.value = '';
-            scrollToBottom();
-            return;
-          }
-          offerState = 'company';
-          const prompt = document.createElement('div');
-          prompt.textContent = 'Enter your company (optional):';
-          prompt.style.color = '#33ff33';
-          terminalContent.appendChild(prompt);
-          terminalInput.value = '';
-          scrollToBottom();
-          return;
-        } else if (offerState === 'company') {
-          offerCompany = input;
-          offerState = 'message';
-          const prompt = document.createElement('div');
-          prompt.textContent = 'Enter your message (optional):';
-          prompt.style.color = '#33ff33';
-          terminalContent.appendChild(prompt);
-          terminalInput.value = '';
-          scrollToBottom();
-          return;
-        } else if (offerState === 'message') {
-          offerMessage = input;
-          offerState = null;
-          const payload = {
-            command: 'offer',
-            name: offerName,
-            email: offerEmail,
-            company: offerCompany,
-            message: offerMessage
-          };
-          console.log('Sending payload:', payload);
-          try {
-            const res = await fetch(API_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-            const text = await res.text();
-            const msg = document.createElement('div');
-            msg.textContent = res.ok ? '✅ Offer sent!' : text;
-            msg.style.color = '#33ff33';
-            terminalContent.appendChild(msg);
-          } catch (err) {
-            const errDiv = document.createElement('div');
-            errDiv.textContent = 'Error sending offer';
-            errDiv.style.color = '#ff6666';
-            terminalContent.appendChild(errDiv);
-          }
-          terminalInput.value = '';
-          scrollToBottom();
-          return;
-        }
-      }
-
-      if (cmdLower === 'offer') {
-        offerState = 'name';
+    if (offerState) {
+      if (cmdLower === 'clear' || cmdLower === 'exit') {
+        offerState = null;
         offerName = '';
         offerEmail = '';
         offerCompany = '';
         offerMessage = '';
+        const resp = await executeCommand(cmdLower);
+        if (resp === '__CLEAR__') { terminalContent.innerHTML = ''; } else {
+          const r = document.createElement('div');
+          r.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
+          terminalContent.appendChild(r);
+        }
+        terminalInput.value = '';
+        scrollToBottom();
+        return;
+      }
+      if (offerState === 'name') {
+        offerName = input;
+        offerState = 'email';
         const prompt = document.createElement('div');
-        prompt.textContent = 'Enter your name:';
+        prompt.textContent = 'Enter your email:';
         prompt.style.color = '#33ff33';
         terminalContent.appendChild(prompt);
         terminalInput.value = '';
         scrollToBottom();
         return;
-      }
-      if (openCommands[cmdLower]) {
-        window.open(openCommands[cmdLower], '_blank');
-        const response = document.createElement('div');
-        response.textContent = `Opening ${cmdLower}...`;
-        response.style.color = '#33ff33';
-        terminalContent.appendChild(response);
-        terminalInput.value = "";
-        scrollToBottom();
-        return;
-      }
-
-      if (cmdLower === 'view counter') {
-        const count = document.querySelector('.counter-number')?.textContent.trim() || 'Unknown';
-        const response = document.createElement('div');
-        response.textContent = `Total views: ${count}`;
-        response.style.color = '#33ff33';
-        terminalContent.appendChild(response);
-        terminalInput.value = "";
-        scrollToBottom();
-        return;
-      }
-
-      if (cmdLower === 'joker mode') {
-        activateJokerMode();
-        terminalInput.value = "";
-        return;
-      }
-
-      if (cmdLower === 'professional mode') {
-        activateProfessionalMode();
-        terminalInput.value = "";
-        return;
-      }
-
-      const resp = await executeCommand(input);
-      if (resp === "__CLEAR__") {
-        terminalContent.classList.add("terminal-fade");
-        setTimeout(() => {
-          terminalContent.innerHTML = "";
-          terminalContent.classList.remove("terminal-fade");
-        }, 500);
-      } else {
-        const response = document.createElement("div");
-        if (resp.includes('<img')) {
-          response.innerHTML = resp;
-        } else {
-          response.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
+      } else if (offerState === 'email') {
+        offerEmail = input;
+        const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(offerEmail);
+        if (!valid) {
+          const err = document.createElement('div');
+          err.textContent = 'Invalid email. Try again:';
+          err.style.color = '#ff6666';
+          terminalContent.appendChild(err);
+          terminalInput.value = '';
+          scrollToBottom();
+          return;
         }
-        setTimeout(() => {
-          [...response.querySelectorAll("a")].forEach(a => {
-            a.target = "_blank";
-            a.classList.add("glow-hover");
-            a.style.color = "#00ffff";
-            a.style.textShadow = "0 0 6px #00eaff, 0 0 10px #00ffff";
-          });
-        }, 0);
-        terminalContent.appendChild(response);
+        offerState = 'company';
+        const prompt = document.createElement('div');
+        prompt.textContent = 'Enter your company (optional):';
+        prompt.style.color = '#33ff33';
+        terminalContent.appendChild(prompt);
+        terminalInput.value = '';
+        scrollToBottom();
+        return;
+      } else if (offerState === 'company') {
+        offerCompany = input;
+        offerState = 'message';
+        const prompt = document.createElement('div');
+        prompt.textContent = 'Enter your message (optional):';
+        prompt.style.color = '#33ff33';
+        terminalContent.appendChild(prompt);
+        terminalInput.value = '';
+        scrollToBottom();
+        return;
+      } else if (offerState === 'message') {
+        offerMessage = input;
+        offerState = null;
+        const payload = { command: 'offer', name: offerName, email: offerEmail, company: offerCompany, message: offerMessage };
+        try {
+          const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+          const text = await res.text();
+          const msg = document.createElement('div');
+          msg.textContent = res.ok ? '✅ Offer sent!' : text;
+          msg.style.color = '#33ff33';
+          terminalContent.appendChild(msg);
+        } catch (err) {
+          const errDiv = document.createElement('div');
+          errDiv.textContent = 'Error sending offer';
+          errDiv.style.color = '#ff6666';
+          terminalContent.appendChild(errDiv);
+        }
+        terminalInput.value = '';
+        scrollToBottom();
+        return;
       }
-      terminalInput.value = "";
+    }
+
+    if (cmdLower === 'offer') {
+      offerState = 'name';
+      offerName = '';
+      offerEmail = '';
+      offerCompany = '';
+      offerMessage = '';
+      const prompt = document.createElement('div');
+      prompt.textContent = 'Enter your name:';
+      prompt.style.color = '#33ff33';
+      terminalContent.appendChild(prompt);
+      terminalInput.value = '';
       scrollToBottom();
+      return;
     }
-  });
 
-
-  // Ensure terminal auto-scrolls on input focus (for mobile/resize)
-  terminalInput.addEventListener('focus', scrollToBottom);
-
-  // Always focus input on click anywhere inside terminal area
-  terminalWrapper.addEventListener('click', function(e) {
-    if (e.target !== terminalInput) terminalInput.focus();
-  });
-
-  // Ensure monospace font is used always in terminal
-  terminalContent.style.fontFamily = "monospace";
-  terminalInput.style.fontFamily = "monospace";
-
-  // Scroll to terminal on load if not visible
-  window.onload = function () {
-    const termRect = terminalWrapper.getBoundingClientRect();
-    if (termRect.top > window.innerHeight || termRect.bottom < 0) {
-      terminalWrapper.scrollIntoView({ behavior: "smooth" });
+    if (openCommands[cmdLower]) {
+      window.open(openCommands[cmdLower], '_blank');
+      const response = document.createElement('div');
+      response.textContent = `Opening ${cmdLower}...`;
+      response.style.color = '#33ff33';
+      terminalContent.appendChild(response);
+      terminalInput.value = '';
+      scrollToBottom();
+      return;
     }
-  };
 
-  // Style scrollbar for neon blue glow
-  const style = document.createElement('style');
-  style.innerHTML = `
-    #terminal::-webkit-scrollbar-thumb {
-      background: linear-gradient(90deg, #00ffff 30%, #00bfff 100%);
-      box-shadow: 0 0 8px #00eaff, 0 0 16px #00ffff;
-      border-radius: 6px;
+    if (cmdLower === 'view counter') {
+      const count = document.querySelector('.counter-number')?.textContent.trim() || 'Unknown';
+      const response = document.createElement('div');
+      response.textContent = `Total views: ${count.replace('Views: ','')}`;
+      response.style.color = '#33ff33';
+      terminalContent.appendChild(response);
+      terminalInput.value = '';
+      scrollToBottom();
+      return;
     }
-    #terminal::-webkit-scrollbar-track {
-      background: #0a0a0a;
+
+    const resp = await executeCommand(input);
+    if (resp === '__CLEAR__') {
+      terminalContent.innerHTML = '';
+    } else {
+      const response = document.createElement('div');
+      if (resp.includes('<img')) {
+        response.innerHTML = resp;
+      } else {
+        response.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
+      }
+      setTimeout(() => {
+        [...response.querySelectorAll('a')].forEach(a => { a.target = '_blank'; });
+      }, 0);
+      terminalContent.appendChild(response);
     }
-    #terminal::-webkit-scrollbar {
-      width: 10px;
-    }
-  `;
-  document.head.appendChild(style);
-  </script>
+    terminalInput.value = '';
+    scrollToBottom();
+  }
+});
+
+terminalInput.addEventListener('focus', scrollToBottom);
+terminalWrapper.addEventListener('click', function(e) { if (e.target !== terminalInput) terminalInput.focus(); });
+terminalContent.style.fontFamily = 'monospace';
+terminalInput.style.fontFamily = 'monospace';
+</script>
 </body>
-
 </html>
