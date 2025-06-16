@@ -2640,3 +2640,18 @@ form .site-btn{
   50% { box-shadow: 0 0 15px #00ffff; }
   100% { box-shadow: 0 0 5px #00c3ff; }
 }
+
+
+/* --------------------------------- */
+/* Terminal Output Mobile Fix        */
+/* --------------------------------- */
+.terminal-output pre {
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  display: block;
+  font-family: monospace;
+  font-size: 14px;
+  color: #33ff33;
+  padding: 0.5rem 0;
+}
