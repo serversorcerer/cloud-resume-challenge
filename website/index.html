@@ -534,7 +534,7 @@
 
   <script>
     // View Counter: expects Lambda to use DynamoDB table 'cloud-resume-views' with key { id: 'visitor_count' }
-    fetch('https://4wmuu5rp71.execute-api.us-east-1.amazonaws.com/prod/viewcount')
+    fetch('https://5nicaize7x4k2jduz3whpqnvky0iawgp.lambda-url.us-east-1.on.aws/')
       .then(response => response.json())
       .then(data => {
         const viewCounter = document.querySelector('.counter-number');
