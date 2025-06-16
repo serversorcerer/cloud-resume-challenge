@@ -87,7 +87,7 @@
               <section class="hero" id="home">
                 <div class="row">
                   <div class="col-xl-3 col-lg-4 col-md-6 profile-pic" style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 10px;">
-                    <div class="image clip-animation from-left profile-image-hero"></div>
+                    <div class="image clip-animation from-left profile-image-hero" onclick="toggleVibeMode()"></div>
                     <div class="social-links clip-animation">
                       <ul>
                         <li><a href="https://www.linkedin.com/in/joseph-leto/" target="_blank"><i class="fab fa-linkedin" style="font-size: 1.5rem;"></i></a></li>
@@ -99,7 +99,7 @@
 <style>
   /* Hero profile image: class-based, not inline */
   .profile-image-hero {
-    background-image: url(images/profile.png);
+    background-image: url('images/profile-blue.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -444,47 +444,120 @@
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 
-  // List of AWS/cloud terms for the rain effect
+  // List of AWS/cloud terms for the rain effect (full AWS stack)
   const awsTerms = [
-    "Lambda", "S3", "API Gateway", "DynamoDB",
-    "CloudFront", "Route 53", "GitHub Actions", "Terraform"
+    "Lambda", "S3", "API Gateway", "DynamoDB", "Route 53", "IAM",
+    "CloudFront", "GitHub Actions", "Terraform", "VPC", "EC2",
+    "CloudWatch", "SNS", "SQS", "ECS", "EKS", "CodeBuild", "CodePipeline",
+    "WAF", "KMS", "RDS", "Athena", "Glue"
   ];
-  let fontSize = 16;
+  let fontSize = 18;
   let columns = Math.floor(canvas.width / fontSize);
   let drops = Array(columns).fill(1);
   let terminalMode = 'professional';
 
+  // --- Intro Mode: matrix burst on load ---
+  // --- Intro Mode: matrix burst on load ---
+  let introMode = true;
+  setTimeout(() => { introMode = false; }, 1200);
+
   function drawMatrixRain() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.015)'; // trail fade effect, more persistent, maximize brightness
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = fontSize + "px monospace";
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    if (terminalMode === 'joker') {
-      gradient.addColorStop(0, '#00ffff');
-      gradient.addColorStop(0.5, '#ff00ff');
-      gradient.addColorStop(1, '#00ff66');
-    } else {
-      gradient.addColorStop(0, '#00c3ff');
-      gradient.addColorStop(1, '#001b44');
+
+    // --- Intro Mode: vibrant neon chaos burst on load (Joker-level energy) ---
+    if (introMode) {
+      const chaosChars = [
+        ...Array(96).fill().map((_, j) => String.fromCharCode(0x30A0 + j)),
+        "♠", "♥", "♦", "♣", "★", "⚡", "☁", "✦"
+      ];
+      const neonColors = ['#00eaff', '#00ffff', '#00c3ff', '#00bfff', '#ff00ff'];
+      for (let i = 0; i < drops.length; i++) {
+        const char = chaosChars[Math.floor(Math.random() * chaosChars.length)];
+        ctx.font = fontSize + "px monospace";
+        ctx.shadowBlur = 20;
+        ctx.fillStyle = neonColors[Math.floor(Math.random() * neonColors.length)];
+        ctx.shadowColor = ctx.fillStyle;
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+      ctx.shadowBlur = 0;
+      ctx.shadowColor = "transparent";
+      return;
     }
-    ctx.fillStyle = gradient;
-    for (let i = 0; i < drops.length; i++) {
-      // Pick a random AWS term for each drop
-      const text = awsTerms[Math.floor(Math.random() * awsTerms.length)];
-      ctx.globalAlpha = terminalMode === 'joker'
-        ? 0.9 + Math.random() * 0.1
-        : 0.7 + Math.random() * 0.2;
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+    // --- Professional Mode: iconic, crisp Matrix green rain, brighter and more legible ---
+    if (terminalMode === 'professional') {
+      const chaosChars = [
+        ...Array(96).fill().map((_, j) => String.fromCharCode(0x30A0 + j)), // Katakana
+        "♠", "♥", "♦", "♣", "★", "⚡", "☁", "✦"
+      ];
+      // Maximize contrast and sharpness for professional mode
       ctx.globalAlpha = 1.0;
-      // Reset drop to top with some randomness for spacing
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) {
+      fontSize = 18;
+      for (let i = 0; i < drops.length; i++) {
+        const char = chaosChars[Math.floor(Math.random() * chaosChars.length)];
+        ctx.font = fontSize + "px monospace";
+        ctx.fillStyle = '#39ff14';
+        ctx.shadowColor = '#39ff14';
+        ctx.shadowBlur = 16;
+        ctx.globalAlpha = 1.0;
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+      ctx.shadowBlur = 0;
+      ctx.shadowColor = "transparent";
+      return;
+    }
+
+    // --- Joker Mode: neon terminal accent colors ---
+    if (terminalMode === 'joker') {
+      const chaosChars = [
+        ...Array(96).fill().map((_, j) => String.fromCharCode(0x30A0 + j)), // Katakana
+        "♠", "♥", "♦", "♣", "★", "⚡", "☁", "✦"
+      ];
+      const neonColors = ['#00eaff', '#00ffff', '#00c3ff', '#00bfff', '#ff00ff'];
+      for (let i = 0; i < drops.length; i++) {
+        const char = chaosChars[Math.floor(Math.random() * chaosChars.length)];
+        ctx.font = fontSize + "px monospace";
+        ctx.shadowBlur = 10;
+        ctx.fillStyle = neonColors[Math.floor(Math.random() * neonColors.length)];
+        ctx.shadowColor = ctx.fillStyle;
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+      ctx.shadowBlur = 0;
+      ctx.shadowColor = "transparent";
+      return;
+    }
+
+    // --- Default: subtle matrix green ---
+    ctx.fillStyle = '#33ff33';
+    ctx.font = fontSize + 'px monospace';
+    for (let i = 0; i < drops.length; i++) {
+      const char = String.fromCharCode(0x30A0 + Math.random() * 96);
+      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
         drops[i] = 0;
       }
-      drops[i] += 0.8 + Math.random() * 0.5;
+      drops[i]++;
     }
   }
 
-  let frameDelay = 80;
+  let frameDelay = 60;
+  setTimeout(() => {
+    frameDelay = 100;
+    startMatrixRain(); // reapply with new delay
+  }, 1200);
   if (window.matchMedia('(max-width: 600px)').matches) frameDelay = 150;
   let matrixInterval = setInterval(drawMatrixRain, frameDelay);
 
@@ -497,30 +570,34 @@
     terminalMode = 'joker';
     fontSize = 20;
     document.getElementById('matrixRain').style.opacity = '0.3';
-    frameDelay = 40;
+    frameDelay = 70;
     columns = Math.floor(canvas.width / fontSize);
     drops = Array(columns).fill(1);
     startMatrixRain();
     terminalWrapper.classList.add('joker-active');
+    document.querySelector('.profile-image-hero').style.backgroundImage = "url('images/profile-purple.png')";
     const msg = document.createElement('div');
     msg.textContent = 'Wake up, Neo...';
     msg.style.color = '#ff66ff';
+    msg.style.textShadow = '0 0 8px #ff00ff, 0 0 16px #00ffff';
     terminalContent.appendChild(msg);
     scrollToBottom();
   }
 
   function activateProfessionalMode() {
     terminalMode = 'professional';
-    fontSize = 16;
-    document.getElementById('matrixRain').style.opacity = '0.12';
-    frameDelay = window.matchMedia('(max-width: 600px)').matches ? 150 : 80;
+    fontSize = 18;
+    document.getElementById('matrixRain').style.opacity = '0.2';
+    frameDelay = window.matchMedia('(max-width: 600px)').matches ? 150 : 100;
     columns = Math.floor(canvas.width / fontSize);
     drops = Array(columns).fill(1);
     startMatrixRain();
     terminalWrapper.classList.remove('joker-active');
+    document.querySelector('.profile-image-hero').style.backgroundImage = "url('images/profile-blue.png')";
     const msg = document.createElement('div');
     msg.textContent = 'Professional mode activated';
     msg.style.color = '#33ff33';
+    msg.style.textShadow = '0 0 8px #00eaff, 0 0 16px #00ffff';
     terminalContent.appendChild(msg);
     scrollToBottom();
   }
@@ -963,7 +1040,7 @@ let offerMessage = '';
       font-family: monospace;
       font-size: 14px;
       font-weight: 600;
-      box-shadow: 0 0 8px #00eaff;
+      box-shadow: 0 0 16px #00ffff, 0 0 32px #00c3ff;
       transition: all 0.3s ease-in-out;
     }
 
@@ -979,3 +1056,24 @@ let offerMessage = '';
 </body>
 
 </html>
+
+    #terminal-input:focus {
+      outline: none;
+      box-shadow: 0 0 6px #00ffff;
+      transition: box-shadow 0.2s ease;
+    }
+  <script>
+  // Profile image-based matrix + terminal theme toggling
+  let vibeModeActive = false;
+  function toggleVibeMode() {
+    vibeModeActive = !vibeModeActive;
+    const profileImg = document.querySelector('.profile-image-hero');
+    if (vibeModeActive) {
+      profileImg.style.backgroundImage = "url('images/profile-purple.png')";
+      activateJokerMode();
+    } else {
+      profileImg.style.backgroundImage = "url('images/profile-blue.png')";
+      activateProfessionalMode();
+    }
+  }
+  </script>

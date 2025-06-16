@@ -2670,3 +2670,21 @@ form .site-btn{
 .terminal-output pre::-webkit-scrollbar-track {
   background: transparent;
 }
+
+
+/* --------------------------------- */
+/* Terminal Glowing Caret Animation  */
+/* --------------------------------- */
+#terminal-input::after {
+  content: '▉';
+  animation: blink-caret 1s steps(1) infinite;
+  color: #00ffff;
+  font-weight: bold;
+  margin-left: 2px;
+  text-shadow: 0 0 6px #00ffff, 0 0 12px #00eaff;
+}
+
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
