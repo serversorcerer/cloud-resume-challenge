@@ -8,3 +8,14 @@ window.addEventListener('DOMContentLoaded', () => {
     .then(data => { counter.textContent = `Views: ${data.views}`; })
     .catch(() => {});
 });
+
+// Enhance terminal response formatting for ASCII diagrams
+function createTerminalResponse(resp) {
+  const response = document.createElement("div");
+  if (resp.includes('<img')) {
+    response.innerHTML = resp;
+  } else {
+    response.innerHTML = `<pre style="white-space: pre-wrap; overflow-x: auto; color:#33ff33;">${resp}</pre>`;
+  }
+  return response;
+}
