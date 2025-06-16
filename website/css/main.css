@@ -2606,3 +2606,37 @@ form .site-btn{
   55% { opacity: 0.9; }
   60% { opacity: 0.6; }
 }
+
+
+/* --------------------------------- */
+/* Open Terminal Button Styles       */
+/* --------------------------------- */
+#terminal-button {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1000;
+  background: #00c3ff;
+  color: #000;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 0 10px #00ffff;
+  animation: pulseTerminalButton 1.5s ease-in-out infinite;
+  transition: all 0.3s ease-in-out;
+}
+
+#terminal-button:hover {
+  transform: scale(1.1);
+  background-color: #00ffff;
+}
+
+@keyframes pulseTerminalButton {
+  0% { box-shadow: 0 0 5px #00c3ff; }
+  50% { box-shadow: 0 0 15px #00ffff; }
+  100% { box-shadow: 0 0 5px #00c3ff; }
+}
