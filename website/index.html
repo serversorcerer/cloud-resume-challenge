@@ -849,6 +849,22 @@ let offerMessage = '';
         return;
       }
 
+      // Short-circuit mobile 'architecture' command before backend call
+      if (input.toLowerCase() === 'architecture' && window.innerWidth < 768) {
+        const img = document.createElement('img');
+        img.src = 'images/architecture.png';
+        img.alt = 'Cloud Architecture';
+        img.style.maxWidth = '100%';
+        img.style.marginTop = '1rem';
+
+        const container = document.createElement('div');
+        container.classList.add('terminal-output');
+        container.appendChild(img);
+        terminalContent.appendChild(container);
+        terminalInput.value = "";
+        scrollToBottom();
+        return;
+      }
       const resp = await executeCommand(input);
       if (resp === "__CLEAR__") {
         terminalContent.classList.add("terminal-fade");
