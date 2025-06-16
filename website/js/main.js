@@ -46,3 +46,12 @@ function handleArchitectureCommand(command, resp, terminalOutput) {
 
   return true;
 }
+
+
+// Intercept architecture output before rendering normally
+window.addEventListener('architecture-response', (event) => {
+  const { command, resp, terminalOutput } = event.detail;
+  if (!handleArchitectureCommand(command, resp, terminalOutput)) {
+    terminalOutput.appendChild(createTerminalResponse(resp));
+  }
+});
