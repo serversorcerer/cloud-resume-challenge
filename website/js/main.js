@@ -25,25 +25,24 @@ function createTerminalResponse(resp) {
 
 // Handle mobile-specific rendering for the 'architecture' command
 function handleArchitectureCommand(command, resp, terminalOutput) {
-  if (command === 'architecture') {
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) {
-      const img = document.createElement('img');
-      img.src = 'images/architecture.png';
-      img.alt = 'Cloud Architecture';
-      img.style.maxWidth = '100%';
-      img.style.marginTop = '1rem';
+  if (command !== 'architecture') return false;
 
-      const container = document.createElement('div');
-      container.classList.add('terminal-output');
-      container.appendChild(img);
-      terminalOutput.appendChild(container);
-    } else {
-      if (!handleArchitectureCommand(command, resp, terminalOutput)) {
-        terminalOutput.appendChild(createTerminalResponse(resp));
-      }
-    }
-    return true;
+  const isMobile = window.innerWidth < 768;
+
+  if (isMobile) {
+    const img = document.createElement('img');
+    img.src = 'images/architecture.png';
+    img.alt = 'Cloud Architecture';
+    img.style.maxWidth = '100%';
+    img.style.marginTop = '1rem';
+
+    const container = document.createElement('div');
+    container.classList.add('terminal-output');
+    container.appendChild(img);
+    terminalOutput.appendChild(container);
+  } else {
+    terminalOutput.appendChild(createTerminalResponse(resp));
   }
-  return false;
+
+  return true;
 }
