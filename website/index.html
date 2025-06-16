@@ -533,22 +533,23 @@
   </script>
 
   <script>
-    // View Counter: expects Lambda to use DynamoDB table 'cloud-resume-views' with key { id: 'visitor_count' }
-    fetch('https://5nicaize7x4k2jduz3whpqnvky0iawgp.lambda-url.us-east-1.on.aws/')
-      .then(response => response.json())
-      .then(data => {
-        const viewCounter = document.querySelector('.counter-number');
-        if (viewCounter && data.views !== undefined) {
-          viewCounter.textContent = data.views;
-        } else {
-          viewCounter.textContent = 'View error';
-        }
-      })
-      .catch(err => {
-        console.error('Error fetching view count:', err);
-        const viewCounter = document.querySelector('.counter-number');
-        if (viewCounter) viewCounter.textContent = 'Error';
-      });
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch('https://5nicaize7x4k2jduz3whpqnvky0iawgp.lambda-url.us-east-1.on.aws/')
+        .then(res => res.json())
+        .then(data => {
+          const viewCounter = document.querySelector('.counter-number');
+          if (viewCounter && data.views !== undefined) {
+            viewCounter.textContent = data.views;
+          } else if (viewCounter) {
+            viewCounter.textContent = 'View error';
+          }
+        })
+        .catch((err) => {
+          console.error('View count fetch failed:', err);
+          const viewCounter = document.querySelector('.counter-number');
+          if (viewCounter) viewCounter.textContent = 'Error';
+        });
+    });
   </script>
 
   <script>
