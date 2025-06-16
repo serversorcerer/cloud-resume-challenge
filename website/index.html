@@ -857,21 +857,37 @@ let offerMessage = '';
           terminalContent.classList.remove("terminal-fade");
         }, 500);
       } else {
-        const response = document.createElement("div");
-        if (resp.includes('<img')) {
-          response.innerHTML = resp;
+        // Mobile-specific rendering for 'architecture'
+        if (input.toLowerCase() === 'architecture' && window.innerWidth < 768) {
+          const img = document.createElement('img');
+          img.src = 'images/architecture.png';
+          img.alt = 'Cloud Architecture';
+          img.style.maxWidth = '100%';
+          img.style.marginTop = '1rem';
+
+          const container = document.createElement('div');
+          container.classList.add('terminal-output');
+          container.appendChild(img);
+          terminalContent.appendChild(container);
         } else {
-          response.innerHTML = `<pre style="white-space: pre-wrap; overflow-x: auto; color:#33ff33;">${resp}</pre>`;
+          const response = document.createElement("div");
+          if (resp.includes('<img')) {
+            response.innerHTML = resp;
+          } else {
+            response.innerHTML = `<pre style="white-space: pre-wrap; overflow-x: auto; color:#33ff33;">${resp}</pre>`;
+          }
+
+          setTimeout(() => {
+            [...response.querySelectorAll("a")].forEach(a => {
+              a.target = "_blank";
+              a.classList.add("glow-hover");
+              a.style.color = "#00ffff";
+              a.style.textShadow = "0 0 6px #00eaff, 0 0 10px #00ffff";
+            });
+          }, 0);
+
+          terminalContent.appendChild(response);
         }
-        setTimeout(() => {
-          [...response.querySelectorAll("a")].forEach(a => {
-            a.target = "_blank";
-            a.classList.add("glow-hover");
-            a.style.color = "#00ffff";
-            a.style.textShadow = "0 0 6px #00eaff, 0 0 10px #00ffff";
-          });
-        }, 0);
-        terminalContent.appendChild(response);
       }
       terminalInput.value = "";
       scrollToBottom();
