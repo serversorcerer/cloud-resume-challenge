@@ -11,11 +11,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Enhance terminal response formatting for ASCII diagrams
 function createTerminalResponse(resp) {
-  const response = document.createElement("div");
   if (resp.includes('<img')) {
-    response.innerHTML = resp;
+    const container = document.createElement("div");
+    container.innerHTML = resp;
+    return container;
   } else {
-    response.innerHTML = `<pre style="white-space: pre-wrap; overflow-x: auto; color:#33ff33;">${resp}</pre>`;
+    const pre = document.createElement("pre");
+    pre.textContent = resp;
+    pre.classList.add("terminal-output");
+    return pre;
   }
-  return response;
 }
