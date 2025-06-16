@@ -861,7 +861,7 @@ let offerMessage = '';
         if (resp.includes('<img')) {
           response.innerHTML = resp;
         } else {
-          response.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
+          response.innerHTML = `<pre style="white-space: pre-wrap; overflow-x: auto; color:#33ff33;">${resp}</pre>`;
         }
         setTimeout(() => {
           [...response.querySelectorAll("a")].forEach(a => {

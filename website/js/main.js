@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', () => {
   if (!counter) return;
   fetch('https://p2g657yagqa4o4llp63id3dmgq0xzcun.lambda-url.us-east-1.on.aws/')
     .then(r => r.json())
-    .then(data => { counter.textContent = `Views: ${data.views}`; })
+    .then(data => { counter.innerHTML = `<pre style="white-space: pre-wrap; overflow-x: auto;">Views: ${data.views}</pre>`; })
     .catch(() => {});
 });
 
