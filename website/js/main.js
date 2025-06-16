@@ -39,7 +39,9 @@ function handleArchitectureCommand(command, resp, terminalOutput) {
       container.appendChild(img);
       terminalOutput.appendChild(container);
     } else {
-      terminalOutput.appendChild(createTerminalResponse(resp));
+      if (!handleArchitectureCommand(command, resp, terminalOutput)) {
+        terminalOutput.appendChild(createTerminalResponse(resp));
+      }
     }
     return true;
   }
