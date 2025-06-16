@@ -299,7 +299,7 @@
                       <div id="terminal-content"></div>
                       <div id="terminal-suggestion" class="terminal-suggestion" style="display:none;"></div>
                       <div class="terminal-input-row">
-                        <span id="terminal-prompt">joe@josephaleto.io:~$</span><input id="terminal-input" type="text" autocomplete="off" autofocus />
+                        <span id="terminal-prompt">joe@josephaleto.io:~$</span><input id="terminal-input" type="text" autocomplete="off" />
                       </div>
                     </div>
                 </div>
@@ -530,6 +530,24 @@
     columns = Math.floor(canvas.width / fontSize);
     drops = Array(columns).fill(1);
   });
+  </script>
+
+  <script>
+    fetch('https://4wmuu5rp71.execute-api.us-east-1.amazonaws.com/prod/viewcount')
+      .then(response => response.json())
+      .then(data => {
+        const viewCounter = document.querySelector('.counter-number');
+        if (viewCounter && data.count !== undefined) {
+          viewCounter.textContent = data.count;
+        } else {
+          viewCounter.textContent = 'View error';
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching view count:', err);
+        const viewCounter = document.querySelector('.counter-number');
+        if (viewCounter) viewCounter.textContent = 'Error';
+      });
   </script>
 
   <script>
@@ -871,13 +889,6 @@ let offerMessage = '';
   terminalContent.style.fontFamily = "monospace";
   terminalInput.style.fontFamily = "monospace";
 
-  // Scroll to terminal on load if not visible
-  window.onload = function () {
-    const termRect = terminalWrapper.getBoundingClientRect();
-    if (termRect.top > window.innerHeight || termRect.bottom < 0) {
-      terminalWrapper.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   // Style scrollbar for neon blue glow
   const style = document.createElement('style');
@@ -896,6 +907,21 @@ let offerMessage = '';
   `;
   document.head.appendChild(style);
   </script>
+  <style>
+    @keyframes fadeInPulse {
+      0% { opacity: 0; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    #terminal-button {
+      animation: fadeInPulse 1.8s ease-out 2s forwards;
+      opacity: 0;
+    }
+  </style>
+  <button id="terminal-button" onclick="document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' })"
+    style="position: fixed; bottom: 16px; right: 16px; z-index: 1000; background: #00c3ff; color: #000; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-family: monospace;">
+    Open Terminal ⌨️
+  </button>
 </body>
 
 </html>
