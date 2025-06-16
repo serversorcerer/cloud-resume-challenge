@@ -12,7 +12,7 @@
   <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/main.min.css" />
 
   <!-- Google Web fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,42 +72,10 @@
  ( C | L | O | U | D |   | D | E )
   \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ 
   -->
-  <div class="overlay-shade"></div>
-  <div class="floating-cloud">~~~ cloud initialized ~~~</div>
-
-  <!-- Preloader  -->
-  <div id="loader" class="preloader">
-    <div class="loading">
-      <div class="ascii-header" style="text-align: center; color: #00c3ff; font-family: monospace; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-        <pre style="margin: 0; padding: 0;">
-
-
-:'######::'##::::::::'#######::'##::::'##:'########:::::'########::'########:'##::::'##:
-'##... ##: ##:::::::'##.... ##: ##:::: ##: ##.... ##:::: ##.... ##: ##.....:: ##:::: ##:
- ##:::..:: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ##::::::: ##:::: ##:
- ##::::::: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ######::: ##:::: ##:
- ##::::::: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ##...::::. ##:: ##::
- ##::: ##: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##:::: ##: ##::::::::. ## ##:::
-. ######:: ########:. #######::. #######:: ########::::: ########:: ########:::. ###::::
-:......:::........:::.......::::.......:::........::::::........:::........:::::...:::::
-
-
-        </pre>
-<p style="margin-top: 10px; font-size: 12px; color: #79e0ff;">
-  The Cloud Terminal · Joe Leto<br>
-  Real Cloud · Proof of Work
-</p>      </div>
-      <div class="profile-image">
-        <img src="images/profile.png" alt="Loading Profile">
-      </div>
-    </div>
-  </div>
-  <!-- Preloader End -->
 
 
   <div class="page-cover">
     <div id="page-scroll">
-      <div class="barba-wrapper" data-barba="wrapper">
         <main data-barba="container">
           <!-- Page Wrapper -->
           <div class="container">
@@ -141,7 +109,7 @@
     border-radius: 50%;
     width: 14rem;
     height: 14rem;
-    overflow: hidden;
+    overflow: auto;
     box-shadow: 0 0 30px rgba(0,195,255,0.7), 0 0 60px rgba(0,195,255,0.4);
     border: 5px solid rgba(0,195,255,0.5);
     transition: transform 0.3s ease-in-out;
@@ -215,7 +183,7 @@
                       height: 1px;
                       padding: 0;
                       margin: -1px;
-                      overflow: hidden;
+                      overflow: auto;
                       clip: rect(0,0,0,0);
                       border: 0;
                     }
@@ -226,10 +194,9 @@
                       font-size: 14px;
                       padding: 20px 18px 12px 18px !important;
                       border-radius: 0 0 8px 8px;
-                      max-height: 3.5rem;
-                      height: 3.5rem;
-                      transition: max-height 0.6s cubic-bezier(.4,1.6,.4,1), height 0.6s cubic-bezier(.4,1.6,.4,1);
-                      overflow: hidden;
+                      max-height: 60vh;
+                      height: 60vh;
+                      overflow: auto;
                       overflow-y: auto;
                       box-sizing: border-box;
                       scrollbar-color: #00c3ff #111;
@@ -328,7 +295,7 @@
                       opacity: 0;
                     }
                   </style>
-                    <div id="terminal" class="collapsed">
+                    <div id="terminal">
                       <div id="terminal-content"></div>
                       <div id="terminal-suggestion" class="terminal-suggestion" style="display:none;"></div>
                       <div class="terminal-input-row">
@@ -457,14 +424,11 @@
 </footer>
         </main>
       </div>
-    </div>
   </div>
 
   <!-- Javascripts -->
-  <script src="js/jquery.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/map.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/jquery.js" defer></script>
+  <script src="js/main.min.js" defer></script>
 
   <!-- Subtle cloud-themed matrix rain background -->
   <canvas id="matrixRain"></canvas>
@@ -650,18 +614,6 @@ let offerName = '';
 let offerEmail = '';
 let offerCompany = '';
 let offerMessage = '';
-
-  // Expand terminal on first keystroke in input
-  let terminalExpanded = false;
-  terminalInput.addEventListener('keydown', function(e) {
-    if (!terminalExpanded) {
-      terminalExpanded = true;
-      terminalWrapper.classList.remove('collapsed');
-      terminalWrapper.style.maxHeight = '60vh';
-      terminalWrapper.style.height = '60vh';
-      setTimeout(scrollToBottom, 200);
-    }
-  }, { once: true });
 
   // Tab-completion and suggestion
   terminalInput.addEventListener('input', function(e) {
