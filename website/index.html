@@ -748,6 +748,8 @@ let offerMessage = '';
       if (!matches.length) matches = commandList.filter(cmd => cmd.includes(val));
       if (matches.length) {
         terminalInput.value = matches[0];
+        const typedText = document.getElementById('typedText');
+        if (typedText) typedText.textContent = terminalInput.value;
         terminalSuggestion.style.display = 'none';
       }
     }
