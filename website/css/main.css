@@ -2672,19 +2672,19 @@ form .site-btn{
 }
 
 
+
+
 /* --------------------------------- */
-/* Terminal Glowing Caret Animation  */
+/* Terminal Glowing Block Cursor     */
 /* --------------------------------- */
-#terminal-input::after {
-  content: '▉';
+.blinking-cursor {
   animation: blink-caret 1s steps(1) infinite;
   color: #00ffff;
   font-weight: bold;
-  margin-left: 2px;
   text-shadow: 0 0 6px #00ffff, 0 0 12px #00eaff;
 }
 
 @keyframes blink-caret {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0; }
 }

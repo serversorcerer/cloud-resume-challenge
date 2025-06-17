@@ -233,19 +233,20 @@
                       color: #e0f7ff;
                       background: none;
                     }
-                    #terminal-input::after {
-                      content: '▉';
-                      display: inline-block;
-                      animation: blink-caret 1.1s steps(1) infinite;
+                    .blinking-cursor {
                       color: #00ffff;
                       font-weight: bold;
-                      margin-left: 1px;
+                      animation: blink-caret 1s steps(1) infinite;
                       text-shadow: 0 0 6px #00ffff, 0 0 10px #00eaff;
+                      display: inline-block;
+                      vertical-align: middle;
+                      font-size: 1.1em;
+                      margin-left: 2px;
                     }
                     @keyframes blink-caret {
                       0%, 60% { opacity: 1; }
                       61%, 100% { opacity: 0; }
-                    }
+                    s}
                     #terminal-content > div {
                       white-space: pre-wrap;
                       margin-bottom: 4px;
@@ -298,8 +299,14 @@
                     <div id="terminal">
                       <div id="terminal-content"></div>
                       <div id="terminal-suggestion" class="terminal-suggestion" style="display:none;"></div>
-                      <div class="terminal-input-row">
-                        <span id="terminal-prompt">joe@josephaleto.io:~$</span><input id="terminal-input" type="text" autocomplete="off" />
+                      <div class="terminal-input-row" style="position: relative;">
+                        <span id="terminal-prompt">joe@josephaleto.io:~$</span>
+                        <span id="typedContainer" style="display:inline;">
+                          <span id="typedText" style="color:#e0f7ff;"></span>
+                          <span class="blinking-cursor">▉</span>
+                        </span>
+                        <input id="terminal-input" type="text" autocomplete="off" spellcheck="false"
+                          style="opacity: 0; position: absolute; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: none; border: none;" />
                       </div>
                     </div>
                 </div>
@@ -714,6 +721,9 @@ let offerMessage = '';
 
   // Tab-completion and suggestion
   terminalInput.addEventListener('input', function(e) {
+    // Mirror input to visible terminal text
+    const typedText = document.getElementById('typedText');
+    if (typedText) typedText.textContent = terminalInput.value;
     const val = terminalInput.value.trim().toLowerCase();
     if (!val) {
       terminalSuggestion.style.display = 'none';
@@ -753,6 +763,9 @@ let offerMessage = '';
         historyIndex = (historyIndex >= commandHistory.length - 1) ? 0 : historyIndex + 1;
       }
       terminalInput.value = commandHistory[historyIndex];
+      // Mirror input to visible terminal text
+      const typedText = document.getElementById('typedText');
+      if (typedText) typedText.textContent = terminalInput.value;
       // Show suggestion for history entry
       const val = terminalInput.value.trim().toLowerCase();
       let matches = commandList.filter(cmd => cmd.startsWith(val));
@@ -769,6 +782,9 @@ let offerMessage = '';
   terminalInput.addEventListener('keydown', async function(e) {
     if (e.key === "Enter") {
       const input = terminalInput.value.trim();
+      // Mirror input to visible terminal text
+      const typedText = document.getElementById('typedText');
+      if (typedText) typedText.textContent = '';
       if (!input) return;
       commandHistory.push(input);
       historyIndex = commandHistory.length;
@@ -799,6 +815,7 @@ let offerMessage = '';
             terminalContent.appendChild(r);
           }
           terminalInput.value = '';
+          if (typedText) typedText.textContent = '';
           scrollToBottom();
           return;
         }
@@ -812,6 +829,7 @@ let offerMessage = '';
           prompt.style.color = '#33ff33';
           terminalContent.appendChild(prompt);
           terminalInput.value = '';
+          if (typedText) typedText.textContent = '';
           scrollToBottom();
           return;
         } else if (offerState === 'email') {
@@ -832,6 +850,7 @@ let offerMessage = '';
           prompt.style.color = '#33ff33';
           terminalContent.appendChild(prompt);
           terminalInput.value = '';
+          if (typedText) typedText.textContent = '';
           scrollToBottom();
           return;
         } else if (offerState === 'company') {
@@ -842,6 +861,7 @@ let offerMessage = '';
           prompt.style.color = '#33ff33';
           terminalContent.appendChild(prompt);
           terminalInput.value = '';
+          if (typedText) typedText.textContent = '';
           scrollToBottom();
           return;
         } else if (offerState === 'message') {
@@ -873,6 +893,7 @@ let offerMessage = '';
             terminalContent.appendChild(errDiv);
           }
           terminalInput.value = '';
+          if (typedText) typedText.textContent = '';
           scrollToBottom();
           return;
         }
@@ -889,6 +910,7 @@ let offerMessage = '';
         prompt.style.color = '#33ff33';
         terminalContent.appendChild(prompt);
         terminalInput.value = '';
+        if (typedText) typedText.textContent = '';
         scrollToBottom();
         return;
       }
@@ -899,6 +921,7 @@ let offerMessage = '';
         response.style.color = '#33ff33';
         terminalContent.appendChild(response);
         terminalInput.value = "";
+        if (typedText) typedText.textContent = '';
         scrollToBottom();
         return;
       }
@@ -910,6 +933,7 @@ let offerMessage = '';
         response.style.color = '#33ff33';
         terminalContent.appendChild(response);
         terminalInput.value = "";
+        if (typedText) typedText.textContent = '';
         scrollToBottom();
         return;
       }
@@ -917,12 +941,14 @@ let offerMessage = '';
       if (cmdLower === 'joker mode') {
         activateJokerMode();
         terminalInput.value = "";
+        if (typedText) typedText.textContent = '';
         return;
       }
 
       if (cmdLower === 'professional mode') {
         activateProfessionalMode();
         terminalInput.value = "";
+        if (typedText) typedText.textContent = '';
         return;
       }
 
@@ -983,6 +1009,7 @@ let offerMessage = '';
         }
       }
       terminalInput.value = "";
+      if (typedText) typedText.textContent = '';
       scrollToBottom();
     }
   });
@@ -990,6 +1017,12 @@ let offerMessage = '';
 
   // Ensure terminal auto-scrolls on input focus (for mobile/resize)
   terminalInput.addEventListener('focus', scrollToBottom);
+
+  // Mirror input to visible terminal text on load (in case of autofill)
+  document.addEventListener('DOMContentLoaded', () => {
+    const typedText = document.getElementById('typedText');
+    if (typedText) typedText.textContent = terminalInput.value;
+  });
 
   // Always focus input on click anywhere inside terminal area
   terminalWrapper.addEventListener('click', function(e) {
@@ -1056,24 +1089,3 @@ let offerMessage = '';
 </body>
 
 </html>
-
-    #terminal-input:focus {
-      outline: none;
-      box-shadow: 0 0 6px #00ffff;
-      transition: box-shadow 0.2s ease;
-    }
-  <script>
-  // Profile image-based matrix + terminal theme toggling
-  let vibeModeActive = false;
-  function toggleVibeMode() {
-    vibeModeActive = !vibeModeActive;
-    const profileImg = document.querySelector('.profile-image-hero');
-    if (vibeModeActive) {
-      profileImg.style.backgroundImage = "url('images/profile-purple.png')";
-      activateJokerMode();
-    } else {
-      profileImg.style.backgroundImage = "url('images/profile-blue.png')";
-      activateProfessionalMode();
-    }
-  }
-  </script>
