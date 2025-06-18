@@ -2862,7 +2862,7 @@ p.clip-animation {
 
 /* Hero profile image */
 .profile-image-hero {
-  background-image: url('images/profile-blue.png');
+  background-image: url('../images/profile-blue.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
