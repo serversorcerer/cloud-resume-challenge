@@ -2962,8 +2962,9 @@ p.clip-animation {
   animation: blink-caret 1s steps(1) infinite;
   text-shadow: 0 0 6px #00ffff, 0 0 10px #00eaff;
   display: inline-block;
-  vertical-align: middle;
-  font-size: 1.1em;
+  vertical-align: baseline;
+  font-size: 1em;
+  line-height: 1;
   margin-left: 2px;
 }
 
