@@ -2814,10 +2814,12 @@ p.clip-animation {
 
 #typedContainer {
   display: inline;
+  line-height: 1;
 }
 
 #typedText {
   color: #e0f7ff;
+  line-height: 1;
 }
 
 
@@ -2962,14 +2964,15 @@ p.clip-animation {
   animation: blink-caret 1s steps(1) infinite;
   text-shadow: 0 0 6px #00ffff, 0 0 10px #00eaff;
   display: inline-block;
-  vertical-align: middle;
-  font-size: 1.1em;
+  vertical-align: baseline;
+  font-size: 1em;
+  line-height: 1;
   margin-left: 2px;
 }
 
 .terminal-input-row {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 0;
   margin: 0;
   padding: 0;
