@@ -510,7 +510,12 @@ header nav ul li a.active{
 -------------------------------------------------------------------**/
 
 .profile-pic{
-	position: relative;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-top: 10px;
 }
 
 .profile-pic .image {
@@ -652,16 +657,20 @@ hr{
 }
 
 .profile-pic .social-links ul li a{
-	color: #000;
-	font-size: 0.9rem;
-	font-weight: 500;
-	text-decoration: none;
-	margin-right: 15px;
-	transition: all ease .3s;
-	-webkit-transition: all ease .3s;
-	-moz-transition: all ease .3s;
-	-ms-transition: all ease .3s;
-	-o-transition: all ease .3s;
+        color: #000;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        margin-right: 15px;
+        transition: all ease .3s;
+        -webkit-transition: all ease .3s;
+        -moz-transition: all ease .3s;
+        -ms-transition: all ease .3s;
+        -o-transition: all ease .3s;
+}
+
+.profile-pic .social-links i{
+        font-size: 1.5rem;
 }
 
 .profile-pic .social-links ul li a:hover{
@@ -2707,6 +2716,129 @@ p.clip-animation {
   color: #e0e0e0;
 }
 
+.cloud-emoji {
+  margin-left: 8px;
+}
+
+.glow-name {
+  color: #00c3ff;
+  font-weight: 700;
+  text-shadow: 0 0 4px #00c3ff, 0 0 8px #005eff;
+}
+
+.hero-description {
+  max-width: 820px;
+  color: #d0d0d0;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.hero-description p {
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.hero-description p:last-child {
+  margin-bottom: 0;
+}
+
+.desktop-only {
+  text-align: center;
+  color: #00c3ff;
+  font-family: monospace;
+  font-size: 0.9rem;
+  margin-bottom: -40px;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
+#infraMirrorConsole {
+  margin: 4rem auto 3rem;
+  max-width: 960px;
+}
+
+.terminal-container {
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0,195,255,0.5);
+  background-color: #111;
+}
+
+.terminal-top-pad {
+  padding-top: 30px;
+  padding-bottom: 0;
+}
+
+.terminal-bar {
+  background-color: #222;
+  padding: 10px 16px;
+  color: #ccc;
+  font-family: monospace;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+}
+
+.terminal-user {
+  color: #4caf50;
+}
+
+.terminal-path {
+  opacity: 0.6;
+}
+
+.traffic-lights {
+  display: flex;
+  gap: 6px;
+}
+
+.traffic-light {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+}
+
+.traffic-light.red { background: #ff5f56; }
+.traffic-light.yellow { background: #ffbd2e; }
+.traffic-light.green { background: #27c93f; }
+
+#terminal-suggestion {
+  display: none;
+}
+
+#typedContainer {
+  display: inline;
+}
+
+#typedText {
+  color: #e0f7ff;
+}
+
+
+.view-counter {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.footer-note {
+  text-align: center;
+  font-family: monospace;
+  font-size: 12px;
+  color: #888;
+  padding-bottom: 10px;
+}
+
+.zigzag-path {
+  stroke-dasharray: 93.9851, 93.9851;
+  stroke-dashoffset: 0;
+}
+
 #matrixRain {
   opacity: 0.12;
   transition: opacity 0.5s ease-in-out;
@@ -2814,6 +2946,14 @@ p.clip-animation {
 #terminal-input {
   color: #e0f7ff;
   background: none;
+  opacity: 0;
+  position: absolute;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .blinking-cursor {
@@ -2833,6 +2973,7 @@ p.clip-animation {
   gap: 0;
   margin: 0;
   padding: 0;
+  position: relative;
 }
 
 .terminal-input-row span {
