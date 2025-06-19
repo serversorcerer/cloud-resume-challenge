@@ -29,39 +29,6 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-  <style>
-    .glow-hover {
-      transition: text-shadow 0.4s ease;
-    }
-    .glow-hover:hover {
-      text-shadow: 0 0 6px #00c3ff, 0 0 14px #00c3ff;
-    }
-    p.clip-animation {
-      line-height: 1.7;
-      max-width: 800px;
-      color: #e0e0e0;
-    }
-    #matrixRain {
-      opacity: 0.12;
-      transition: opacity 0.5s ease-in-out;
-      pointer-events: none;
-      position: fixed;
-      z-index: -1;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    #terminal.joker-active {
-      animation: jokerGlow 1.5s infinite;
-    }
-
-    @keyframes jokerGlow {
-      0%, 100% { box-shadow: 0 0 4px #00ffff; }
-      50% { box-shadow: 0 0 15px #ff00ff; }
-    }
-  </style>
 </head>
 
 <body class=" dark-version onepage without-wrapper">
@@ -96,25 +63,6 @@
                       </ul>
                     </div>
                   </div>
-<style>
-  /* Hero profile image: class-based, not inline */
-  .profile-image-hero {
-    background-image: url('images/profile-blue.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    width: 14rem;
-    height: 14rem;
-    overflow: auto;
-    box-shadow: 0 0 30px rgba(0,195,255,0.7), 0 0 60px rgba(0,195,255,0.4);
-    border: 5px solid rgba(0,195,255,0.5);
-    transition: transform 0.3s ease-in-out;
-  }
-</style>
                   <div class="col-xl-9 col-lg-8 col-md-6 right-content">
                     <h5 class="hi classic-animation" data-delay=".5">Welcome — stay curious, build smart <span style="margin-left: 8px;">☁️</span></h5>
                     <div class="spacer-15"></div>
@@ -154,14 +102,6 @@
               </section>
 
               <!-- Interactive Terminal Section -->
-              <style>
-                @media screen and (max-width: 768px) {
-                  #infraMirrorConsole {
-                    margin: 2rem 1rem;
-                    max-width: 100%;
-                  }
-                }
-              </style>
               <section id="infraMirrorConsole" style="margin: 4rem auto 3rem; max-width: 960px;">
                 <h2 class="sr-only">Cloud Resume Terminal</h2>
                 <div style="border-radius: 8px; box-shadow: 0 0 20px rgba(0,195,255,0.5); background-color: #111;">
@@ -176,126 +116,6 @@
                       <div style="height: 12px; width: 12px; background: #27c93f; border-radius: 50%;"></div>
                     </div>
                   </div>
-                  <style>
-                    .sr-only {
-                      position: absolute;
-                      width: 1px;
-                      height: 1px;
-                      padding: 0;
-                      margin: -1px;
-                      overflow: auto;
-                      clip: rect(0,0,0,0);
-                      border: 0;
-                    }
-                    #terminal {
-                      background: #0a0a0a !important;
-                      color: #33ff33;
-                      font-family: monospace;
-                      font-size: 14px;
-                      padding: 20px 18px 12px 18px !important;
-                      border-radius: 0 0 8px 8px;
-                      max-height: 60vh;
-                      height: 60vh;
-                      overflow-y: auto;
-                      overflow-x: hidden;
-                      box-sizing: border-box;
-                      scrollbar-color: #00c3ff #111;
-                      position: relative;
-                      display: flex;
-                      flex-direction: column;
-                      gap: 0;
-                    }
-                    #terminal, #terminal-content > div {
-                      color: #33ff33; /* Classic green terminal look */
-                    }
-                    #terminal-content {
-                      flex: 1 1 auto;
-                      width: 100%;
-                      margin-bottom: 0;
-                      overflow: visible;
-                    }
-                    #terminal input {
-                      font-family: inherit;
-                      font-size: 14px;
-                      padding: 0 0 0 0;
-                      margin: 0;
-                      background: transparent;
-                      border: none;
-                      color: #e0f7ff;
-                      outline: none;
-                      width: calc(100% - 2em);
-                      letter-spacing: 0.5px;
-                      caret-color: transparent;
-                      position: relative;
-                      z-index: 2;
-                    }
-                    #terminal-input {
-                      color: #e0f7ff;
-                      background: none;
-                    }
-                    .blinking-cursor {
-                      color: #00ffff;
-                      font-weight: bold;
-                      animation: blink-caret 1s steps(1) infinite;
-                      text-shadow: 0 0 6px #00ffff, 0 0 10px #00eaff;
-                      display: inline-block;
-                      vertical-align: middle;
-                      font-size: 1.1em;
-                      margin-left: 2px;
-                    }
-                    @keyframes blink-caret {
-                      0%, 60% { opacity: 1; }
-                      61%, 100% { opacity: 0; }
-                    s}
-                    #terminal-content > div {
-                      white-space: pre-wrap;
-                      margin-bottom: 4px;
-                      font-family: inherit;
-                      font-size: inherit;
-                      color: inherit;
-                      word-break: break-word;
-                    }
-                    .terminal-input-row {
-                      display: flex;
-                      align-items: center;
-                      gap: 0;
-                      margin: 0;
-                      padding: 0;
-                    }
-                    .terminal-input-row span {
-                      color: #00ffff;
-                      font-weight: bold;
-                      font-size: 15px;
-                      margin-right: 4px;
-                      letter-spacing: 0.5px;
-                      text-shadow: 0 0 6px #00eaff, 0 0 10px #00ffff;
-                    }
-                    .flash-error {
-                      animation: flashError 1.3s ease;
-                    }
-                    @keyframes flashError {
-                      0% { background: none; color: #ff4e4e; opacity: 0.2;}
-                      15% { background: #440000; color: #ff4e4e; opacity: 1;}
-                      60% { background: #440000; color: #ff4e4e; opacity: 1;}
-                      100% { background: none; color: #ff4e4e; opacity: 0;}
-                    }
-                    /* Tab suggestion style */
-                    .terminal-suggestion {
-                      color: #00ffff;
-                      margin-top: 2px;
-                      font-size: 13px;
-                      font-family: monospace;
-                      opacity: 0.85;
-                      text-shadow: 0 0 6px #00eaff, 0 0 10px #00ffff;
-                      padding-left: 12px;
-                      transition: opacity 0.2s;
-                    }
-                    /* Terminal content fade for clear */
-                    .terminal-fade {
-                      transition: opacity 0.5s;
-                      opacity: 0;
-                    }
-                  </style>
                     <div id="terminal">
                       <div id="terminal-content"></div>
                       <div id="terminal-suggestion" class="terminal-suggestion" style="display:none;"></div>
@@ -1053,37 +873,6 @@ let offerMessage = '';
   `;
   document.head.appendChild(style);
   </script>
-  <style>
-    @keyframes bounceGlow {
-      0%, 100% { transform: translateY(0); box-shadow: 0 0 6px #00c3ff; }
-      50% { transform: translateY(-6px); box-shadow: 0 0 16px #00ffff; }
-    }
-
-    #terminal-button {
-      opacity: 1;
-      animation: bounceGlow 1.2s ease-in-out infinite;
-      position: fixed;
-      bottom: 16px;
-      right: 16px;
-      z-index: 1000;
-      background: #00c3ff;
-      color: #000;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: monospace;
-      font-size: 14px;
-      font-weight: 600;
-      box-shadow: 0 0 16px #00ffff, 0 0 32px #00c3ff;
-      transition: all 0.3s ease-in-out;
-    }
-
-    #terminal-button:hover {
-      transform: scale(1.1);
-      background-color: #00ffff;
-    }
-  </style>
   <button id="terminal-button" onclick="document.getElementById('terminal').scrollIntoView({ behavior: 'smooth', block: 'center' })"
     style="position: fixed; bottom: 16px; right: 16px; z-index: 1000; background: #00c3ff; color: #000; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-family: monospace;">
     Open Terminal ⌨️
