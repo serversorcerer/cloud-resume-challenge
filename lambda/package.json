@@ -1,0 +1,21 @@
+{
+  "name": "blackjack-lambda",
+  "version": "1.0.0",
+  "description": "Serverless blackjack game Lambda function",
+  "main": "blackjack.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1000.0",
+    "uuid": "^9.0.0"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "blackjack",
+    "game"
+  ],
+  "author": "Joe Leto",
+  "license": "MIT"
+}

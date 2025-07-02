@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack | Joe Leto</title>
+    <link rel="stylesheet" href="css/main.min.css">
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #e0f7ff;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .blackjack-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #00c3ff;
+            font-size: 2.5rem;
+            text-shadow: 0 0 8px #00c3ff;
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            color: #00c3ff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 4px #00c3ff;
+        }
+
+        .game-board {
+            background: #111;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0, 195, 255, 0.3);
+            border: 1px solid #333;
+        }
+
+        .dealer-section, .player-section {
+            margin: 20px 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #00c3ff;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            width: 70px;
+            height: 100px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 8px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            font-family: monospace;
+        }
+
+        .card.red {
+            color: #dc2626;
+        }
+
+        .card.black {
+            color: #000;
+        }
+
+        .card.hidden {
+            background: #1e40af;
+            color: white;
+        }
+
+        .card-value {
+            font-size: 12px;
+        }
+
+        .card-suit {
+            font-size: 20px;
+            align-self: center;
+        }
+
+        .hand-total {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #e0f7ff;
+        }
+
+        .game-controls {
+            margin: 30px 0;
+        }
+
+        .btn {
+            background: #00c3ff;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background: #0099cc;
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
+        }
+
+        .btn:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .game-status {
+            font-size: 1.3rem;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 20px;
+        }
+
+        .status-playing {
+            background: rgba(0, 195, 255, 0.1);
+            border: 1px solid #00c3ff;
+        }
+
+        .status-win {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+        }
+
+        .status-lose {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .status-push {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid #fbbf24;
+            color: #fbbf24;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            color: #00c3ff;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .loading {
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                gap: 5px;
+            }
+            
+            .card {
+                width: 60px;
+                height: 85px;
+                padding: 5px;
+            }
+            
+            .btn {
+                margin: 5px;
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .stats {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="blackjack-container">
+        <div class="header">
+            <h1>♠️ Blackjack ♥️</h1>
+            <a href="/" class="back-link">← Back to Terminal</a>
+        </div>
+
+        <div class="stats" id="gameStats">
+            <div class="stat-item">
+                <div class="stat-value" id="gamesPlayed">0</div>
+                <div class="stat-label">Games Played</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="gamesWon">0</div>
+                <div class="stat-label">Wins</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="winRate">0%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+        </div>
+
+        <div class="game-board">
+            <div class="dealer-section">
+                <div class="section-title">Dealer</div>
+                <div class="cards-container" id="dealerCards"></div>
+                <div class="hand-total" id="dealerTotal">Total: ?</div>
+            </div>
+
+            <div class="game-status status-playing" id="gameStatus">
+                Click "New Game" to start playing!
+            </div>
+
+            <div class="player-section">
+                <div class="section-title">Player</div>
+                <div class="cards-container" id="playerCards"></div>
+                <div class="hand-total" id="playerTotal">Total: 0</div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn" id="newGameBtn" onclick="startNewGame()">New Game</button>
+                <button class="btn" id="hitBtn" onclick="playerHit()" disabled>Hit</button>
+                <button class="btn" id="standBtn" onclick="playerStand()" disabled>Stand</button>
+                <button class="btn" id="doubleBtn" onclick="playerDouble()" disabled>Double Down</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let gameState = {
+            gameId: null,
+            playerCards: [],
+            dealerCards: [],
+            gameOver: false,
+            playerTurn: false,
+            canDouble: false
+        };
+
+        // API endpoint - update this to match your API Gateway URL
+        const API_URL = 'https://5er4v2u3n7.execute-api.us-east-1.amazonaws.com/prod/blackjack';
+
+        // Card suits and values
+        const suits = ['♠️', '♥️', '♦️', '♣️'];
+        const suitColors = { '♠️': 'black', '♥️': 'red', '♦️': 'red', '♣️': 'black' };
+
+        // Initialize game on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+        });
+
+        async function startNewGame() {
+            try {
+                setLoading(true);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'newGame' })
+                });
+
+                if (!response.ok) throw new Error('Failed to start new game');
+                
+                const data = await response.json();
+                gameState = data.gameState;
+                
+                updateDisplay();
+                enableGameControls();
+                
+                updateStatus('Your turn! Hit or Stand?');
+                
+            } catch (error) {
+                console.error('Error starting new game:', error);
+                updateStatus('Error starting game. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function playerHit() {
+            try {
+                setLoading(true);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        action: 'hit',
+                        gameId: gameState.gameId 
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to hit');
+                
+                const data = await response.json();
+                gameState = data.gameState;
+                
+                updateDisplay();
+                
+                if (data.gameState.gameOver) {
+                    handleGameEnd(data.result);
+                } else if (data.gameState.playerTurn) {
+                    updateStatus('Your turn! Hit or Stand?');
+                    gameState.canDouble = false; // Can't double after hitting
+                    document.getElementById('doubleBtn').disabled = true;
+                }
+                
+            } catch (error) {
+                console.error('Error hitting:', error);
+                updateStatus('Error processing hit. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function playerStand() {
+            try {
+                setLoading(true);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        action: 'stand',
+                        gameId: gameState.gameId 
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to stand');
+                
+                const data = await response.json();
+                gameState = data.gameState;
+                
+                updateDisplay();
+                handleGameEnd(data.result);
+                
+            } catch (error) {
+                console.error('Error standing:', error);
+                updateStatus('Error processing stand. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function playerDouble() {
+            try {
+                setLoading(true);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        action: 'double',
+                        gameId: gameState.gameId 
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to double down');
+                
+                const data = await response.json();
+                gameState = data.gameState;
+                
+                updateDisplay();
+                handleGameEnd(data.result);
+                
+            } catch (error) {
+                console.error('Error doubling down:', error);
+                updateStatus('Error processing double down. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function updateDisplay() {
+            // Update player cards
+            const playerCardsEl = document.getElementById('playerCards');
+            playerCardsEl.innerHTML = '';
+            gameState.playerCards.forEach(card => {
+                playerCardsEl.appendChild(createCardElement(card));
+            });
+
+            // Update dealer cards (hide hole card if game in progress)
+            const dealerCardsEl = document.getElementById('dealerCards');
+            dealerCardsEl.innerHTML = '';
+            gameState.dealerCards.forEach((card, index) => {
+                if (index === 1 && !gameState.gameOver) {
+                    // Hidden hole card
+                    dealerCardsEl.appendChild(createHiddenCardElement());
+                } else {
+                    dealerCardsEl.appendChild(createCardElement(card));
+                }
+            });
+
+            // Update totals
+            document.getElementById('playerTotal').textContent = `Total: ${calculateHandValue(gameState.playerCards)}`;
+            
+            if (gameState.gameOver) {
+                document.getElementById('dealerTotal').textContent = `Total: ${calculateHandValue(gameState.dealerCards)}`;
+            } else {
+                document.getElementById('dealerTotal').textContent = 'Total: ?';
+            }
+
+            // Update double down button availability
+            document.getElementById('doubleBtn').disabled = !gameState.canDouble;
+        }
+
+        function createCardElement(card) {
+            const cardEl = document.createElement('div');
+            cardEl.className = `card ${suitColors[card.suit]}`;
+            
+            cardEl.innerHTML = `
+                <div class="card-value">${card.rank}</div>
+                <div class="card-suit">${card.suit}</div>
+                <div class="card-value" style="transform: rotate(180deg);">${card.rank}</div>
+            `;
+            
+            return cardEl;
+        }
+
+        function createHiddenCardElement() {
+            const cardEl = document.createElement('div');
+            cardEl.className = 'card hidden';
+            cardEl.innerHTML = `
+                <div class="card-value">?</div>
+                <div class="card-suit">🂠</div>
+                <div class="card-value" style="transform: rotate(180deg);">?</div>
+            `;
+            return cardEl;
+        }
+
+        function calculateHandValue(cards) {
+            let value = 0;
+            let aces = 0;
+
+            cards.forEach(card => {
+                if (card.rank === 'A') {
+                    aces++;
+                    value += 11;
+                } else if (['J', 'Q', 'K'].includes(card.rank)) {
+                    value += 10;
+                } else {
+                    value += parseInt(card.rank);
+                }
+            });
+
+            // Adjust for aces
+            while (value > 21 && aces > 0) {
+                value -= 10;
+                aces--;
+            }
+
+            return value;
+        }
+
+        function handleGameEnd(result) {
+            disableGameControls();
+            
+            let statusClass = 'status-push';
+            let message = '';
+
+            switch (result) {
+                case 'win':
+                    statusClass = 'status-win';
+                    message = '🎉 You win!';
+                    break;
+                case 'lose':
+                    statusClass = 'status-lose';
+                    message = '💸 You lose!';
+                    break;
+                case 'push':
+                    statusClass = 'status-push';
+                    message = '🤝 Push (tie)!';
+                    break;
+                case 'blackjack':
+                    statusClass = 'status-win';
+                    message = '🃏 Blackjack! You win!';
+                    break;
+            }
+
+            updateStatus(message, statusClass);
+            loadStats(); // Refresh stats after game ends
+        }
+
+        function updateStatus(message, className = 'status-playing') {
+            const statusEl = document.getElementById('gameStatus');
+            statusEl.textContent = message;
+            statusEl.className = `game-status ${className}`;
+        }
+
+        function enableGameControls() {
+            document.getElementById('hitBtn').disabled = false;
+            document.getElementById('standBtn').disabled = false;
+            document.getElementById('doubleBtn').disabled = !gameState.canDouble;
+        }
+
+        function disableGameControls() {
+            document.getElementById('hitBtn').disabled = true;
+            document.getElementById('standBtn').disabled = true;
+            document.getElementById('doubleBtn').disabled = true;
+        }
+
+        function setLoading(loading) {
+            const container = document.querySelector('.blackjack-container');
+            if (loading) {
+                container.classList.add('loading');
+            } else {
+                container.classList.remove('loading');
+            }
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'getStats' })
+                });
+
+                if (!response.ok) throw new Error('Failed to load stats');
+                
+                const data = await response.json();
+                
+                document.getElementById('gamesPlayed').textContent = data.stats.gamesPlayed || 0;
+                document.getElementById('gamesWon').textContent = data.stats.gamesWon || 0;
+                
+                const winRate = data.stats.gamesPlayed > 0 
+                    ? Math.round((data.stats.gamesWon / data.stats.gamesPlayed) * 100)
+                    : 0;
+                document.getElementById('winRate').textContent = `${winRate}%`;
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+    </script>
+</body>
+</html>

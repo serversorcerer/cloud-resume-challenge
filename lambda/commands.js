@@ -26,7 +26,7 @@ exports.handler = async (event) => {
   const command = (body.command || '').trim().toLowerCase();
 
   const responses = {
-    help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\noffer               – send your info\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
+    help: `Available Commands:\n--------------------\naws s3 ls           – list S3 buckets\nview counter        – fetch visitor count\nterraform apply     – apply infra (simulated)\nblackjack           – play blackjack game\nmotd                – welcome message\nwhoami              – user identity\nbio                 – about Joe Leto\nresume              – open resume PDF\nlinkedin            – LinkedIn profile\ngithub              – GitHub profile\nemail               – contact via email\noffer               – send your info\nprojects            – list cloud projects\nstack               – show stack details\narchitecture        – show architecture diagram\nquote               – inspiration\nclear               – clear screen\nexit                – log out\nsource code         – browse source repo`,
     'aws s3 ls': '[bucket] josephaleto.io\n[bucket] resume-storage\n[bucket] inframirror-assets',
     'terraform apply': 'Applying changes...\n✓ No drift detected\n✓ Resources validated\n✓ Lambda up-to-date\n✓ DynamoDB consistent\n✓ CloudFront deployed\n\n✔ Terraform apply complete! Infrastructure looks good.',
     motd: `~~~ cloud initialized ~~~\n\nI'm Joe Leto — cloud engineer focused on AWS automation.\n\nThis isn’t just a portfolio. It’s a working terminal powered by real AWS infrastructure. Every command triggers live code I built and deployed myself.\n\nType "help" to explore.`,
@@ -80,7 +80,8 @@ exports.handler = async (event) => {
     quote: '“Ship often. Think big. Stay sharp.” – J.L.',
     clear: '__CLEAR__',
     exit: 'Logging out...\nSession terminated.',
-    'source code': 'Browse source: https://github.com/serversorcerer/cloud-resume-challenge'
+    'source code': 'Browse source: https://github.com/serversorcerer/cloud-resume-challenge',
+    blackjack: 'Opening blackjack game...\n🃏 Starting your blackjack session\n♠️ Good luck at the tables! ♥️\n\nRedirecting to: https://josephaleto.io/blackjack.html'
   };
 
   if (!command) {
