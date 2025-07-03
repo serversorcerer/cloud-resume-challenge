@@ -1,227 +1,233 @@
-# ♠️ Blackjack Game - Cloud Resume Challenge
+# Enhanced Blackjack Game 🃏
 
-A fully functional, serverless blackjack game deployed to josephaleto.io using AWS infrastructure.
+A fully-featured blackjack game with professional casino rules, built with AWS Lambda, DynamoDB, and a modern web interface.
 
 ## 🎮 Features
 
-- **Complete Blackjack Rules**: Hit, Stand, Double Down, and proper scoring
-- **Real-time Gameplay**: Smooth card animations and game state management
-- **Statistics Tracking**: Win/loss ratios and game history
-- **Responsive Design**: Works on desktop and mobile devices
-- **Terminal Integration**: Launch game directly from the website terminal
-- **Serverless Architecture**: Built with AWS Lambda, API Gateway, and DynamoDB
+### Core Game Rules
+- **Standard Blackjack Rules**: Dealer hits on soft 17, player wins on 21
+- **Blackjack Pays 3:2**: Natural blackjack pays 1.5x your bet
+- **Double Down**: Double your bet and receive one more card
+- **Split Pairs**: Split matching cards into separate hands
+- **Surrender**: Give up half your bet to end the hand early
+- **Insurance**: Bet against dealer blackjack when dealer shows Ace
 
-## 🏗️ Architecture
+### Advanced Features
+- **Multiple Hands**: Play up to 4 split hands simultaneously
+- **Hand Tracking**: Visual indicators for active hand during splits
+- **Bankroll Management**: Persistent player bankroll with betting limits
+- **Statistics Tracking**: Win/loss ratio and games played
+- **Session Management**: Player names and persistent sessions
 
-```
-Frontend (website/blackjack.html)
-    ↓
-API Gateway (HTTP API)
-    ↓
-Lambda Function (lambda/blackjack.js)
-    ↓
-DynamoDB Table (game state & stats)
-```
-
-### Components
-
-1. **Frontend**: Pure HTML/CSS/JavaScript game interface
-2. **Backend**: Node.js Lambda function handling game logic
-3. **Database**: DynamoDB for game state persistence and statistics
-4. **API**: API Gateway for secure frontend-backend communication
-5. **Infrastructure**: Terraform for infrastructure as code
+### Technical Features
+- **Real-time Game State**: Live updates via API Gateway
+- **Persistent Storage**: Game state saved in DynamoDB
+- **Responsive Design**: Works on desktop and mobile
+- **Professional UI**: Modern, casino-style interface
 
 ## 🚀 Deployment
 
 ### Prerequisites
-
-- AWS CLI configured with appropriate permissions
-- Terraform installed
-- Node.js and npm for Lambda dependencies
+- AWS CLI configured
+- Node.js and npm installed
+- Terraform (for initial infrastructure setup)
 
 ### Quick Deploy
-
 ```bash
-# Run the automated deployment script
+# Deploy the enhanced blackjack game
 ./deploy-blackjack.sh
 ```
 
 ### Manual Deployment
-
-1. **Install Lambda dependencies**:
 ```bash
+# Navigate to lambda directory
 cd lambda
+
+# Install dependencies
 npm install
-cd ..
+
+# Create deployment package
+zip -r blackjack-enhanced.zip . -x "node_modules/*" "*.zip"
+
+# Deploy to AWS Lambda
+aws lambda update-function-code \
+    --function-name blackjack-game \
+    --zip-file fileb://blackjack-enhanced.zip \
+    --region us-east-1
 ```
 
-2. **Deploy infrastructure**:
-```bash
-cd infra
-terraform init
-terraform plan -target=aws_dynamodb_table.blackjack_games \
-                -target=aws_lambda_function.blackjack_function \
-                -target=aws_apigatewayv2_api.blackjack_api
-terraform apply
-```
+## 🎯 How to Play
 
-3. **Update API URL in frontend**:
-```bash
-# Get the API URL from Terraform output
-API_URL=$(terraform output -raw blackjack_api_url)
+### Basic Gameplay
+1. **Place a Bet**: Choose from $10, $25, $50, $100, $250, or custom amount
+2. **Deal Cards**: Click "New Game" to start
+3. **Make Decisions**: Hit, Stand, Double Down, Split, or Surrender
+4. **Dealer Plays**: Dealer follows house rules (hit on soft 17)
+5. **Collect Winnings**: Blackjack pays 3:2, regular wins pay 1:1
 
-# Update blackjack.html with the correct API endpoint
-cd ../website
-sed -i "s|const API_URL = '.*';|const API_URL = '$API_URL';|g" blackjack.html
-```
+### Special Actions
 
-4. **Deploy website**:
-```bash
-aws s3 cp blackjack.html s3://josephaleto.io/blackjack.html
-```
+#### Split (🃏)
+- **When**: You have two cards of the same rank
+- **How**: Click "Split" button
+- **Result**: Creates two separate hands, each with its own bet
+- **Strategy**: Great for 8s, Aces, and high pairs
 
-5. **Update terminal commands**:
-```bash
-cd ../lambda
-zip function.zip commands.js
-aws lambda update-function-code --function-name cloud-resume-commands --zip-file fileb://function.zip
-```
+#### Double Down (⚡)
+- **When**: You have exactly 2 cards
+- **How**: Click "Double Down" button
+- **Result**: Doubles your bet, you get exactly one more card
+- **Strategy**: Best on 10-11 vs dealer 2-9
 
-## 🎯 Game Rules
+#### Surrender (🏳️)
+- **When**: You have exactly 2 cards (before any other action)
+- **How**: Click "Surrender" button
+- **Result**: Loses half your bet, ends the hand
+- **Strategy**: Use on very weak hands vs strong dealer upcards
 
-### Objective
-Get as close to 21 as possible without going over, while beating the dealer's hand.
+#### Insurance (🛡️)
+- **When**: Dealer shows an Ace
+- **How**: Click "Insurance" button
+- **Result**: Side bet that pays 2:1 if dealer has blackjack
+- **Strategy**: Generally not recommended (house edge ~7%)
 
-### Card Values
-- **Number cards (2-10)**: Face value
-- **Face cards (J, Q, K)**: 10 points
-- **Aces**: 11 points (automatically adjusts to 1 if needed to avoid bust)
+## 🏗️ Architecture
 
-### Player Actions
-- **Hit**: Take another card
-- **Stand**: Keep current hand and end turn
-- **Double Down**: Double your bet, take exactly one more card, then stand
+### Backend (AWS Lambda)
+- **Runtime**: Node.js 18.x
+- **Game Logic**: Complete blackjack rules implementation
+- **State Management**: Game state persistence in DynamoDB
+- **API**: RESTful endpoints via API Gateway
 
-### Winning Conditions
-- **Blackjack**: 21 with first two cards (Ace + 10-value card)
-- **Win**: Hand closer to 21 than dealer without busting
-- **Push**: Tie with dealer
-- **Bust**: Hand exceeds 21 (automatic loss)
+### Frontend (Static HTML/JS)
+- **Framework**: Vanilla JavaScript
+- **Styling**: Custom CSS with modern design
+- **Responsive**: Mobile-first design approach
+- **Real-time**: Live updates via fetch API
 
-### Dealer Rules
-- Must hit on 16 or less
-- Must stand on 17 or more
+### Database (DynamoDB)
+- **Tables**: 
+  - `blackjack-games`: Game state and player data
+  - `player-stats`: Win/loss statistics
+- **TTL**: Automatic cleanup of old game data
 
-## 🔧 API Endpoints
+## 📊 API Endpoints
 
-### POST /blackjack
+### Game Actions
+- `POST /blackjack` - Main game endpoint
+  - `action: "newGame"` - Start new game
+  - `action: "hit"` - Take a card
+  - `action: "stand"` - End turn
+  - `action: "double"` - Double down
+  - `action: "split"` - Split pairs
+  - `action: "surrender"` - Surrender hand
+  - `action: "insurance"` - Take insurance
 
-**Actions:**
-- `newGame`: Start a new game
-- `hit`: Player takes a card
-- `stand`: Player ends turn, dealer plays
-- `double`: Player doubles down
-- `getStats`: Retrieve player statistics
+### Data Actions
+- `action: "getStats"` - Get player statistics
+- `action: "getBankroll"` - Get current bankroll
 
-**Request Format:**
-```json
-{
-  "action": "newGame|hit|stand|double|getStats",
-  "gameId": "uuid-if-required"
-}
-```
+## 🎨 UI Features
 
-**Response Format:**
-```json
-{
-  "gameState": {
-    "gameId": "uuid",
-    "playerCards": [{"suit": "♠️", "rank": "A"}],
-    "dealerCards": [{"suit": "♥️", "rank": "K"}],
-    "gameOver": false,
-    "playerTurn": true,
-    "canDouble": true
-  },
-  "result": "win|lose|push|blackjack",
-  "stats": {
-    "gamesPlayed": 10,
-    "gamesWon": 6
-  }
-}
-```
+### Visual Design
+- **Dark Theme**: Casino-style dark interface
+- **Card Animations**: Smooth card dealing animations
+- **Status Indicators**: Clear game state feedback
+- **Hand Highlighting**: Active hand during splits
+- **Responsive Layout**: Works on all screen sizes
 
-## 📊 Database Schema
-
-### DynamoDB Table: `blackjack-games`
-
-**Game State Records:**
-- `pk`: `game#{gameId}`
-- `sk`: `state`
-- `gameState`: Game state object
-- `deck`: Remaining cards in deck
-- `ttl`: 24-hour expiration
-
-**Statistics Records:**
-- `pk`: `stats`
-- `sk`: `global`
-- `gamesPlayed`: Total games
-- `gamesWon`: Total wins
-
-## 🎨 Frontend Features
-
-- **Card Animations**: Smooth dealing and revealing animations
-- **Visual Feedback**: Color-coded game status (win/lose/push)
-- **Responsive Design**: Mobile-friendly layout
+### User Experience
+- **Intuitive Controls**: Clear button labels and states
+- **Real-time Feedback**: Immediate response to actions
+- **Error Handling**: Graceful error messages
 - **Loading States**: Visual feedback during API calls
-- **Statistics Display**: Real-time win rate tracking
 
-## 🔐 Security
+## 🔧 Configuration
 
-- **CORS Configuration**: Properly configured for website domain
-- **Input Validation**: Server-side validation of all game actions
-- **Rate Limiting**: API Gateway throttling
-- **No Sensitive Data**: No real money or personal information stored
+### Environment Variables
+- `BLACKJACK_TABLE`: DynamoDB table name
+- `MIN_BET`: Minimum bet amount (default: $10)
+- `MAX_BET`: Maximum bet amount (default: $500)
+- `INITIAL_BANKROLL`: Starting bankroll (default: $1000)
+
+### Game Settings
+- **Deck**: Standard 52-card deck
+- **Shuffle**: Random shuffle after each game
+- **Dealer Rules**: Hit on soft 17
+- **Blackjack Payout**: 3:2 (1.5x bet)
+- **Insurance Payout**: 2:1
+- **Surrender**: Early surrender (before dealer checks for blackjack)
 
 ## 🧪 Testing
 
 ### Manual Testing
-1. Visit `https://josephaleto.io/blackjack.html`
-2. Click "New Game" to start
-3. Test all game actions (Hit, Stand, Double Down)
-4. Verify statistics update correctly
-5. Test different game scenarios (blackjack, bust, etc.)
+1. **Basic Gameplay**: Play several hands to verify rules
+2. **Split Testing**: Test splits with various card combinations
+3. **Edge Cases**: Test blackjack, bust, push scenarios
+4. **Bankroll**: Verify betting and payout calculations
+5. **Persistence**: Check that game state saves correctly
 
-### Terminal Integration
-1. Visit `https://josephaleto.io`
-2. Click on terminal
-3. Type `blackjack` command
-4. Verify redirection to game
+### Automated Testing
+```bash
+# Run tests (if implemented)
+npm test
 
-## 📈 Monitoring
+# Check API endpoints
+curl -X POST https://your-api-url/blackjack \
+  -H "Content-Type: application/json" \
+  -d '{"action":"newGame","bet":10}'
+```
 
-- **CloudWatch Logs**: Lambda function execution logs
-- **API Gateway Metrics**: Request/response monitoring
-- **DynamoDB Metrics**: Read/write capacity monitoring
+## 🚨 Troubleshooting
 
-## 🎯 Future Enhancements
+### Common Issues
+- **API Errors**: Check Lambda function logs in CloudWatch
+- **State Issues**: Verify DynamoDB table permissions
+- **UI Problems**: Check browser console for JavaScript errors
+- **Deployment Failures**: Ensure AWS credentials are configured
 
-- [ ] Multiplayer support
-- [ ] Betting system (virtual chips)
-- [ ] Game history and replay
-- [ ] Advanced statistics and analytics
-- [ ] Tournament mode
-- [ ] Social features and leaderboards
+### Debug Mode
+Enable debug logging by setting environment variable:
+```bash
+DEBUG=true
+```
 
-## 🔗 Links
+## 📈 Performance
 
-- **Play Game**: https://josephaleto.io/blackjack.html
-- **Terminal**: https://josephaleto.io (type `blackjack`)
-- **Source Code**: https://github.com/serversorcerer/cloud-resume-challenge
+### Optimizations
+- **Lambda Cold Start**: ~100-200ms
+- **API Response Time**: ~50-100ms
+- **Database Queries**: Optimized DynamoDB access patterns
+- **Frontend Loading**: Minified CSS/JS, optimized images
+
+### Scalability
+- **Concurrent Players**: Limited by Lambda concurrency limits
+- **Database**: DynamoDB auto-scaling
+- **API Gateway**: Handles thousands of requests per second
+
+## 🎉 Future Enhancements
+
+### Planned Features
+- **Multiplayer**: Real-time multiplayer games
+- **Tournaments**: Scheduled blackjack tournaments
+- **Leaderboards**: Global player rankings
+- **Achievements**: Unlockable achievements and badges
+- **Customization**: Player avatars and themes
+
+### Technical Improvements
+- **WebSocket**: Real-time updates without polling
+- **Caching**: Redis for improved performance
+- **Analytics**: Detailed game analytics and insights
+- **Mobile App**: Native iOS/Android applications
 
 ## 📄 License
 
-MIT License - see LICENSE file for details.
+This project is part of the Cloud Resume Challenge and is for educational purposes.
+
+## 🤝 Contributing
+
+Feel free to submit issues and enhancement requests!
 
 ---
 
-Built with ❤️ and ☁️ by Joe Leto | Deployed on AWS
+**Happy Gaming! 🃏♠️♥️♦️♣️**

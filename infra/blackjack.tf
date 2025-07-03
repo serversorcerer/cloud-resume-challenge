@@ -154,10 +154,10 @@ resource "aws_apigatewayv2_api" "blackjack_api" {
 
   cors_configuration {
     allow_credentials = false
-    allow_headers     = ["content-type"]
-    allow_methods     = ["POST", "OPTIONS"]
-    allow_origins     = ["*"]
-    max_age          = 300
+    allow_headers     = ["content-type", "x-amz-date", "authorization", "x-api-key", "x-amz-security-token", "x-amz-user-agent"]
+    allow_methods     = ["GET", "POST", "OPTIONS"]
+    allow_origins     = ["https://josephaleto.io", "https://www.josephaleto.io", "http://localhost:3000", "http://127.0.0.1:3000"]
+    max_age          = 86400
   }
 
   tags = {
@@ -197,10 +197,16 @@ resource "aws_apigatewayv2_integration" "blackjack_lambda_integration" {
   integration_uri    = aws_lambda_function.blackjack_function.invoke_arn
 }
 
-# API Gateway route
-resource "aws_apigatewayv2_route" "blackjack_route" {
+# API Gateway routes
+resource "aws_apigatewayv2_route" "blackjack_post_route" {
   api_id    = aws_apigatewayv2_api.blackjack_api.id
   route_key = "POST /blackjack"
+  target    = "integrations/${aws_apigatewayv2_integration.blackjack_lambda_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "blackjack_get_route" {
+  api_id    = aws_apigatewayv2_api.blackjack_api.id
+  route_key = "GET /blackjack"
   target    = "integrations/${aws_apigatewayv2_integration.blackjack_lambda_integration.id}"
 }
 
