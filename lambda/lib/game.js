@@ -3,6 +3,7 @@ const {
   NUM_DECKS,
   MAX_SPLITS,
 } = require('./constants');
+const { calculatePayout } = require('./resolution');
 
 const SUITS = ['♠️', '♥️', '♦️', '♣️'];
 const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -275,25 +276,25 @@ class BlackjackGame {
     const dealerBlackjack = this.isBlackjack(dealerCards);
 
     if (playerBlackjack && !dealerBlackjack) {
-      if (!isSplitHand) return { result: 'blackjack', bet };
-      return { result: 'win', bet };
+      const result = isSplitHand ? 'win' : 'blackjack';
+      return { result, bet, payout: calculatePayout(result, bet) };
     }
 
     if (dealerBlackjack && !playerBlackjack) {
-      return { result: 'lose', bet };
+      return { result: 'lose', bet, payout: calculatePayout('lose', bet) };
     }
 
     if (playerBlackjack && dealerBlackjack) {
-      if (!isSplitHand) return { result: 'push', bet };
-      return { result: 'lose', bet };
+      if (!isSplitHand) return { result: 'push', bet, payout: calculatePayout('push', bet) };
+      return { result: 'lose', bet, payout: calculatePayout('lose', bet) };
     }
 
-    if (this.isBust(playerCards)) return { result: 'lose', bet };
-    if (this.isBust(dealerCards)) return { result: 'win', bet };
+    if (this.isBust(playerCards)) return { result: 'lose', bet, payout: calculatePayout('lose', bet) };
+    if (this.isBust(dealerCards)) return { result: 'win', bet, payout: calculatePayout('win', bet) };
 
-    if (playerValue > dealerValue) return { result: 'win', bet };
-    if (playerValue < dealerValue) return { result: 'lose', bet };
-    return { result: 'push', bet };
+    if (playerValue > dealerValue) return { result: 'win', bet, payout: calculatePayout('win', bet) };
+    if (playerValue < dealerValue) return { result: 'lose', bet, payout: calculatePayout('lose', bet) };
+    return { result: 'push', bet, payout: calculatePayout('push', bet) };
   }
 
   getGameState() {

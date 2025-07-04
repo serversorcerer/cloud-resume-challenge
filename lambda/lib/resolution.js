@@ -1,64 +1,70 @@
 const Player = require('./player');
 const {
-  BLACKJACK_PAYOUT,
-  WIN_PAYOUT,
-  PUSH_PAYOUT,
-  SURRENDER_PAYOUT,
   INSURANCE_PAYOUT,
 } = require('./constants');
 const { updatePlayerBankroll, getPlayerBankroll } = require('./db');
 
-function outcomeMultiplier(result, isBlackjack = false) {
-  switch (result) {
+function calculatePayout(outcome, bet) {
+  switch (outcome) {
     case 'blackjack':
-      return BLACKJACK_PAYOUT;
+      return bet * 2.5;
     case 'win':
-      return WIN_PAYOUT;
+      return bet * 2;
     case 'push':
-      return PUSH_PAYOUT;
+      return bet;
     case 'surrender':
-      return SURRENDER_PAYOUT;
+      return bet / 2;
+    case 'lose':
     default:
-      return 0; // lose
+      return 0;
   }
 }
 
 async function resolveGame(game, playerId) {
   const player = new Player(playerId, await getPlayerBankroll(playerId));
   player.bet = game.bet;
-  let totalReturn = 0;
+  let totalPayout = 0;
+  let outcomes = [];
 
   if (game.hands.length > 0) {
     for (let i = 0; i < game.hands.length; i++) {
-      const { result, bet } = game.determineHandWinner(
+      const { result, payout } = game.determineHandWinner(
         game.hands[i],
         game.dealerCards,
         game.splitBets[i],
         true
       );
-      totalReturn += bet * outcomeMultiplier(result);
+      totalPayout += payout;
+      outcomes.push({ bet: game.splitBets[i], result, payout });
     }
-  } else if (game.surrendered) {
-    totalReturn += game.bet * outcomeMultiplier('surrender');
   } else {
-    const { result, bet } = game.determineHandWinner(
-      game.playerCards,
-      game.dealerCards,
-      game.bet,
-      false
-    );
-    totalReturn += bet * outcomeMultiplier(result);
+    const handResult = game.surrendered
+      ? { result: 'surrender', bet: game.bet, payout: calculatePayout('surrender', game.bet) }
+      : game.determineHandWinner(
+          game.playerCards,
+          game.dealerCards,
+          game.bet,
+          false
+        );
+    totalPayout += handResult.payout;
+    outcomes.push({ bet: game.bet, result: handResult.result, payout: handResult.payout });
   }
 
   if (game.insuranceBet > 0) {
     if (game.isBlackjack(game.dealerCards)) {
-      totalReturn += game.insuranceBet * INSURANCE_PAYOUT;
+      totalPayout += game.insuranceBet * INSURANCE_PAYOUT;
     }
     // if dealer not blackjack, insurance bet already deducted
   }
 
-  const finalBalance = player.bankroll + totalReturn;
+  const finalBalance = player.bankroll + totalPayout;
   await updatePlayerBankroll(playerId, finalBalance, 'round_settlement');
+
+  outcomes.forEach(o => {
+    console.log(
+      `[DEBUG] Bet: $${o.bet} | Result: ${o.result.toUpperCase()} | Payout: $${o.payout} | New Bankroll: $${finalBalance}`
+    );
+  });
 
   return {
     finalBalance,
@@ -66,4 +72,4 @@ async function resolveGame(game, playerId) {
   };
 }
 
-module.exports = resolveGame;
+module.exports = { resolveGame, calculatePayout };
