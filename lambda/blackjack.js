@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const BlackjackGame = require('./lib/game');
-const resolveGame = require('./lib/resolution');
+const { resolveGame } = require('./lib/resolution');
 const Player = require('./lib/player');
 const {
   MIN_BET,
