@@ -98,6 +98,7 @@ exports.handler = async (event) => {
         }
         
         const game = new BlackjackGame(betAmount);
+        game.originalBet = betAmount; // Add this line to ensure originalBet is set
         game.dealInitialCards();
         await saveGameState(game, currentPlayerId);
         

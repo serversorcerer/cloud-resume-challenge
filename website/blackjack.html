@@ -978,6 +978,18 @@
             }).join('');
         }
 
+        function renderSingleHand() {
+            const playerHand = document.getElementById('playerHand');
+            const splitHandsContainer = document.getElementById('splitHands');
+            
+            // Show single hand, hide split hands
+            playerHand.style.display = 'flex';
+            splitHandsContainer.style.display = 'none';
+            
+            // Render the player's cards
+            playerHand.innerHTML = renderHand(gameState.playerCards);
+        }
+
         function updateDisplay() {
             // Render dealer hand
             const dealerHand = document.getElementById('dealerHand');
@@ -1010,527 +1022,51 @@
             updateScores();
         }
 
-        function enableGameControls() {
-            document.getElementById('hitBtn').disabled = false;
-            document.getElementById('standBtn').disabled = false;
-            document.getElementById('doubleBtn').disabled = !gameState.canDouble;
-            document.getElementById('splitBtn').disabled = !gameState.canSplit;
-            document.getElementById('surrenderBtn').disabled = !gameState.canSurrender;
-            document.getElementById('insuranceBtn').disabled = !gameState.canInsure;
+        function updateBankrollDisplay() {
+            const bankrollDisplay = document.getElementById('bankrollDisplay');
+            const bankrollChange = document.getElementById('bankrollChange');
             
-            // For split hands, update button states based on current hand
-            if (gameState.hands.length > 0) {
-                const currentHand = gameState.hands[gameState.currentHandIndex];
-                const handValue = calculateHandValue(currentHand);
+            // Always use server-provided bankroll
+            bankrollDisplay.textContent = `$${gameState.bankroll.toLocaleString()}`;
+            
+            // Calculate change if we have bankrollChange from server
+            if (gameState.bankrollChange !== undefined) {
+                const changeText = gameState.bankrollChange > 0 ? `+$${gameState.bankrollChange}` : `$${gameState.bankrollChange}`;
+                const changeClass = gameState.bankrollChange > 0 ? 'positive' : 'negative';
+                bankrollChange.textContent = changeText;
+                bankrollChange.className = `info-value ${changeClass}`;
                 
-                // Disable double if hand has more than 2 cards or if busted
-                if (currentHand.length > 2 || handValue > 21) {
-                    document.getElementById('doubleBtn').disabled = true;
-                }
-                
-                // Can't split after initial split or if busted
-                document.getElementById('splitBtn').disabled = true;
-                document.getElementById('surrenderBtn').disabled = true;
-                document.getElementById('insuranceBtn').disabled = true;
+                // Reset after showing
+                setTimeout(() => {
+                    bankrollChange.textContent = '$0';
+                    bankrollChange.className = 'info-value';
+                    gameState.bankrollChange = undefined;
+                }, 3000);
             }
+            
+            saveSessionState();
         }
 
-        function handleGameEnd(result) {
-            disableGameControls();
-            let statusClass = 'status-push';
-            let message = '';
-            let won = false;
-            
-            if (typeof result === 'object') {
-                if (result.type === 'split') {
-                    message = '🎯 SPLIT RESULTS:\n';
-                    let totalPayout = 0;
-                    
-                    result.results.forEach((handResult, index) => {
-                        const handNumber = index + 1;
-                        const resultText = handResult.result.toUpperCase();
-                        const payout = handResult.payout;
-                        totalPayout += payout;
-                        
-                        if (payout > 0) {
-                            message += `Hand ${handNumber}: ${resultText} (+$${payout})\n`;
-                            if (handResult.result === 'win' || handResult.result === 'blackjack') won = true;
-                        } else if (payout < 0) {
-                            message += `Hand ${handNumber}: ${resultText} (-$${Math.abs(payout)})\n`;
-                        } else {
-                            message += `Hand ${handNumber}: ${resultText} (Push)\n`;
-                        }
-                    });
-                    
-                    message += `\nTotal Change: ${totalPayout >= 0 ? '+' : ''}$${totalPayout}`;
-                    statusClass = totalPayout > 0 ? 'status-win' : totalPayout < 0 ? 'status-lose' : 'status-push';
-                } else {
-                    const handResult = result.result;
-                    if (handResult.result === 'blackjack') {
-                        message = '🃏 BLACKJACK! 🎉';
-                        statusClass = 'status-blackjack';
-                        won = true;
-                    } else if (handResult.result === 'win') {
-                        message = '🎉 YOU WIN! 🎉';
-                        statusClass = 'status-win';
-                        won = true;
-                    } else if (handResult.result === 'lose') {
-                        message = '😔 DEALER WINS';
-                        statusClass = 'status-lose';
-                    } else if (handResult.result === 'push') {
-                        message = '🤝 PUSH - IT\'S A TIE!';
-                        statusClass = 'status-push';
-                    } else if (handResult.result === 'surrender') {
-                        message = '🏳️ SURRENDERED';
-                        statusClass = 'status-lose';
-                    }
-                }
+        function disableGameControls() {
+            document.getElementById('hitBtn').disabled = true;
+            document.getElementById('standBtn').disabled = true;
+            document.getElementById('doubleBtn').disabled = true;
+            document.getElementById('splitBtn').disabled = true;
+            document.getElementById('surrenderBtn').disabled = true;
+            document.getElementById('insuranceBtn').disabled = true;
+        }
+
+        function updateStatus(message, statusClass = 'status-playing') {
+            const statusElement = document.getElementById('gameStatus');
+            statusElement.textContent = message;
+            statusElement.className = `game-status ${statusClass}`;
+        }
+
+        function setLoading(show) {
+            const loadingElement = document.getElementById('loading');
+            if (show) {
+                loadingElement.classList.add('show');
             } else {
-                // Handle simple string results
-                if (result === 'blackjack') {
-                    message = '🃏 BLACKJACK! 🎉';
-                    statusClass = 'status-blackjack';
-                    won = true;
-                } else if (result === 'win') {
-                    message = '🎉 YOU WIN! 🎉';
-                    statusClass = 'status-win';
-                    won = true;
-                } else if (result === 'lose') {
-                    message = '😔 DEALER WINS';
-                    statusClass = 'status-lose';
-                } else if (result === 'push') {
-                    message = '🤝 PUSH - IT\'S A TIE!';
-                    statusClass = 'status-push';
-                } else if (result === 'surrender') {
-                    message = '🏳️ SURRENDERED';
-                    statusClass = 'status-lose';
-                }
-            }
-            
-            // Update stats
-            gameState.gamesPlayed++;
-            if (won) gameState.gamesWon++;
-            saveSessionState();
-            updateStatsUI();
-            updateStatus(message, statusClass);
-        }
-            
-        async function startNewHand() {
-            if (gameState.currentBet <= 0) {
-                updateStatus('Please place a bet first!');
-                return;
-            }
-            
-            // Prevent starting new hand if one is already in progress
-            if (gameState.gameId && !gameState.gameOver) {
-                updateStatus('Cannot start new hand while one is in progress!');
-                return;
-            }
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'newGame',
-                        playerId: gameState.userId,
-                        bet: gameState.currentBet
-                    })
-                });
-                
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    // Reset bet if server rejected it
-                    gameState.currentBet = 0;
-                    updateBetDisplay();
-                    return;
-                }
-                
-                // CRITICAL: Always use server bankroll
-                gameState.bankroll = data.bankroll;
-                
-                // Update game state from backend
-                gameState = {
-                    ...gameState,
-                    gameId: data.gameState.gameId,
-                    playerCards: data.gameState.playerCards || [],
-                    dealerCards: data.gameState.dealerCards || [],
-                    hands: data.gameState.hands || [],
-                    currentHandIndex: data.gameState.currentHandIndex || 0,
-                    gameOver: data.gameState.gameOver || false,
-                    playerTurn: data.gameState.playerTurn !== undefined ? data.gameState.playerTurn : true,
-                    canDouble: data.gameState.canDouble || false,
-                    canSplit: data.gameState.canSplit || false,
-                    canSurrender: data.gameState.canSurrender || false,
-                    canInsure: data.gameState.canInsure || false,
-                    splitBets: data.gameState.splitBets || []
-                };
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                
-                // Only reset bet if game started successfully
-                gameState.currentBet = 0;
-                updateBetDisplay();
-                
-                if (data.result) {
-                    handleGameEnd(data.result);
-                } else {
-                    enableGameControls();
-                    updateStatus('Your turn! Choose your action.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error starting new hand. Please try again.');
-                // Reset bet on error
-                gameState.currentBet = 0;
-                updateBetDisplay();
-            } finally {
-                setLoading(false);
+                loadingElement.classList.remove('show');
             }
         }
-
-        // Update all game action functions to handle server bankroll
-        async function playerHit() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'hit',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    return;
-                }
-
-                // Update game state and bankroll from server
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                
-                if (data.result) {
-                    handleGameEnd(data.result);
-                } else {
-                    enableGameControls();
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function playerStand() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'stand',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    return;
-                }
-
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                
-                if (data.result) {
-                    handleGameEnd(data.result);
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function playerDouble() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'double',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                    updateBankrollDisplay();
-                    return;
-                }
-
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                
-                if (data.result) {
-                    handleGameEnd(data.result);
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function playerSplit() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'split',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                    updateBankrollDisplay();
-                    return;
-                }
-
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                enableGameControls();
-                updateStatus('Split completed! Continue playing your hands.');
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function playerSurrender() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'surrender',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    return;
-                }
-
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                
-                if (data.result) {
-                    handleGameEnd(data.result);
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function takeInsurance() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'insurance',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                    updateBankrollDisplay();
-                    return;
-                }
-
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                
-                if (data.result) {
-                    handleGameEnd(data.result);
-                } else {
-                    enableGameControls();
-                    updateStatus('Insurance taken! Continue playing.');
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        // Add missing session management functions
-        async function startNewSession() {
-            gameState = {
-                gameId: null,
-                playerCards: [],
-                dealerCards: [],
-                hands: [],
-                currentHandIndex: 0,
-                gameOver: false,
-                playerTurn: true,
-                canDouble: false,
-                canSplit: false,
-                canSurrender: false,
-                canInsure: false,
-                currentBet: 0,
-                bankroll: 1000,
-                userId: null,
-                splitBets: [],
-                gamesPlayed: 0,
-                gamesWon: 0,
-                lastBankroll: 1000
-            };
-            
-            // Generate new user ID
-            gameState.userId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0;
-                const v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-            
-            saveSessionState();
-            updateDisplay();
-            updateBankrollDisplay();
-            updateStatsUI();
-            disableGameControls();
-            updateStatus('New session started! Place a bet to begin playing.');
-        }
-
-        function saveSessionState() {
-            localStorage.setItem('blackjackGameState', JSON.stringify(gameState));
-        }
-
-        function loadSessionState() {
-            const saved = localStorage.getItem('blackjackGameState');
-            if (saved) {
-                gameState = { ...gameState, ...JSON.parse(saved) };
-            }
-        }
-
-        function updateStatsUI() {
-            document.getElementById('gamesPlayed').textContent = gameState.gamesPlayed;
-            document.getElementById('gamesWon').textContent = gameState.gamesWon;
-            const winRate = gameState.gamesPlayed > 0 ? 
-                Math.round((gameState.gamesWon / gameState.gamesPlayed) * 100) : 0;
-            document.getElementById('winRate').textContent = `${winRate}%`;
-        }
-
-        async function loadStats() {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'getStats' })
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    // Could display global stats if desired
-                }
-            } catch (error) {
-                console.log('Could not load stats');
-            }
-        }
-    </script>
-</body>
-</html>
