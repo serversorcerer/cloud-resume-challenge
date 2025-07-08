@@ -763,35 +763,32 @@
 
         function setupChipHandlers() {
             const chips = document.querySelectorAll('.chip');
+            console.log('Setting up chip handlers for', chips.length, 'chips');
             chips.forEach(chip => {
                 chip.addEventListener('click', function() {
                     const value = parseInt(this.dataset.value);
+                    console.log('Chip clicked:', value);
                     addToBet(value);
                 });
             });
         }
 
+        // Remove all client-side bankroll manipulation
         function addToBet(amount) {
+            console.log('addToBet called with amount:', amount);
+            
             // Only allow betting if no hand is in progress
             if (gameState.gameId && !gameState.gameOver) {
+                console.log('Betting blocked - hand in progress');
                 updateStatus('Cannot change bet during a hand!');
                 return;
             }
             
-            if (amount > gameState.bankroll) {
-                updateStatus('Insufficient funds for this bet!');
-                return;
-            }
-
+            // Don't check bankroll client-side - let server validate
             gameState.currentBet += amount;
-            gameState.bankroll -= amount;
+            console.log('Bet updated:', gameState.currentBet);
             updateBetDisplay();
-        tckzqs-codex/update-blackjack-gui-with-bankroll-and-ux-improvements
-            updateBankrollDisplay();
             updateStatus(`Bet placed: $${gameState.currentBet}! Click "Next Hand" to start.`);
-
-            updateStatus(`Bet placed: $${gameState.bet}! Click "Next Hand" to start.`);
-        main
         }
 
         function updateBetDisplay() {
@@ -949,27 +946,22 @@
             const bankrollDisplay = document.getElementById('bankrollDisplay');
             const bankrollChange = document.getElementById('bankrollChange');
             
-            // Only update if backend returned a new bankroll value
-            if (typeof gameState.bankroll === 'number') {
-                bankrollDisplay.textContent = `$${gameState.bankroll.toLocaleString()}`;
+            // Always use server-provided bankroll
+            bankrollDisplay.textContent = `$${gameState.bankroll.toLocaleString()}`;
+            
+            // Calculate change if we have bankrollChange from server
+            if (gameState.bankrollChange !== undefined) {
+                const changeText = gameState.bankrollChange > 0 ? `+$${gameState.bankrollChange}` : `$${gameState.bankrollChange}`;
+                const changeClass = gameState.bankrollChange > 0 ? 'positive' : 'negative';
+                bankrollChange.textContent = changeText;
+                bankrollChange.className = `info-value ${changeClass}`;
                 
-                // Calculate and display bankroll change
-                const change = gameState.bankroll - gameState.lastBankroll;
-                if (change !== 0) {
-                    const changeText = change > 0 ? `+$${change}` : `$${change}`;
-                    const changeClass = change > 0 ? 'positive' : 'negative';
-                    bankrollChange.textContent = changeText;
-                    bankrollChange.className = `info-value ${changeClass}`;
-                    
-                    // Reset change display after 3 seconds
-                    setTimeout(() => {
-                        bankrollChange.textContent = '$0';
-                        bankrollChange.className = 'info-value';
-                    }, 3000);
-                }
-                
-                // Update last bankroll for next comparison
-                gameState.lastBankroll = gameState.bankroll;
+                // Reset after showing
+                setTimeout(() => {
+                    bankrollChange.textContent = '$0';
+                    bankrollChange.className = 'info-value';
+                    gameState.bankrollChange = undefined;
+                }, 3000);
             }
             
             saveSessionState();
@@ -1083,33 +1075,8 @@
             updateStatsUI();
             updateStatus(message, statusClass);
             
-            // Update bankroll based on round outcome
-            if (typeof result === 'object') {
-                if (result.type === 'split') {
-                    // For simplicity, treat any positive payout as a win
-                    let total = 0;
-                    result.results.forEach(r => { total += r.payout; });
-                    gameState.bankroll += total;
-                } else {
-                    const r = result.result.result;
-                    if (r === 'win' || r === 'blackjack') {
-                        gameState.bankroll += gameState.currentBet * 2;
-                    } else if (r === 'push') {
-                        gameState.bankroll += gameState.currentBet;
-                    }
-                }
-            } else {
-                if (result === 'win' || result === 'blackjack') {
-                    gameState.bankroll += gameState.currentBet * 2;
-                } else if (result === 'push') {
-                    gameState.bankroll += gameState.currentBet;
-                }
-            }
-
-            // Reset bet for next hand
-            gameState.currentBet = 0;
-            updateBetDisplay();
-            updateBankrollDisplay();
+            // REMOVE all client-side bankroll calculations
+            // Server handles all bankroll updates via data.bankroll
         }
             
         async function startNewHand() {
@@ -1131,7 +1098,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         action: 'newGame',
-                        userId: gameState.userId,
+                        playerId: gameState.userId,
                         bet: gameState.currentBet
                     })
                 });
@@ -1141,13 +1108,14 @@
                 
                 if (data.error) {
                     updateStatus(data.error);
+                    // Reset bet if server rejected it
+                    gameState.currentBet = 0;
+                    updateBetDisplay();
                     return;
                 }
                 
-                // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number' && !data.result) {
-                    gameState.bankroll = data.bankroll;
-                }
+                // CRITICAL: Always use server bankroll
+                gameState.bankroll = data.bankroll;
                 
                 // Update game state from backend
                 gameState = {
@@ -1168,6 +1136,9 @@
                 
                 updateDisplay();
                 updateBankrollDisplay();
+                
+                // Only reset bet if game started successfully
+                gameState.currentBet = 0;
                 updateBetDisplay();
                 
                 if (data.result) {
@@ -1179,11 +1150,15 @@
             } catch (error) {
                 console.error('Error:', error);
                 updateStatus('Error starting new hand. Please try again.');
+                // Reset bet on error
+                gameState.currentBet = 0;
+                updateBetDisplay();
             } finally {
                 setLoading(false);
             }
         }
 
+        // Update all game action functions to handle server bankroll
         async function playerHit() {
             if (!gameState.gameId) return;
             
@@ -1195,7 +1170,7 @@
                     body: JSON.stringify({ 
                         action: 'hit',
                         gameId: gameState.gameId,
-                        userId: gameState.userId
+                        playerId: gameState.userId
                     })
                 });
 
@@ -1208,16 +1183,10 @@
                     return;
                 }
 
-                // Update game state from backend
-                gameState = {
-                    ...gameState,
-                    ...data.gameState
-                };
-                
-                // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number' && !data.result) {
-                    gameState.bankroll = data.bankroll;
-                }
+                // Update game state and bankroll from server
+                gameState = { ...gameState, ...data.gameState };
+                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
                 
                 updateDisplay();
                 updateBankrollDisplay();
@@ -1247,12 +1216,11 @@
                     body: JSON.stringify({ 
                         action: 'stand',
                         gameId: gameState.gameId,
-                        userId: gameState.userId
+                        playerId: gameState.userId
                     })
                 });
 
                 if (!response.ok) throw new Error('Network response was not ok');
-                
                 const data = await response.json();
                 
                 if (data.error) {
@@ -1260,24 +1228,17 @@
                     return;
                 }
 
-                // Update game state from backend
-                gameState = {
-                    ...gameState,
-                    ...data.gameState
-                };
-                
-                // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number' && !data.result) {
-                    gameState.bankroll = data.bankroll;
-                }
+                gameState = { ...gameState, ...data.gameState };
+                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
                 
                 updateDisplay();
                 updateBankrollDisplay();
-
+                
                 if (data.result) {
                     handleGameEnd(data.result);
                 }
-                
+
             } catch (error) {
                 console.error('Error:', error);
                 updateStatus('Error making move. Please try again.');
@@ -1297,37 +1258,31 @@
                     body: JSON.stringify({ 
                         action: 'double',
                         gameId: gameState.gameId,
-                        userId: gameState.userId
+                        playerId: gameState.userId
                     })
                 });
 
                 if (!response.ok) throw new Error('Network response was not ok');
-                
                 const data = await response.json();
                 
                 if (data.error) {
                     updateStatus(data.error);
+                    if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                    updateBankrollDisplay();
                     return;
                 }
 
-                // Update game state from backend
-                gameState = {
-                    ...gameState,
-                    ...data.gameState
-                };
-                
-                // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number' && !data.result) {
-                    gameState.bankroll = data.bankroll;
-                }
+                gameState = { ...gameState, ...data.gameState };
+                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
                 
                 updateDisplay();
                 updateBankrollDisplay();
-
+                
                 if (data.result) {
                     handleGameEnd(data.result);
                 }
-                
+
             } catch (error) {
                 console.error('Error:', error);
                 updateStatus('Error making move. Please try again.');
@@ -1347,33 +1302,28 @@
                     body: JSON.stringify({ 
                         action: 'split',
                         gameId: gameState.gameId,
-                        userId: gameState.userId
+                        playerId: gameState.userId
                     })
                 });
 
                 if (!response.ok) throw new Error('Network response was not ok');
-                
                 const data = await response.json();
                 
                 if (data.error) {
                     updateStatus(data.error);
+                    if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                    updateBankrollDisplay();
                     return;
                 }
 
-                // Update game state from backend
-                gameState = {
-                    ...gameState,
-                    ...data.gameState
-                };
+                gameState = { ...gameState, ...data.gameState };
+                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
                 
-                // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number' && !data.result) {
-                    gameState.bankroll = data.bankroll;
-                }
-
                 updateDisplay();
                 updateBankrollDisplay();
                 enableGameControls();
+                updateStatus('Split completed! Continue playing your hands.');
 
             } catch (error) {
                 console.error('Error:', error);
@@ -1394,12 +1344,11 @@
                     body: JSON.stringify({ 
                         action: 'surrender',
                         gameId: gameState.gameId,
-                        userId: gameState.userId
+                        playerId: gameState.userId
                     })
                 });
 
                 if (!response.ok) throw new Error('Network response was not ok');
-                
                 const data = await response.json();
                 
                 if (data.error) {
@@ -1407,17 +1356,10 @@
                     return;
                 }
 
-                // Update game state from backend
-                gameState = {
-                    ...gameState,
-                    ...data.gameState
-                };
+                gameState = { ...gameState, ...data.gameState };
+                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
                 
-                // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number' && !data.result) {
-                    gameState.bankroll = data.bankroll;
-                }
-
                 updateDisplay();
                 updateBankrollDisplay();
                 
@@ -1444,44 +1386,44 @@
                     body: JSON.stringify({ 
                         action: 'insurance',
                         gameId: gameState.gameId,
-                        userId: gameState.userId,
-                        insuranceAmount: Math.floor(gameState.currentBet * 0.5)
+                        playerId: gameState.userId
                     })
                 });
 
                 if (!response.ok) throw new Error('Network response was not ok');
-                
                 const data = await response.json();
                 
                 if (data.error) {
                     updateStatus(data.error);
+                    if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                    updateBankrollDisplay();
                     return;
                 }
 
-                // Update game state from backend
-                gameState = {
-                    ...gameState,
-                    ...data.gameState
-                };
+                gameState = { ...gameState, ...data.gameState };
+                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
                 
-                // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number' && !data.result) {
-                    gameState.bankroll = data.bankroll;
-                }
-
                 updateDisplay();
                 updateBankrollDisplay();
-                enableGameControls();
                 
+                if (data.result) {
+                    handleGameEnd(data.result);
+                } else {
+                    enableGameControls();
+                    updateStatus('Insurance taken! Continue playing.');
+                }
+
             } catch (error) {
                 console.error('Error:', error);
-                updateStatus('Error taking insurance. Please try again.');
+                updateStatus('Error making move. Please try again.');
             } finally {
                 setLoading(false);
             }
         }
 
-        function startNewSession() {
+        // Add missing session management functions
+        async function startNewSession() {
             gameState = {
                 gameId: null,
                 playerCards: [],
@@ -1496,76 +1438,61 @@
                 canInsure: false,
                 currentBet: 0,
                 bankroll: 1000,
-                userId: generateUserId(),
+                userId: null,
                 splitBets: [],
                 gamesPlayed: 0,
                 gamesWon: 0,
                 lastBankroll: 1000
             };
+            
+            // Generate new user ID
+            gameState.userId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+            
             saveSessionState();
             updateDisplay();
             updateBankrollDisplay();
-            updateBetDisplay();
             updateStatsUI();
             disableGameControls();
-            updateStatus('New session started! Place your bet to begin.');
-        }
-
-        function generateUserId() {
-            return 'user_' + Math.random().toString(36).substr(2, 9);
+            updateStatus('New session started! Place a bet to begin playing.');
         }
 
         function saveSessionState() {
-            const sessionData = {
-                userId: gameState.userId,
-                bankroll: gameState.bankroll,
-                lastBankroll: gameState.lastBankroll,
-                gamesPlayed: gameState.gamesPlayed,
-                gamesWon: gameState.gamesWon
-            };
-            sessionStorage.setItem('blackjackSession', JSON.stringify(sessionData));
+            localStorage.setItem('blackjackGameState', JSON.stringify(gameState));
         }
 
         function loadSessionState() {
-            const sessionData = sessionStorage.getItem('blackjackSession');
-            if (sessionData) {
-                const data = JSON.parse(sessionData);
-                gameState.userId = data.userId;
-                if (typeof data.bankroll === 'number') {
-                    gameState.bankroll = data.bankroll;
-                    gameState.lastBankroll = data.lastBankroll || data.bankroll;
-                } else {
-                    gameState.bankroll = 1000;
-                    gameState.lastBankroll = 1000;
-                }
-                gameState.gamesPlayed = data.gamesPlayed || 0;
-                gameState.gamesWon = data.gamesWon || 0;
+            const saved = localStorage.getItem('blackjackGameState');
+            if (saved) {
+                gameState = { ...gameState, ...JSON.parse(saved) };
             }
         }
 
         function updateStatsUI() {
             document.getElementById('gamesPlayed').textContent = gameState.gamesPlayed;
             document.getElementById('gamesWon').textContent = gameState.gamesWon;
-            const winRate = gameState.gamesPlayed > 0 ? Math.round((gameState.gamesWon / gameState.gamesPlayed) * 100) : 0;
-            document.getElementById('winRate').textContent = winRate + '%';
+            const winRate = gameState.gamesPlayed > 0 ? 
+                Math.round((gameState.gamesWon / gameState.gamesPlayed) * 100) : 0;
+            document.getElementById('winRate').textContent = `${winRate}%`;
         }
 
         async function loadStats() {
             try {
-                const response = await fetch(`${API_URL}?action=getStats`);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'getStats' })
+                });
+                
                 if (response.ok) {
                     const data = await response.json();
-                    const stats = data.stats;
-                    
-                    document.getElementById('gamesPlayed').textContent = stats.gamesPlayed || 0;
-                    document.getElementById('gamesWon').textContent = stats.gamesWon || 0;
-                    
-                    const winRate = stats.gamesPlayed > 0 ? 
-                        Math.round((stats.gamesWon / stats.gamesPlayed) * 100) : 0;
-                    document.getElementById('winRate').textContent = winRate + '%';
+                    // Could display global stats if desired
                 }
             } catch (error) {
-                console.error('Error loading stats:', error);
+                console.log('Could not load stats');
             }
         }
     </script>
