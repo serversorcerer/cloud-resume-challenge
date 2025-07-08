@@ -786,8 +786,12 @@
             gameState.currentBet += amount;
             gameState.bankroll -= amount;
             updateBetDisplay();
+        tckzqs-codex/update-blackjack-gui-with-bankroll-and-ux-improvements
             updateBankrollDisplay();
             updateStatus(`Bet placed: $${gameState.currentBet}! Click "Next Hand" to start.`);
+
+            updateStatus(`Bet placed: $${gameState.bet}! Click "Next Hand" to start.`);
+        main
         }
 
         function updateBetDisplay() {
