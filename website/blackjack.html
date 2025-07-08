@@ -792,8 +792,84 @@
             splitBets: [],
             gamesPlayed: 0,
             gamesWon: 0,
-            lastBankroll: 1000 // Track previous bankroll for change calculation
+            lastBankroll: 1000
         };
+
+        // MOVE THESE UTILITY FUNCTIONS TO THE TOP
+        function updateStatus(message, statusClass = 'status-playing') {
+            const statusElement = document.getElementById('gameStatus');
+            statusElement.textContent = message;
+            statusElement.className = `game-status ${statusClass}`;
+        }
+
+        function setLoading(show) {
+            const loadingElement = document.getElementById('loading');
+            if (loadingElement) {
+                if (show) {
+                    loadingElement.classList.add('show');
+                } else {
+                    loadingElement.classList.remove('show');
+                }
+            }
+        }
+
+        function disableGameControls() {
+            document.getElementById('hitBtn').disabled = true;
+            document.getElementById('standBtn').disabled = true;
+            document.getElementById('doubleBtn').disabled = true;
+            document.getElementById('splitBtn').disabled = true;
+            document.getElementById('surrenderBtn').disabled = true;
+            document.getElementById('insuranceBtn').disabled = true;
+        }
+
+        function enableGameControls() {
+            document.getElementById('hitBtn').disabled = false;
+            document.getElementById('standBtn').disabled = false;
+            document.getElementById('doubleBtn').disabled = !gameState.canDouble;
+            document.getElementById('splitBtn').disabled = !gameState.canSplit;
+            document.getElementById('surrenderBtn').disabled = !gameState.canSurrender;
+            document.getElementById('insuranceBtn').disabled = !gameState.canInsure;
+            
+            // For split hands, update button states based on current hand
+            if (gameState.hands.length > 0) {
+                const currentHand = gameState.hands[gameState.currentHandIndex];
+                const handValue = calculateHandValue(currentHand);
+                
+                // Disable double if hand has more than 2 cards or if busted
+                if (currentHand.length > 2 || handValue > 21) {
+                    document.getElementById('doubleBtn').disabled = true;
+                }
+                
+                // Can't split after initial split or if busted
+                document.getElementById('splitBtn').disabled = true;
+                document.getElementById('surrenderBtn').disabled = true;
+                document.getElementById('insuranceBtn').disabled = true;
+            }
+        }
+
+        function saveSessionState() {
+            localStorage.setItem('blackjackGameState', JSON.stringify(gameState));
+        }
+
+        function loadSessionState() {
+            const saved = localStorage.getItem('blackjackGameState');
+            if (saved) {
+                try {
+                    const parsedState = JSON.parse(saved);
+                    gameState = { ...gameState, ...parsedState };
+                } catch (error) {
+                    console.error('Error loading session state:', error);
+                }
+            }
+        }
+
+        function updateStatsUI() {
+            document.getElementById('gamesPlayed').textContent = gameState.gamesPlayed;
+            document.getElementById('gamesWon').textContent = gameState.gamesWon;
+            const winRate = gameState.gamesPlayed > 0 ? 
+                Math.round((gameState.gamesWon / gameState.gamesPlayed) * 100) : 0;
+            document.getElementById('winRate').textContent = `${winRate}%`;
+        }
 
         // Initialize game
         document.addEventListener('DOMContentLoaded', function() {
@@ -1045,57 +1121,6 @@
             }
             
             saveSessionState();
-        }
-
-        function disableGameControls() {
-            document.getElementById('hitBtn').disabled = true;
-            document.getElementById('standBtn').disabled = true;
-            document.getElementById('doubleBtn').disabled = true;
-            document.getElementById('splitBtn').disabled = true;
-            document.getElementById('surrenderBtn').disabled = true;
-            document.getElementById('insuranceBtn').disabled = true;
-        }
-
-        function enableGameControls() {
-            document.getElementById('hitBtn').disabled = false;
-            document.getElementById('standBtn').disabled = false;
-            document.getElementById('doubleBtn').disabled = !gameState.canDouble;
-            document.getElementById('splitBtn').disabled = !gameState.canSplit;
-            document.getElementById('surrenderBtn').disabled = !gameState.canSurrender;
-            document.getElementById('insuranceBtn').disabled = !gameState.canInsure;
-            
-            // For split hands, update button states based on current hand
-            if (gameState.hands.length > 0) {
-                const currentHand = gameState.hands[gameState.currentHandIndex];
-                const handValue = calculateHandValue(currentHand);
-                
-                // Disable double if hand has more than 2 cards or if busted
-                if (currentHand.length > 2 || handValue > 21) {
-                    document.getElementById('doubleBtn').disabled = true;
-                }
-                
-                // Can't split after initial split or if busted
-                document.getElementById('splitBtn').disabled = true;
-                document.getElementById('surrenderBtn').disabled = true;
-                document.getElementById('insuranceBtn').disabled = true;
-            }
-        }
-
-        function updateStatus(message, statusClass = 'status-playing') {
-            const statusElement = document.getElementById('gameStatus');
-            statusElement.textContent = message;
-            statusElement.className = `game-status ${statusClass}`;
-        }
-
-        function setLoading(show) {
-            const loadingElement = document.getElementById('loading');
-            if (loadingElement) {
-                if (show) {
-                    loadingElement.classList.add('show');
-                } else {
-                    loadingElement.classList.remove('show');
-                }
-            }
         }
 
         async function startNewHand() {
@@ -1498,7 +1523,7 @@
                         message = '😔 DEALER WINS';
                         statusClass = 'status-lose';
                     } else if (handResult.result === 'push') {
-                        message = '🤝 PUSH - IT\'S A TIE!';
+                        message = '🤝 PUSH - IT'S A TIE!';
                         statusClass = 'status-push';
                     } else if (handResult.result === 'surrender') {
                         message = '🏳️ SURRENDERED';
