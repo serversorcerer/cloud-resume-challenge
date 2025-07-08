@@ -85,8 +85,16 @@
             gap: 20px;
         }
 
+
         .dealer-area, .player-area {
             text-align: center;
+        }
+
+        .score {
+            margin-top: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e0f7ff;
         }
 
         .area-label {
@@ -561,6 +569,10 @@
             .game-info {
                 grid-template-columns: 1fr;
             }
+
+            .score {
+                font-size: 0.9rem;
+            }
         }
 
         /* Animations */
@@ -621,6 +633,7 @@
                     <div class="hand-container" id="dealerHand">
                         <!-- Dealer cards will be rendered here -->
                     </div>
+                    <div class="score" id="dealerScore"></div>
                 </div>
 
                 <!-- Player Area -->
@@ -636,7 +649,8 @@
                         <div class="hand-container" id="playerHand">
                             <!-- Player cards will be rendered here -->
                         </div>
-                        
+                        <div class="score" id="playerScore"></div>
+
                         <!-- Split Hands Container -->
                         <div class="split-hands" id="splitHands" style="display: none;">
                             <!-- Split hands will be rendered here -->
@@ -647,7 +661,7 @@
 
             <!-- Game Controls -->
             <div class="game-controls">
-                <button class="btn btn-primary" id="newHandBtn" onclick="startNewHand()">New Hand</button>
+                <button class="btn btn-primary" id="newHandBtn" onclick="startNewHand()">Next Hand</button>
                 <button class="btn btn-primary" id="hitBtn" onclick="playerHit()" disabled>Hit</button>
                 <button class="btn btn-primary" id="standBtn" onclick="playerStand()" disabled>Stand</button>
                 <button class="btn btn-warning" id="doubleBtn" onclick="playerDouble()" disabled>Double</button>
@@ -770,7 +784,7 @@
             }
             gameState.bet += amount;
             updateBetDisplay();
-            updateStatus(`Bet placed: $${gameState.bet}! Click "New Hand" to start.`);
+            updateStatus(`Bet placed: $${gameState.bet}! Click "Next Hand" to start.`);
         }
 
         function updateBetDisplay() {
@@ -832,6 +846,45 @@
             return cards.map(card => renderCard(card, isHidden)).join('');
         }
 
+        function calculateHandValue(cards) {
+            let value = 0;
+            let aces = 0;
+            cards.forEach(card => {
+                if (card.rank === 'A') {
+                    value += 11;
+                    aces++;
+                } else if (['J', 'Q', 'K'].includes(card.rank)) {
+                    value += 10;
+                } else {
+                    value += parseInt(card.rank);
+                }
+            });
+            while (value > 21 && aces > 0) {
+                value -= 10;
+                aces--;
+            }
+            return value;
+        }
+
+        function getCurrentPlayerHand() {
+            return gameState.hands.length > 0 ? gameState.hands[gameState.currentHandIndex] : gameState.playerCards;
+        }
+
+        function updateScores() {
+            const playerScoreEl = document.getElementById('playerScore');
+            const dealerScoreEl = document.getElementById('dealerScore');
+
+            const playerHand = getCurrentPlayerHand();
+            playerScoreEl.textContent = playerHand.length ? calculateHandValue(playerHand) : '';
+
+            const showDealerCards = !gameState.playerTurn || gameState.gameOver;
+            if (!showDealerCards) {
+                dealerScoreEl.textContent = '?';
+            } else {
+                dealerScoreEl.textContent = gameState.dealerCards.length ? calculateHandValue(gameState.dealerCards) : '';
+            }
+        }
+
         function updateDisplay() {
             // Render dealer hand
             const dealerHand = document.getElementById('dealerHand');
@@ -854,6 +907,8 @@
             } else {
                 renderSingleHand();
             }
+
+            updateScores();
         }
 
         function renderSingleHand() {
