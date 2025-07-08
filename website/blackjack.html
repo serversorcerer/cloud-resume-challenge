@@ -734,7 +734,7 @@
             canSplit: false,
             canSurrender: false,
             canInsure: false,
-            bet: 0,
+            currentBet: 0,
             bankroll: 1000,
             userId: null,
             splitBets: [],
@@ -782,17 +782,24 @@
                 updateStatus('Insufficient funds for this bet!');
                 return;
             }
-            gameState.bet += amount;
+
+            gameState.currentBet += amount;
+            gameState.bankroll -= amount;
             updateBetDisplay();
+        tckzqs-codex/update-blackjack-gui-with-bankroll-and-ux-improvements
+            updateBankrollDisplay();
+            updateStatus(`Bet placed: $${gameState.currentBet}! Click "Next Hand" to start.`);
+
             updateStatus(`Bet placed: $${gameState.bet}! Click "Next Hand" to start.`);
+        main
         }
 
         function updateBetDisplay() {
             const betAmount = document.getElementById('betAmount');
             const bettingCircle = document.getElementById('bettingCircle');
             
-            if (gameState.bet > 0) {
-                betAmount.textContent = `$${gameState.bet}`;
+            if (gameState.currentBet > 0) {
+                betAmount.textContent = `$${gameState.currentBet}`;
                 bettingCircle.classList.add('has-bet');
             } else {
                 betAmount.textContent = '$0';
@@ -925,7 +932,7 @@
             
             splitHandsContainer.innerHTML = gameState.hands.map((hand, index) => {
                 const isActive = index === gameState.currentHandIndex && !gameState.gameOver;
-                const bet = gameState.splitBets[index] || gameState.bet;
+                const bet = gameState.splitBets[index] || gameState.currentBet;
                 
                 return `
                     <div class="split-hand ${isActive ? 'active' : ''}">
@@ -1076,13 +1083,37 @@
             updateStatsUI();
             updateStatus(message, statusClass);
             
+            // Update bankroll based on round outcome
+            if (typeof result === 'object') {
+                if (result.type === 'split') {
+                    // For simplicity, treat any positive payout as a win
+                    let total = 0;
+                    result.results.forEach(r => { total += r.payout; });
+                    gameState.bankroll += total;
+                } else {
+                    const r = result.result.result;
+                    if (r === 'win' || r === 'blackjack') {
+                        gameState.bankroll += gameState.currentBet * 2;
+                    } else if (r === 'push') {
+                        gameState.bankroll += gameState.currentBet;
+                    }
+                }
+            } else {
+                if (result === 'win' || result === 'blackjack') {
+                    gameState.bankroll += gameState.currentBet * 2;
+                } else if (result === 'push') {
+                    gameState.bankroll += gameState.currentBet;
+                }
+            }
+
             // Reset bet for next hand
-            gameState.bet = 0;
+            gameState.currentBet = 0;
             updateBetDisplay();
+            updateBankrollDisplay();
         }
             
         async function startNewHand() {
-            if (gameState.bet <= 0) {
+            if (gameState.currentBet <= 0) {
                 updateStatus('Please place a bet first!');
                 return;
             }
@@ -1101,7 +1132,7 @@
                     body: JSON.stringify({ 
                         action: 'newGame',
                         userId: gameState.userId,
-                        bet: gameState.bet 
+                        bet: gameState.currentBet
                     })
                 });
                 
@@ -1114,7 +1145,7 @@
                 }
                 
                 // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number') {
+                if (typeof data.bankroll === 'number' && !data.result) {
                     gameState.bankroll = data.bankroll;
                 }
                 
@@ -1184,7 +1215,7 @@
                 };
                 
                 // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number') {
+                if (typeof data.bankroll === 'number' && !data.result) {
                     gameState.bankroll = data.bankroll;
                 }
                 
@@ -1236,7 +1267,7 @@
                 };
                 
                 // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number') {
+                if (typeof data.bankroll === 'number' && !data.result) {
                     gameState.bankroll = data.bankroll;
                 }
                 
@@ -1286,7 +1317,7 @@
                 };
                 
                 // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number') {
+                if (typeof data.bankroll === 'number' && !data.result) {
                     gameState.bankroll = data.bankroll;
                 }
                 
@@ -1336,7 +1367,7 @@
                 };
                 
                 // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number') {
+                if (typeof data.bankroll === 'number' && !data.result) {
                     gameState.bankroll = data.bankroll;
                 }
 
@@ -1383,7 +1414,7 @@
                 };
                 
                 // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number') {
+                if (typeof data.bankroll === 'number' && !data.result) {
                     gameState.bankroll = data.bankroll;
                 }
 
@@ -1414,7 +1445,7 @@
                         action: 'insurance',
                         gameId: gameState.gameId,
                         userId: gameState.userId,
-                        insuranceAmount: Math.floor(gameState.bet * 0.5)
+                        insuranceAmount: Math.floor(gameState.currentBet * 0.5)
                     })
                 });
 
@@ -1434,7 +1465,7 @@
                 };
                 
                 // CRITICAL: Only update bankroll from backend response
-                if (typeof data.bankroll === 'number') {
+                if (typeof data.bankroll === 'number' && !data.result) {
                     gameState.bankroll = data.bankroll;
                 }
 
@@ -1463,7 +1494,7 @@
                 canSplit: false,
                 canSurrender: false,
                 canInsure: false,
-                bet: 0,
+                currentBet: 0,
                 bankroll: 1000,
                 userId: generateUserId(),
                 splitBets: [],
