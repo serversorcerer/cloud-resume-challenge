@@ -140,6 +140,10 @@ exports.handler = async (event) => {
           const type = typeof result === 'object' ? (result.type === 'split' ? 'split' : result.result.result) : result;
           await updateStats(type);
           bankrollUpdate = { bankroll: res.finalBalance, bankrollChange: res.bankrollChange };
+        } else {
+          // For ongoing games, just return current bankroll
+          const currentBankroll = await getPlayerBankroll(saved.playerId);
+          bankrollUpdate = { bankroll: currentBankroll };
         }
         return { statusCode: 200, headers, body: JSON.stringify({ gameState: game.getGameState(), result, playerId: saved.playerId, ...bankrollUpdate }) };
       }

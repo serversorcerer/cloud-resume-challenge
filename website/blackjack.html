@@ -154,32 +154,84 @@
             z-index: 2;
         }
 
-        /* Split Hands - More Compact */
+        /* Split Hands - Enhanced Visual Feedback */
         .split-hands {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         .split-hand {
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-            padding: 12px;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 15px;
+            border: 3px solid transparent;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .split-hand::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, transparent, transparent);
+            border-radius: 15px;
+            z-index: -1;
+            transition: all 0.4s ease;
         }
 
         .split-hand.active {
             border-color: #00bcd4;
-            box-shadow: 0 0 15px rgba(0,188,212,0.3);
-            background: rgba(0,188,212,0.1);
+            background: rgba(0,188,212,0.15);
+            box-shadow: 
+                0 0 25px rgba(0,188,212,0.4),
+                inset 0 0 15px rgba(0,188,212,0.1);
+            transform: scale(1.02);
+        }
+
+        .split-hand.active::before {
+            background: linear-gradient(45deg, 
+                #00bcd4, #4dd0e1, #00bcd4, #4dd0e1, 
+                #00bcd4, #4dd0e1, #00bcd4, #4dd0e1);
+            animation: borderGlow 2s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
 
         .split-hand-label {
-            font-size: 0.85rem;
-            color: #b0bec5;
-            margin-bottom: 8px;
+            font-size: 1rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+        }
+
+        .split-hand.active .split-hand-label {
+            color: #00bcd4;
+            text-shadow: 0 0 15px rgba(0,188,212,0.8);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .split-hand-score {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #e0f7ff;
+        }
+
+        .split-hand.active .split-hand-score {
+            color: #00bcd4;
+            text-shadow: 0 0 10px rgba(0,188,212,0.6);
         }
 
         /* Chips - More Compact */
@@ -878,8 +930,15 @@
             const playerScoreEl = document.getElementById('playerScore');
             const dealerScoreEl = document.getElementById('dealerScore');
 
-            const playerHand = getCurrentPlayerHand();
-            playerScoreEl.textContent = playerHand.length ? calculateHandValue(playerHand) : '';
+            if (gameState.hands.length > 0) {
+                // For split hands, show current hand score
+                const currentHand = gameState.hands[gameState.currentHandIndex];
+                playerScoreEl.textContent = currentHand.length ? calculateHandValue(currentHand) : '';
+            } else {
+                // For single hand
+                const playerHand = gameState.playerCards;
+                playerScoreEl.textContent = playerHand.length ? calculateHandValue(playerHand) : '';
+            }
 
             const showDealerCards = !gameState.playerTurn || gameState.gameOver;
             if (!showDealerCards) {
@@ -887,6 +946,36 @@
             } else {
                 dealerScoreEl.textContent = gameState.dealerCards.length ? calculateHandValue(gameState.dealerCards) : '';
             }
+        }
+
+        function renderSplitHands() {
+            const splitHandsContainer = document.getElementById('splitHands');
+            const playerHand = document.getElementById('playerHand');
+            
+            playerHand.style.display = 'none';
+            splitHandsContainer.style.display = 'grid';
+            
+            splitHandsContainer.innerHTML = gameState.hands.map((hand, index) => {
+                const isActive = index === gameState.currentHandIndex && !gameState.gameOver;
+                const bet = gameState.splitBets[index] || gameState.originalBet || 0;
+                const handValue = calculateHandValue(hand);
+                const handStatus = handValue > 21 ? ' (BUST)' : handValue === 21 ? ' (21!)' : '';
+                
+                return `
+                    <div class="split-hand ${isActive ? 'active' : ''}" data-hand-index="${index}">
+                        <div class="split-hand-label">
+                            Hand ${index + 1} - Bet: $${bet}
+                            ${isActive ? ' 👈 PLAYING' : ''}
+                        </div>
+                        <div class="hand-container">
+                            ${renderHand(hand)}
+                        </div>
+                        <div class="split-hand-score">
+                            Score: ${handValue}${handStatus}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         function updateDisplay() {
@@ -908,81 +997,17 @@
             // Render player hand or split hands
             if (gameState.hands.length > 0) {
                 renderSplitHands();
+                // Update status to show which hand is active
+                if (!gameState.gameOver && gameState.playerTurn) {
+                    const currentHandIndex = gameState.currentHandIndex + 1;
+                    const totalHands = gameState.hands.length;
+                    updateStatus(`Playing Hand ${currentHandIndex} of ${totalHands} - Choose your action!`);
+                }
             } else {
                 renderSingleHand();
             }
 
             updateScores();
-        }
-
-        function renderSingleHand() {
-            const playerHand = document.getElementById('playerHand');
-            playerHand.innerHTML = renderHand(gameState.playerCards);
-        }
-
-        function renderSplitHands() {
-            const splitHandsContainer = document.getElementById('splitHands');
-            const playerHand = document.getElementById('playerHand');
-            
-            playerHand.style.display = 'none';
-            splitHandsContainer.style.display = 'grid';
-            
-            splitHandsContainer.innerHTML = gameState.hands.map((hand, index) => {
-                const isActive = index === gameState.currentHandIndex && !gameState.gameOver;
-                const bet = gameState.splitBets[index] || gameState.currentBet;
-                
-                return `
-                    <div class="split-hand ${isActive ? 'active' : ''}">
-                        <div class="split-hand-label">Hand ${index + 1} (Bet: $${bet})</div>
-                        <div class="hand-container">
-                            ${renderHand(hand)}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function updateBankrollDisplay() {
-            const bankrollDisplay = document.getElementById('bankrollDisplay');
-            const bankrollChange = document.getElementById('bankrollChange');
-            
-            // Always use server-provided bankroll
-            bankrollDisplay.textContent = `$${gameState.bankroll.toLocaleString()}`;
-            
-            // Calculate change if we have bankrollChange from server
-            if (gameState.bankrollChange !== undefined) {
-                const changeText = gameState.bankrollChange > 0 ? `+$${gameState.bankrollChange}` : `$${gameState.bankrollChange}`;
-                const changeClass = gameState.bankrollChange > 0 ? 'positive' : 'negative';
-                bankrollChange.textContent = changeText;
-                bankrollChange.className = `info-value ${changeClass}`;
-                
-                // Reset after showing
-                setTimeout(() => {
-                    bankrollChange.textContent = '$0';
-                    bankrollChange.className = 'info-value';
-                    gameState.bankrollChange = undefined;
-                }, 3000);
-            }
-            
-            saveSessionState();
-        }
-
-        function updateStatus(message, statusClass = 'status-playing') {
-            const status = document.getElementById('gameStatus');
-            status.className = `game-status ${statusClass}`;
-            status.textContent = message;
-        }
-
-        function setLoading(loading) {
-            const loadingDiv = document.getElementById('loading');
-            if (loading) {
-                // Only show spinner if backend takes >200ms
-                setTimeout(() => {
-                    if (loadingDiv && loading) loadingDiv.classList.add('show');
-                }, 200);
-            } else {
-                if (loadingDiv) loadingDiv.classList.remove('show');
-            }
         }
 
         function enableGameControls() {
@@ -992,15 +1017,22 @@
             document.getElementById('splitBtn').disabled = !gameState.canSplit;
             document.getElementById('surrenderBtn').disabled = !gameState.canSurrender;
             document.getElementById('insuranceBtn').disabled = !gameState.canInsure;
-        }
-
-        function disableGameControls() {
-            document.getElementById('hitBtn').disabled = true;
-            document.getElementById('standBtn').disabled = true;
-            document.getElementById('doubleBtn').disabled = true;
-            document.getElementById('splitBtn').disabled = true;
-            document.getElementById('surrenderBtn').disabled = true;
-            document.getElementById('insuranceBtn').disabled = true;
+            
+            // For split hands, update button states based on current hand
+            if (gameState.hands.length > 0) {
+                const currentHand = gameState.hands[gameState.currentHandIndex];
+                const handValue = calculateHandValue(currentHand);
+                
+                // Disable double if hand has more than 2 cards or if busted
+                if (currentHand.length > 2 || handValue > 21) {
+                    document.getElementById('doubleBtn').disabled = true;
+                }
+                
+                // Can't split after initial split or if busted
+                document.getElementById('splitBtn').disabled = true;
+                document.getElementById('surrenderBtn').disabled = true;
+                document.getElementById('insuranceBtn').disabled = true;
+            }
         }
 
         function handleGameEnd(result) {
@@ -1011,59 +1043,66 @@
             
             if (typeof result === 'object') {
                 if (result.type === 'split') {
-                    message = 'Split Results:';
+                    message = '🎯 SPLIT RESULTS:\n';
+                    let totalPayout = 0;
+                    
                     result.results.forEach((handResult, index) => {
                         const handNumber = index + 1;
                         const resultText = handResult.result.toUpperCase();
                         const payout = handResult.payout;
+                        totalPayout += payout;
+                        
                         if (payout > 0) {
-                            message += `\nHand ${handNumber}: ${resultText} (+$${payout})`;
+                            message += `Hand ${handNumber}: ${resultText} (+$${payout})\n`;
                             if (handResult.result === 'win' || handResult.result === 'blackjack') won = true;
                         } else if (payout < 0) {
-                            message += `\nHand ${handNumber}: ${resultText} ($${Math.abs(payout)})`;
+                            message += `Hand ${handNumber}: ${resultText} (-$${Math.abs(payout)})\n`;
                         } else {
-                            message += `\nHand ${handNumber}: ${resultText} (Push)`;
+                            message += `Hand ${handNumber}: ${resultText} (Push)\n`;
                         }
                     });
-                    statusClass = 'status-playing';
+                    
+                    message += `\nTotal Change: ${totalPayout >= 0 ? '+' : ''}$${totalPayout}`;
+                    statusClass = totalPayout > 0 ? 'status-win' : totalPayout < 0 ? 'status-lose' : 'status-push';
                 } else {
                     const handResult = result.result;
                     if (handResult.result === 'blackjack') {
-                        message = 'BLACKJACK! 🎉';
+                        message = '🃏 BLACKJACK! 🎉';
                         statusClass = 'status-blackjack';
                         won = true;
                     } else if (handResult.result === 'win') {
-                        message = 'YOU WIN! 🎉';
+                        message = '🎉 YOU WIN! 🎉';
                         statusClass = 'status-win';
                         won = true;
                     } else if (handResult.result === 'lose') {
-                        message = 'DEALER WINS 😔';
+                        message = '😔 DEALER WINS';
                         statusClass = 'status-lose';
                     } else if (handResult.result === 'push') {
-                        message = 'PUSH - IT\'S A TIE!';
+                        message = '🤝 PUSH - IT\'S A TIE!';
                         statusClass = 'status-push';
                     } else if (handResult.result === 'surrender') {
-                        message = 'SURRENDERED';
+                        message = '🏳️ SURRENDERED';
                         statusClass = 'status-lose';
                     }
                 }
             } else {
+                // Handle simple string results
                 if (result === 'blackjack') {
-                    message = 'BLACKJACK! 🎉';
+                    message = '🃏 BLACKJACK! 🎉';
                     statusClass = 'status-blackjack';
                     won = true;
                 } else if (result === 'win') {
-                    message = 'YOU WIN! 🎉';
+                    message = '🎉 YOU WIN! 🎉';
                     statusClass = 'status-win';
                     won = true;
                 } else if (result === 'lose') {
-                    message = 'DEALER WINS 😔';
+                    message = '😔 DEALER WINS';
                     statusClass = 'status-lose';
                 } else if (result === 'push') {
-                    message = 'PUSH - IT\'S A TIE!';
+                    message = '🤝 PUSH - IT\'S A TIE!';
                     statusClass = 'status-push';
                 } else if (result === 'surrender') {
-                    message = 'SURRENDERED';
+                    message = '🏳️ SURRENDERED';
                     statusClass = 'status-lose';
                 }
             }
@@ -1074,9 +1113,6 @@
             saveSessionState();
             updateStatsUI();
             updateStatus(message, statusClass);
-            
-            // REMOVE all client-side bankroll calculations
-            // Server handles all bankroll updates via data.bankroll
         }
             
         async function startNewHand() {
