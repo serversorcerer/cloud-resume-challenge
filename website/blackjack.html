@@ -1081,7 +1081,27 @@
             }
         }
 
+        function updateStatus(message, statusClass = 'status-playing') {
+            const statusElement = document.getElementById('gameStatus');
+            statusElement.textContent = message;
+            statusElement.className = `game-status ${statusClass}`;
+        }
+
+        function setLoading(show) {
+            const loadingElement = document.getElementById('loading');
+            if (loadingElement) {
+                if (show) {
+                    loadingElement.classList.add('show');
+                } else {
+                    loadingElement.classList.remove('show');
+                }
+            }
+        }
+
         async function startNewHand() {
+            console.log('startNewHand called, currentBet:', gameState.currentBet);
+            console.log('gameId:', gameState.gameId, 'gameOver:', gameState.gameOver);
+            
             if (gameState.currentBet <= 0) {
                 updateStatus('Please place a bet first!');
                 return;
@@ -1095,6 +1115,13 @@
             
             try {
                 setLoading(true);
+                console.log('Sending request to:', API_URL);
+                console.log('Request body:', { 
+                    action: 'newGame',
+                    playerId: gameState.userId,
+                    bet: gameState.currentBet
+                });
+                
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1105,8 +1132,11 @@
                     })
                 });
                 
+                console.log('Response status:', response.status);
                 if (!response.ok) throw new Error('Network response was not ok');
+                
                 const data = await response.json();
+                console.log('Response data:', data);
                 
                 if (data.error) {
                     updateStatus(data.error);
@@ -1135,6 +1165,8 @@
                     canInsure: data.gameState.canInsure || false,
                     splitBets: data.gameState.splitBets || []
                 };
+                
+                console.log('Updated gameState:', gameState);
                 
                 updateDisplay();
                 updateBankrollDisplay();

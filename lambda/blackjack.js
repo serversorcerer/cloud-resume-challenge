@@ -42,9 +42,9 @@ async function parseBody(event) {
   }
 }
 
-// Fix the createErrorResponse function to include headers
-const createErrorResponse = async (playerId, message, statusCode = 400) => {
-    const headers = getCorsHeaders(); // Add this line
+// Fix the createErrorResponse function
+const createErrorResponse = async (event, playerId, message, statusCode = 400) => {
+    const headers = getCorsHeaders(event);
     const bankroll = playerId ? await getPlayerBankroll(playerId) : 0;
     return {
         statusCode,
@@ -94,11 +94,11 @@ exports.handler = async (event) => {
         try {
             await player.placeBet(betAmount);
         } catch (err) {
-            return createErrorResponse(currentPlayerId, err.message);
+            return createErrorResponse(event, currentPlayerId, err.message);
         }
         
         const game = new BlackjackGame(betAmount);
-        game.originalBet = betAmount; // Add this line to ensure originalBet is set
+        game.originalBet = betAmount; // Ensure this is set
         game.dealInitialCards();
         await saveGameState(game, currentPlayerId);
         
