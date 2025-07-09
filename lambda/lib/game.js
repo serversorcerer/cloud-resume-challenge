@@ -108,7 +108,7 @@ class BlackjackGame {
     this.dealerCards.push(this.dealCard());
     this.playerCards.push(this.dealCard());
     this.dealerCards.push(this.dealCard());
-    this.canSplit = this.canSplitHand(this.playerCards);
+    this.canSplit = this.playerCards.length === 2 && this.playerCards[0].rank === this.playerCards[1].rank;
     this.canInsure = this.dealerCards[0].rank === 'A';
     this.splitCount = 0;
     this.splitAces = false;
@@ -224,7 +224,6 @@ class BlackjackGame {
       this.splitBets.splice(this.currentHandIndex + 1, 0, this.originalBet);
     }
 
-    this.updateSplitGameState();
     return { type: 'split', hands: this.hands.length };
   }
 
