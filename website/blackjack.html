@@ -279,6 +279,12 @@
         .chip-25 { background: linear-gradient(45deg, #4ecdc4, #44a08d); }
         .chip-100 { background: linear-gradient(45deg, #45b7d1, #96c93d); }
         .chip-500 { background: linear-gradient(45deg, #a55eea, #8b5cf6); }
+        .chip-1000 { 
+            background: linear-gradient(45deg, #ffd700, #ffed4e); 
+            color: #000;
+            font-weight: 800;
+            border-color: #ffd700;
+        }
 
         /* Cards - Slightly Smaller */
         .card {
@@ -675,6 +681,7 @@
                 <div class="chip chip-25" data-value="25">$25</div>
                 <div class="chip chip-100" data-value="100">$100</div>
                 <div class="chip chip-500" data-value="500">$500</div>
+                <div class="chip chip-1000" data-value="1000">$1K</div>
             </div>
             
             <!-- Game Areas -->
@@ -1523,7 +1530,7 @@
                         message = '😔 DEALER WINS';
                         statusClass = 'status-lose';
                     } else if (handResult.result === 'push') {
-                        message = '🤝 PUSH - IT\'S A TIE!';
+                        message = '🤝 PUSH - IT'S A TIE!';
                         statusClass = 'status-push';
                     } else if (handResult.result === 'surrender') {
                         message = '🏳️ SURRENDERED';
@@ -1531,7 +1538,7 @@
                     }
                 }
             } else {
-                // Handle simple string results
+                // Handle simple string results (like immediate blackjack)
                 if (result === 'blackjack') {
                     message = '🃏 BLACKJACK! 🎉';
                     statusClass = 'status-blackjack';
@@ -1555,9 +1562,17 @@
             // Update stats
             gameState.gamesPlayed++;
             if (won) gameState.gamesWon++;
+            
+            // Mark game as over and reset gameId to allow new bets
+            gameState.gameOver = true;
+            gameState.gameId = null;
+            
             saveSessionState();
             updateStatsUI();
             updateStatus(message, statusClass);
+            
+            // Enable "Next Hand" button for new game
+            document.getElementById('newHandBtn').disabled = false;
         }
 
         async function startNewSession() {

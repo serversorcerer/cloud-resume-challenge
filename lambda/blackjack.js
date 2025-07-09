@@ -11,7 +11,7 @@ const {
 } = require('./lib/db');
 
 const MIN_BET = 10;
-const MAX_BET = 1000;
+const MAX_BET = 5000; // Changed from 1000 to 5000
 
 function getCorsHeaders(event) {
   const origin = event?.headers?.origin || event?.headers?.Origin;
@@ -84,7 +84,7 @@ exports.handler = async (event) => {
           return {
             statusCode: 400,
             headers,
-            body: JSON.stringify({ error: `Bet must be between ${MIN_BET} and ${MAX_BET}` }),
+            body: JSON.stringify({ error: `Bet must be between $${MIN_BET} and $${MAX_BET}` }),
           };
         }
         
@@ -98,13 +98,15 @@ exports.handler = async (event) => {
         }
         
         const game = new BlackjackGame(betAmount);
-        game.originalBet = betAmount; // Ensure this is set
+        game.originalBet = betAmount;
         game.dealInitialCards();
         await saveGameState(game, currentPlayerId);
         
+        // Check for immediate game-ending conditions
         if (game.gameOver || game.isBlackjack(game.playerCards)) {
             const resolution = await resolveGame(game, currentPlayerId);
-            await updateStats(game.isBlackjack(game.playerCards) ? 'blackjack' : 'lose');
+            const resultType = game.isBlackjack(game.playerCards) ? 'blackjack' : 'lose';
+            await updateStats(resultType);
             return {
                 statusCode: 200,
                 headers,
@@ -113,7 +115,7 @@ exports.handler = async (event) => {
                     bankroll: resolution.finalBalance,
                     bankrollChange: resolution.bankrollChange,
                     playerId: currentPlayerId,
-                    result: game.isBlackjack(game.playerCards) ? 'blackjack' : 'lose'
+                    result: resultType // Send simple string result for immediate resolution
                 }),
             };
         }
