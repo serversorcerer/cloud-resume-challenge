@@ -27,7 +27,7 @@ class BlackjackGame {
     this.currentHandIndex = 0;
     this.splitBets = [];
     this.splitCount = 0;
-    this.maxSplits = MAX_SPLITS;
+    this.maxSplits = 4; // Allow up to 4 hands total
     this.splitAces = false;
   }
 
@@ -85,15 +85,22 @@ class BlackjackGame {
     return this.calculateHandValue(cards) > 21;
   }
 
-  canSplitHand(cards) {
-    if (cards.length !== 2) return false;
-    if (this.splitCount >= this.maxSplits) return false;
-    const tenValues = ['10', 'J', 'Q', 'K'];
-    if (cards[0].rank === 'A' && cards[1].rank === 'A') return true;
-    return (
-      cards[0].rank === cards[1].rank ||
-      (tenValues.includes(cards[0].rank) && tenValues.includes(cards[1].rank))
-    );
+  canSplit() {
+    if (this.hands.length > 0) {
+      // Already split - check current hand
+      const currentHand = this.hands[this.currentHandIndex];
+      return (
+        currentHand.length === 2 &&
+        currentHand[0].rank === currentHand[1].rank &&
+        this.hands.length < this.maxSplits
+      );
+    } else {
+      // Initial hand
+      return (
+        this.playerCards.length === 2 &&
+        this.playerCards[0].rank === this.playerCards[1].rank
+      );
+    }
   }
 
   dealInitialCards() {
@@ -187,23 +194,38 @@ class BlackjackGame {
   }
 
   playerSplit() {
-    if (this.gameOver || !this.playerTurn || !this.canSplit) throw new Error('Invalid move');
-    if (this.splitCount >= this.maxSplits) throw new Error('Maximum splits reached');
-    const [card1, card2] = this.playerCards;
-    if (card1.rank === 'A' && card2.rank === 'A') {
-      this.hands = [ [card1, this.dealCard()], [card2, this.dealCard()] ];
-      this.splitAces = true;
-    } else {
-      this.hands = [ [card1, this.dealCard()], [card2, this.dealCard()] ];
-      this.splitAces = false;
+    if (!this.canSplit()) {
+      throw new Error('Cannot split');
     }
-    this.splitBets = [this.originalBet, this.originalBet];
-    this.currentHandIndex = 0;
-    this.playerCards = [];
-    this.canSplit = false;
-    this.canDouble = this.hands[0].length === 2;
-    this.splitCount++;
-    return null;
+
+    if (this.hands.length === 0) {
+      // First split - convert single hand to split hands
+      const card1 = this.playerCards[0];
+      const card2 = this.playerCards[1];
+
+      this.hands = [
+        [card1, this.dealCard()],
+        [card2, this.dealCard()],
+      ];
+      this.playerCards = []; // Clear original hand
+      this.splitBets = [this.originalBet, this.originalBet];
+      this.currentHandIndex = 0;
+    } else {
+      // Additional split on current hand
+      const currentHand = this.hands[this.currentHandIndex];
+      const card1 = currentHand[0];
+      const card2 = currentHand[1];
+
+      // Replace current hand with first split
+      this.hands[this.currentHandIndex] = [card1, this.dealCard()];
+
+      // Insert new hand after current
+      this.hands.splice(this.currentHandIndex + 1, 0, [card2, this.dealCard()]);
+      this.splitBets.splice(this.currentHandIndex + 1, 0, this.originalBet);
+    }
+
+    this.updateSplitGameState();
+    return { type: 'split', hands: this.hands.length };
   }
 
   playerSurrender() {

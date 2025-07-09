@@ -1,0 +1,706 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(ellipse at center, #14532d 0%, #0a0a0a 100%);
+    color: #e0f7ff;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.casino-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+    position: relative;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    margin-bottom: 5px;
+}
+
+.header p {
+    font-size: 1rem;
+    color: #b0bec5;
+    font-weight: 400;
+}
+
+/* Casino Table */
+.casino-table {
+    background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
+    border-radius: 150px 150px 30px 30px;
+    padding: 25px 20px 40px;
+    position: relative;
+    box-shadow: 
+        0 15px 30px rgba(0,0,0,0.4),
+        inset 0 2px 4px rgba(255,255,255,0.1),
+        inset 0 -2px 4px rgba(0,0,0,0.2);
+    border: 6px solid #8d6e63;
+    margin-bottom: 20px;
+}
+
+.table-border {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 150px 150px 30px 30px;
+    background: linear-gradient(45deg, #8d6e63, #a1887f, #8d6e63);
+    z-index: -1;
+}
+
+/* Game Areas */
+.game-areas {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.dealer-area, .player-area {
+    text-align: center;
+}
+
+.score {
+    margin-top: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e0f7ff;
+}
+
+.area-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffd700;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255,215,0,0.3);
+}
+
+.hand-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    min-height: 100px;
+    align-items: center;
+}
+
+/* Player Area with Betting Circle */
+.player-area {
+    position: relative;
+}
+
+.betting-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, rgba(255,215,0,0.1) 70%, transparent 100%);
+    border: 3px dashed rgba(255,215,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.betting-circle.has-bet {
+    background: radial-gradient(circle, rgba(255,215,0,0.4) 0%, rgba(255,215,0,0.2) 70%, transparent 100%);
+    border-color: rgba(255,215,0,0.8);
+    box-shadow: 0 0 20px rgba(255,215,0,0.3);
+}
+
+.bet-amount {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+}
+
+.player-hand-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Split Hands - Enhanced Visual Feedback with 4-split support */
+.split-hands {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+    max-width: 100%;
+}
+
+.split-hand {
+    background: rgba(0,0,0,0.3);
+    border-radius: 15px;
+    padding: 12px;
+    border: 3px solid transparent;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 250px;
+}
+
+.split-hand::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, transparent, transparent);
+    border-radius: 15px;
+    z-index: -1;
+    transition: all 0.4s ease;
+}
+
+.split-hand.active {
+    border-color: #00bcd4;
+    background: rgba(0,188,212,0.15);
+    box-shadow: 
+        0 0 25px rgba(0,188,212,0.4),
+        inset 0 0 15px rgba(0,188,212,0.1);
+    transform: scale(1.02);
+}
+
+.split-hand.active::before {
+    background: linear-gradient(45deg, 
+        #00bcd4, #4dd0e1, #00bcd4, #4dd0e1, 
+        #00bcd4, #4dd0e1, #00bcd4, #4dd0e1);
+    background-size: 200% 200%;
+    animation: borderGlow 2s linear infinite;
+}
+
+@keyframes borderGlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.split-hand-label {
+    font-size: 0.9rem;
+    color: #ffd700;
+    margin-bottom: 8px;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+}
+
+.split-hand.active .split-hand-label {
+    color: #00bcd4;
+    text-shadow: 0 0 15px rgba(0,188,212,0.8);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.split-hand-score {
+    text-align: center;
+    margin-top: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #e0f7ff;
+}
+
+.split-hand.active .split-hand-score {
+    color: #00bcd4;
+    text-shadow: 0 0 10px rgba(0,188,212,0.6);
+}
+
+.split-hand.completed {
+    opacity: 0.7;
+    transform: scale(0.98);
+}
+
+.split-hand.busted {
+    border-color: #f44336;
+    background: rgba(244,67,54,0.1);
+}
+
+/* Chips */
+.chips-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.chip {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    box-shadow: 
+        0 3px 6px rgba(0,0,0,0.3),
+        inset 0 2px 4px rgba(255,255,255,0.3);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.chip:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+        0 5px 10px rgba(0,0,0,0.4),
+        inset 0 2px 4px rgba(255,255,255,0.3),
+        0 0 15px rgba(255,255,255,0.3);
+}
+
+.chip:active {
+    transform: translateY(0) scale(0.95);
+}
+
+.chip-10 { background: linear-gradient(45deg, #ff6b6b, #ee5a52); }
+.chip-25 { background: linear-gradient(45deg, #4ecdc4, #44a08d); }
+.chip-100 { background: linear-gradient(45deg, #45b7d1, #96c93d); }
+.chip-500 { background: linear-gradient(45deg, #a55eea, #8b5cf6); }
+.chip-1000 { 
+    background: linear-gradient(45deg, #ffd700, #ffed4e); 
+    color: #000;
+    font-weight: 800;
+    border-color: #ffd700;
+}
+
+/* Cards */
+.card {
+    width: 90px;
+    height: 130px;
+    background: #fff;
+    border-radius: 10px;
+    border: 2px solid #bbb;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 6px;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+
+.card-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.card-suit {
+    font-size: 1rem;
+    line-height: 1;
+    max-width: 100%;
+    max-height: 1.2em;
+    overflow: hidden;
+}
+
+.card-center {
+    text-align: center;
+    font-size: 1.3rem;
+    line-height: 1;
+    margin: 0.2em 0;
+    max-width: 100%;
+    max-height: 1.6em;
+    overflow: hidden;
+}
+
+.card.red .card-value,
+.card.red .card-suit,
+.card.red .card-center {
+    color: #e74c3c;
+}
+
+.card.black .card-value,
+.card.black .card-suit,
+.card.black .card-center {
+    color: #222;
+}
+
+.card.hidden {
+    background: linear-gradient(135deg, #1a237e 0%, #3f51b5 50%, #1a237e 100%);
+    border-color: #1a237e;
+}
+
+/* Controls */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #00bcd4, #0097a7);
+    color: white;
+    box-shadow: 0 3px 12px rgba(0,188,212,0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,188,212,0.4);
+}
+
+.btn-success {
+    background: linear-gradient(45deg, #4caf50, #388e3c);
+    color: white;
+    box-shadow: 0 3px 12px rgba(76,175,80,0.3);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76,175,80,0.4);
+}
+
+.btn-warning {
+    background: linear-gradient(45deg, #ff9800, #f57c00);
+    color: white;
+    box-shadow: 0 3px 12px rgba(255,152,0,0.3);
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,152,0,0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(45deg, #f44336, #d32f2f);
+    color: white;
+    box-shadow: 0 3px 12px rgba(244,67,54,0.3);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(244,67,54,0.4);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Status */
+.game-status {
+    text-align: center;
+    padding: 18px 10px;
+    border-radius: 12px;
+    margin: 18px 0;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    min-height: 2.5em;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: statusFadeIn 0.5s forwards;
+}
+
+@keyframes statusFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.status-win {
+    background: linear-gradient(90deg, #4caf50 60%, #a5d6a7 100%);
+    border: 2px solid #388e3c;
+    color: #fff;
+    text-shadow: 0 2px 8px #388e3c;
+}
+
+.status-lose {
+    background: linear-gradient(90deg, #f44336 60%, #ffb3b3 100%);
+    border: 2px solid #b71c1c;
+    color: #fff;
+    text-shadow: 0 2px 8px #b71c1c;
+}
+
+.status-blackjack {
+    background: linear-gradient(90deg, #ffd700 60%, #fffde7 100%);
+    border: 2px solid #ffd700;
+    color: #222;
+    text-shadow: 0 2px 8px #ffd700;
+}
+
+.status-push {
+    background: linear-gradient(90deg, #ff9800 60%, #ffe0b2 100%);
+    border: 2px solid #ff9800;
+    color: #fff;
+    text-shadow: 0 2px 8px #ff9800;
+}
+
+.status-playing {
+    background: linear-gradient(90deg, #00bcd4 60%, #b2ebf2 100%);
+    border: 2px solid #00bcd4;
+    color: #fff;
+    text-shadow: 0 2px 8px #00bcd4;
+}
+
+/* Loading */
+.loading {
+    display: none;
+    text-align: center;
+    padding: 15px;
+}
+
+.loading.show {
+    display: block;
+}
+
+.spinner {
+    width: 35px;
+    height: 35px;
+    border: 3px solid rgba(255,215,0,0.3);
+    border-top: 3px solid #ffd700;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Game Info */
+.game-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.info-panel {
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid rgba(255,215,0,0.2);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.info-panel h3 {
+    color: #ffd700;
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+.info-value {
+    font-weight: 600;
+    color: #e0f7ff;
+}
+
+.info-value.positive {
+    color: #4caf50;
+    animation: pulse 0.5s ease-in-out;
+}
+
+.info-value.negative {
+    color: #f44336;
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Animations */
+.card-deal {
+    animation: dealCard 0.5s ease-out;
+}
+
+@keyframes dealCard {
+    from {
+        transform: translateX(-100px) rotateY(90deg);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) rotateY(0deg);
+        opacity: 1;
+    }
+}
+
+.chip-place {
+    animation: placeChip 0.3s ease-out;
+}
+
+@keyframes placeChip {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .casino-container {
+        padding: 8px;
+    }
+
+    .header h1 {
+        font-size: 1.8rem;
+    }
+
+    .casino-table {
+        border-radius: 80px 80px 20px 20px;
+        padding: 15px 10px 25px;
+    }
+
+    .table-border {
+        border-radius: 80px 80px 20px 20px;
+    }
+
+    .betting-circle {
+        width: 70px;
+        height: 70px;
+    }
+
+    .bet-amount {
+        font-size: 1rem;
+    }
+
+    .chip {
+        width: 45px;
+        height: 45px;
+        font-size: 0.7rem;
+    }
+
+    .card {
+        width: 70px;
+        height: 100px;
+        padding: 8px 5px;
+    }
+
+    .card-value {
+        font-size: 0.9rem;
+    }
+
+    .card-suit {
+        font-size: 0.9rem;
+    }
+
+    .card-center {
+        font-size: 1.1rem;
+    }
+
+    .game-controls {
+        gap: 8px;
+    }
+
+    .btn {
+        padding: 8px 14px;
+        font-size: 0.8rem;
+    }
+
+    .split-hands {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .split-hand {
+        min-width: auto;
+        padding: 10px;
+    }
+
+    .game-info {
+        grid-template-columns: 1fr;
+    }
+
+    .score {
+        font-size: 0.9rem;
+    }
+}
+
+/* Support for up to 4 splits */
+@media (min-width: 1200px) {
+    .split-hands {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1000px;
+        margin: 0 auto 20px;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 900px) {
+    .split-hands {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 899px) and (min-width: 600px) {
+    .split-hands {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

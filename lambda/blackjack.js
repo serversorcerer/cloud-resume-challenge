@@ -135,32 +135,69 @@ exports.handler = async (event) => {
         const saved = await loadGameState(gameId);
         if (!saved) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Game not found' }) };
         const game = BlackjackGame.fromSavedState({ ...saved.gameState, shoe: saved.shoe });
+        
         const result = game.playerHit();
         await saveGameState(game, saved.playerId);
+        
         let bankrollUpdate = {};
-        if (result) {
+        
+        // Check if this specific hand/game is over
+        if (result && (typeof result === 'string' || (typeof result === 'object' && result.gameOver))) {
           const res = await resolveGame(game, saved.playerId);
-          const type = typeof result === 'object' ? (result.type === 'split' ? 'split' : result.result.result) : result;
+          const type = typeof result === 'object' ? (result.type === 'split' ? 'split' : result.result?.result || result) : result;
           await updateStats(type);
           bankrollUpdate = { bankroll: res.finalBalance, bankrollChange: res.bankrollChange };
         } else {
-          // For ongoing games, just return current bankroll
+          // For ongoing games (including split hands), just return current bankroll
           const currentBankroll = await getPlayerBankroll(saved.playerId);
           bankrollUpdate = { bankroll: currentBankroll };
         }
-        return { statusCode: 200, headers, body: JSON.stringify({ gameState: game.getGameState(), result, playerId: saved.playerId, ...bankrollUpdate }) };
+        
+        return { 
+          statusCode: 200, 
+          headers, 
+          body: JSON.stringify({ 
+            gameState: game.getGameState(), 
+            result, 
+            playerId: saved.playerId, 
+            ...bankrollUpdate 
+          }) 
+        };
       }
+
       case 'stand': {
         if (!gameId) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Game ID required' }) };
         const saved = await loadGameState(gameId);
         if (!saved) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Game not found' }) };
         const game = BlackjackGame.fromSavedState({ ...saved.gameState, shoe: saved.shoe });
+        
         const result = game.playerStand();
         await saveGameState(game, saved.playerId);
-        const res = await resolveGame(game, saved.playerId);
-        const type = typeof result === 'object' ? (result.type === 'split' ? 'split' : result.result.result) : result;
-        await updateStats(type);
-        return { statusCode: 200, headers, body: JSON.stringify({ gameState: game.getGameState(), result, bankroll: res.finalBalance, bankrollChange: res.bankrollChange, playerId: saved.playerId }) };
+        
+        // Only resolve game if completely over
+        let bankrollUpdate = {};
+        if (game.gameOver) {
+          const res = await resolveGame(game, saved.playerId);
+          const type = typeof result === 'object' ? (result.type === 'split' ? 'split' : result.result?.result || result) : result;
+          await updateStats(type);
+          bankrollUpdate = { bankroll: res.finalBalance, bankrollChange: res.bankrollChange };
+        } else {
+          // Game continues (split hands), just return current bankroll
+          const currentBankroll = await getPlayerBankroll(saved.playerId);
+          bankrollUpdate = { bankroll: currentBankroll };
+        }
+        
+        return { 
+          statusCode: 200, 
+          headers, 
+          body: JSON.stringify({ 
+            gameState: game.getGameState(), 
+            result: game.gameOver ? result : null, 
+            bankroll: bankrollUpdate.bankroll,
+            bankrollChange: bankrollUpdate.bankrollChange,
+            playerId: saved.playerId 
+          }) 
+        };
       }
       case 'double': {
         if (!gameId) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Game ID required' }) };

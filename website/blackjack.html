@@ -1040,7 +1040,7 @@
             
             splitHandsContainer.innerHTML = gameState.hands.map((hand, index) => {
                 const isActive = index === gameState.currentHandIndex && !gameState.gameOver;
-                const bet = gameState.splitBets[index] || gameState.originalBet || 0;
+                const bet = gameState.splitBets && gameState.splitBets[index] ? gameState.splitBets[index] : (gameState.originalBet || gameState.bet || 0);
                 const handValue = calculateHandValue(hand);
                 const handStatus = handValue > 21 ? ' (BUST)' : handValue === 21 ? ' (21!)' : '';
                 
@@ -1248,7 +1248,7 @@
                     return;
                 }
 
-                // Update game state and bankroll from server
+                // Update game state from server
                 gameState = { ...gameState, ...data.gameState };
                 if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
                 if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
@@ -1256,8 +1256,35 @@
                 updateDisplay();
                 updateBankrollDisplay();
                 
-                if (data.result) {
+                // Check if game is completely over
+                if (data.result && gameState.gameOver) {
                     handleGameEnd(data.result);
+                } else if (gameState.hands.length > 0) {
+                    // Handle split hand progression
+                    const currentHand = gameState.hands[gameState.currentHandIndex];
+                    const handValue = calculateHandValue(currentHand);
+                    
+                    if (handValue >= 21) {
+                        // Current hand is done, check if there are more hands
+                        if (gameState.currentHandIndex < gameState.hands.length - 1) {
+                            // Move to next hand
+                            updateStatus(`Hand ${gameState.currentHandIndex + 1} complete. Moving to Hand ${gameState.currentHandIndex + 2}...`);
+                            setTimeout(() => {
+                                updateDisplay();
+                                enableGameControls();
+                                updateStatus(`Playing Hand ${gameState.currentHandIndex + 2} of ${gameState.hands.length} - Choose your action!`);
+                            }, 1500);
+                        } else {
+                            // All hands complete, dealer plays
+                            updateStatus('All hands complete. Dealer playing...');
+                            setTimeout(() => {
+                                // The next server response should complete the game
+                                enableGameControls();
+                            }, 1500);
+                        }
+                    } else {
+                        enableGameControls();
+                    }
                 } else {
                     enableGameControls();
                 }
@@ -1293,6 +1320,7 @@
                     return;
                 }
 
+                // Update game state from server
                 gameState = { ...gameState, ...data.gameState };
                 if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
                 if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
@@ -1300,183 +1328,31 @@
                 updateDisplay();
                 updateBankrollDisplay();
                 
-                if (data.result) {
+                // Check if game is completely over
+                if (data.result && gameState.gameOver) {
                     handleGameEnd(data.result);
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function playerDouble() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'double',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                    updateBankrollDisplay();
-                    return;
-                }
-
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                
-                if (data.result) {
-                    handleGameEnd(data.result);
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function playerSplit() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'split',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                    updateBankrollDisplay();
-                    return;
-                }
-
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                enableGameControls();
-                updateStatus('Split completed! Continue playing your hands.');
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function playerSurrender() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'surrender',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    return;
-                }
-
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                
-                if (data.result) {
-                    handleGameEnd(data.result);
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                updateStatus('Error making move. Please try again.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        async function takeInsurance() {
-            if (!gameState.gameId) return;
-            
-            try {
-                setLoading(true);
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'insurance',
-                        gameId: gameState.gameId,
-                        playerId: gameState.userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateStatus(data.error);
-                    if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                    updateBankrollDisplay();
-                    return;
-                }
-
-                gameState = { ...gameState, ...data.gameState };
-                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
-                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
-                
-                updateDisplay();
-                updateBankrollDisplay();
-                
-                if (data.result) {
-                    handleGameEnd(data.result);
+                } else if (gameState.hands.length > 0 && !gameState.gameOver) {
+                    // Handle split hand progression
+                    if (gameState.currentHandIndex < gameState.hands.length - 1) {
+                        // Move to next hand
+                        updateStatus(`Hand ${gameState.currentHandIndex + 1} complete. Moving to Hand ${gameState.currentHandIndex + 2}...`);
+                        setTimeout(() => {
+                            updateDisplay();
+                            enableGameControls();
+                            updateStatus(`Playing Hand ${gameState.currentHandIndex + 2} of ${gameState.hands.length} - Choose your action!`);
+                        }, 1500);
+                    } else {
+                        // All hands complete, dealer plays
+                        updateStatus('All hands complete. Dealer playing...');
+                        setTimeout(() => {
+                            // The game should be over now, check for results
+                            if (gameState.gameOver) {
+                                enableGameControls();
+                            }
+                        }, 1500);
+                    }
                 } else {
                     enableGameControls();
-                    updateStatus('Insurance taken! Continue playing.');
                 }
 
             } catch (error) {
@@ -1485,6 +1361,36 @@
             } finally {
                 setLoading(false);
             }
+        }
+
+        function renderSplitHands() {
+            const splitHandsContainer = document.getElementById('splitHands');
+            const playerHand = document.getElementById('playerHand');
+            
+            playerHand.style.display = 'none';
+            splitHandsContainer.style.display = 'grid';
+            
+            splitHandsContainer.innerHTML = gameState.hands.map((hand, index) => {
+                const isActive = index === gameState.currentHandIndex && !gameState.gameOver;
+                const bet = gameState.splitBets && gameState.splitBets[index] ? gameState.splitBets[index] : (gameState.originalBet || gameState.bet || 0);
+                const handValue = calculateHandValue(hand);
+                const handStatus = handValue > 21 ? ' (BUST)' : handValue === 21 ? ' (21!)' : '';
+                
+                return `
+                    <div class="split-hand ${isActive ? 'active' : ''}" data-hand-index="${index}">
+                        <div class="split-hand-label">
+                            Hand ${index + 1} - Bet: $${bet}
+                            ${isActive ? ' 👈 PLAYING' : ''}
+                        </div>
+                        <div class="hand-container">
+                            ${renderHand(hand)}
+                        </div>
+                        <div class="split-hand-score">
+                            Score: ${handValue}${handStatus}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         function handleGameEnd(result) {
@@ -1501,7 +1407,7 @@
                     result.results.forEach((handResult, index) => {
                         const handNumber = index + 1;
                         const resultText = handResult.result.toUpperCase();
-                        const payout = handResult.payout;
+                        const payout = handResult.payout || 0;
                         totalPayout += payout;
                         
                         if (payout > 0) {
@@ -1517,28 +1423,28 @@
                     message += `\nTotal Change: ${totalPayout >= 0 ? '+' : ''}$${totalPayout}`;
                     statusClass = totalPayout > 0 ? 'status-win' : totalPayout < 0 ? 'status-lose' : 'status-push';
                 } else {
-                    const handResult = result.result;
-                    if (handResult.result === 'blackjack') {
+                    const handResult = result.result || result;
+                    if (handResult.result === 'blackjack' || handResult === 'blackjack') {
                         message = '🃏 BLACKJACK! 🎉';
                         statusClass = 'status-blackjack';
                         won = true;
-                    } else if (handResult.result === 'win') {
+                    } else if (handResult.result === 'win' || handResult === 'win') {
                         message = '🎉 YOU WIN! 🎉';
                         statusClass = 'status-win';
                         won = true;
-                    } else if (handResult.result === 'lose') {
+                    } else if (handResult.result === 'lose' || handResult === 'lose') {
                         message = '😔 DEALER WINS';
                         statusClass = 'status-lose';
-                    } else if (handResult.result === 'push') {
+                    } else if (handResult.result === 'push' || handResult === 'push') {
                         message = '🤝 PUSH - ITS A TIE!';
                         statusClass = 'status-push';
-                    } else if (handResult.result === 'surrender') {
+                    } else if (handResult.result === 'surrender' || handResult === 'surrender') {
                         message = '🏳️ SURRENDERED';
                         statusClass = 'status-lose';
                     }
                 }
             } else {
-                // Handle simple string results (like immediate blackjack)
+                // Handle simple string results
                 if (result === 'blackjack') {
                     message = '🃏 BLACKJACK! 🎉';
                     statusClass = 'status-blackjack';
@@ -1631,26 +1537,317 @@
         function updateStatsUI() {
             document.getElementById('gamesPlayed').textContent = gameState.gamesPlayed;
             document.getElementById('gamesWon').textContent = gameState.gamesWon;
-            const winRate = gameState.gamesPlayed > 0 ? 
+            const winRate = gameState.gamesPlayed > 0 ?
                 Math.round((gameState.gamesWon / gameState.gamesPlayed) * 100) : 0;
             document.getElementById('winRate').textContent = `${winRate}%`;
         }
 
-        async function loadStats() {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'getStats' })
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    // Could display global stats if desired
-                }
-            } catch (error) {
-                console.log('Could not load stats');
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSessionState();
+            updateStatsUI();
+            if (!gameState.userId) {
+                startNewSession();
+            } else {
+                updateDisplay();
+                updateBankrollDisplay();
+                loadStats();
+                disableGameControls();
+                updateStatus('Session loaded! Place a bet to continue playing.');
             }
+            
+            // Add chip click handlers
+            setupChipHandlers();
+        });
+
+        function setupChipHandlers() {
+            const chips = document.querySelectorAll('.chip');
+            console.log('Setting up chip handlers for', chips.length, 'chips');
+            chips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    const value = parseInt(this.dataset.value);
+                    console.log('Chip clicked:', value);
+                    addToBet(value);
+                });
+            });
+        }
+
+        // Remove all client-side bankroll manipulation
+        function addToBet(amount) {
+            console.log('addToBet called with amount:', amount);
+            
+            // Only allow betting if no hand is in progress
+            if (gameState.gameId && !gameState.gameOver) {
+                console.log('Betting blocked - hand in progress');
+                updateStatus('Cannot change bet during a hand!');
+                return;
+            }
+            
+            // Don't check bankroll client-side - let server validate
+            gameState.currentBet += amount;
+            console.log('Bet updated:', gameState.currentBet);
+            updateBetDisplay();
+            updateStatus(`Bet placed: $${gameState.currentBet}! Click "Next Hand" to start.`);
+        }
+
+        function updateBetDisplay() {
+            const betAmount = document.getElementById('betAmount');
+            const bettingCircle = document.getElementById('bettingCircle');
+            
+            if (gameState.currentBet > 0) {
+                betAmount.textContent = `$${gameState.currentBet}`;
+                bettingCircle.classList.add('has-bet');
+            } else {
+                betAmount.textContent = '$0';
+                bettingCircle.classList.remove('has-bet');
+            }
+        }
+
+        function renderCard(card, isHidden = false) {
+            if (isHidden) {
+                return '<div class="card hidden"></div>';
+            }
+
+            const isRed = card.suit === '♥️' || card.suit === '♦️';
+            const cardClass = isRed ? 'card red' : 'card black';
+            
+            let cardContent = '';
+            
+            if (card.rank === 'A') {
+                cardContent = `
+                    <div class="card-value">A</div>
+                    <div class="card-suit">${card.suit}</div>
+                    <div class="card-center">${card.suit}</div>
+                    <div class="card-suit" style="transform: rotate(180deg);">${card.suit}</div>
+                    <div class="card-value" style="transform: rotate(180deg);">A</div>
+                `;
+            } else if (['J', 'Q', 'K'].includes(card.rank)) {
+                const faceSymbol = card.rank === 'J' ? '👨' : card.rank === 'Q' ? '👸' : '👑';
+                cardContent = `
+                    <div class="card-value">${card.rank}</div>
+                    <div class="card-suit">${card.suit}</div>
+                    <div class="card-center">${faceSymbol}</div>
+                    <div class="card-suit" style="transform: rotate(180deg);">${card.suit}</div>
+                    <div class="card-value" style="transform: rotate(180deg);">${card.rank}</div>
+                `;
+            } else {
+                const rank = card.rank;
+                const suit = card.suit;
+                cardContent = `
+                    <div class="card-value">${rank}</div>
+                    <div class="card-suit">${suit}</div>
+                    <div class="card-center">${suit}</div>
+                    <div class="card-suit" style="transform: rotate(180deg);">${suit}</div>
+                    <div class="card-value" style="transform: rotate(180deg);">${rank}</div>
+                `;
+            }
+            
+            return `<div class="card ${cardClass} card-deal">${cardContent}</div>`;
+        }
+
+        function renderHand(cards, isHidden = false) {
+            return cards.map(card => renderCard(card, isHidden)).join('');
+        }
+
+        function calculateHandValue(cards) {
+            let value = 0;
+            let aces = 0;
+            cards.forEach(card => {
+                if (card.rank === 'A') {
+                    value += 11;
+                    aces++;
+                } else if (['J', 'Q', 'K'].includes(card.rank)) {
+                    value += 10;
+                } else {
+                    value += parseInt(card.rank);
+                }
+            });
+            while (value > 21 && aces > 0) {
+                value -= 10;
+                aces--;
+            }
+            return value;
+        }
+
+        function getCurrentPlayerHand() {
+            return gameState.hands.length > 0 ? gameState.hands[gameState.currentHandIndex] : gameState.playerCards;
+        }
+
+        function updateScores() {
+            const playerScoreEl = document.getElementById('playerScore');
+            const dealerScoreEl = document.getElementById('dealerScore');
+
+            if (gameState.hands.length > 0) {
+                // For split hands, show current hand score
+                const currentHand = gameState.hands[gameState.currentHandIndex];
+                playerScoreEl.textContent = currentHand.length ? calculateHandValue(currentHand) : '';
+            } else {
+                // For single hand
+                const playerHand = gameState.playerCards;
+                playerScoreEl.textContent = playerHand.length ? calculateHandValue(playerHand) : '';
+            }
+
+            const showDealerCards = !gameState.playerTurn || gameState.gameOver;
+            if (!showDealerCards) {
+                dealerScoreEl.textContent = '?';
+            } else {
+                dealerScoreEl.textContent = gameState.dealerCards.length ? calculateHandValue(gameState.dealerCards) : '';
+            }
+        }
+
+        function renderSplitHands() {
+            const splitHandsContainer = document.getElementById('splitHands');
+            const playerHand = document.getElementById('playerHand');
+            
+            playerHand.style.display = 'none';
+            splitHandsContainer.style.display = 'grid';
+            
+            splitHandsContainer.innerHTML = gameState.hands.map((hand, index) => {
+                const isActive = index === gameState.currentHandIndex && !gameState.gameOver;
+                const bet = gameState.splitBets && gameState.splitBets[index] ? gameState.splitBets[index] : (gameState.originalBet || gameState.bet || 0);
+                const handValue = calculateHandValue(hand);
+                const handStatus = handValue > 21 ? ' (BUST)' : handValue === 21 ? ' (21!)' : '';
+                
+                return `
+                    <div class="split-hand ${isActive ? 'active' : ''}" data-hand-index="${index}">
+                        <div class="split-hand-label">
+                            Hand ${index + 1} - Bet: $${bet}
+                            ${isActive ? ' 👈 PLAYING' : ''}
+                        </div>
+                        <div class="hand-container">
+                            ${renderHand(hand)}
+                        </div>
+                        <div class="split-hand-score">
+                            Score: ${handValue}${handStatus}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function handleGameEnd(result) {
+            disableGameControls();
+            let statusClass = 'status-push';
+            let message = '';
+            let won = false;
+            
+            if (typeof result === 'object') {
+                if (result.type === 'split') {
+                    message = '🎯 SPLIT RESULTS:\n';
+                    let totalPayout = 0;
+                    
+                    result.results.forEach((handResult, index) => {
+                        const handNumber = index + 1;
+                        const resultText = handResult.result.toUpperCase();
+                        const payout = handResult.payout || 0;
+                        totalPayout += payout;
+                        
+                        if (payout > 0) {
+                            message += `Hand ${handNumber}: ${resultText} (+$${payout})\n`;
+                            if (handResult.result === 'win' || handResult.result === 'blackjack') won = true;
+                        } else if (payout < 0) {
+                            message += `Hand ${handNumber}: ${resultText} (-$${Math.abs(payout)})\n`;
+                        } else {
+                            message += `Hand ${handNumber}: ${resultText} (Push)\n`;
+                        }
+                    });
+                    
+                    message += `\nTotal Change: ${totalPayout >= 0 ? '+' : ''}$${totalPayout}`;
+                    statusClass = totalPayout > 0 ? 'status-win' : totalPayout < 0 ? 'status-lose' : 'status-push';
+                } else {
+                    const handResult = result.result || result;
+                    if (handResult.result === 'blackjack' || handResult === 'blackjack') {
+                        message = '🃏 BLACKJACK! 🎉';
+                        statusClass = 'status-blackjack';
+                        won = true;
+                    } else if (handResult.result === 'win' || handResult === 'win') {
+                        message = '🎉 YOU WIN! 🎉';
+                        statusClass = 'status-win';
+                        won = true;
+                    } else if (handResult.result === 'lose' || handResult === 'lose') {
+                        message = '😔 DEALER WINS';
+                        statusClass = 'status-lose';
+                    } else if (handResult.result === 'push' || handResult === 'push') {
+                        message = '🤝 PUSH - ITS A TIE!';
+                        statusClass = 'status-push';
+                    } else if (handResult.result === 'surrender' || handResult === 'surrender') {
+                        message = '🏳️ SURRENDERED';
+                        statusClass = 'status-lose';
+                    }
+                }
+            } else {
+                // Handle simple string results
+                if (result === 'blackjack') {
+                    message = '🃏 BLACKJACK! 🎉';
+                    statusClass = 'status-blackjack';
+                    won = true;
+                } else if (result === 'win') {
+                    message = '🎉 YOU WIN! 🎉';
+                    statusClass = 'status-win';
+                    won = true;
+                } else if (result === 'lose') {
+                    message = '😔 DEALER WINS';
+                    statusClass = 'status-lose';
+                } else if (result === 'push') {
+                    message = '🤝 PUSH - ITS A TIE!';
+                    statusClass = 'status-push';
+                } else if (result === 'surrender') {
+                    message = '🏳️ SURRENDERED';
+                    statusClass = 'status-lose';
+                }
+            }
+            
+            // Update stats
+            gameState.gamesPlayed++;
+            if (won) gameState.gamesWon++;
+            
+            // Mark game as over and reset gameId to allow new bets
+            gameState.gameOver = true;
+            gameState.gameId = null;
+            
+            saveSessionState();
+            updateStatsUI();
+            updateStatus(message, statusClass);
+            
+            // Enable "Next Hand" button for new game
+            document.getElementById('newHandBtn').disabled = false;
+        }
+
+        async function startNewSession() {
+            gameState = {
+                gameId: null,
+                playerCards: [],
+                dealerCards: [],
+                hands: [],
+                currentHandIndex: 0,
+                gameOver: false,
+                playerTurn: true,
+                canDouble: false,
+                canSplit: false,
+                canSurrender: false,
+                canInsure: false,
+                currentBet: 0,
+                bankroll: 1000,
+                userId: null,
+                splitBets: [],
+                gamesPlayed: 0,
+                gamesWon: 0,
+                lastBankroll: 1000
+            };
+            
+            // Generate new user ID
+            gameState.userId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+            
+            saveSessionState();
+            updateDisplay();
+            updateBankrollDisplay();
+            updateStatsUI();
+            disableGameControls();
+            updateStatus('New session started! Place a bet to begin playing.');
         }
     </script>
 </body>
