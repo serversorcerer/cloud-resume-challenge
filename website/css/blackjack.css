@@ -651,7 +651,7 @@ body {
     .card-mobile-top, .card-mobile-bottom {
         font-size: 1.15rem;
         text-align: center;
-        color: #111;
+        color: #111 !important;
         font-weight: 700;
         line-height: 1.1;
         min-height: 1.3em;
@@ -662,7 +662,7 @@ body {
     .card-mobile-center {
         font-size: 2.1rem;
         text-align: center;
-        color: #111;
+        color: #111 !important;
         margin: 0.15em 0 0.1em 0;
         line-height: 1.1;
         font-weight: 400;
@@ -671,6 +671,19 @@ body {
         align-items: center;
         justify-content: center;
         overflow: visible;
+    }
+    
+    /* Override desktop card colors on mobile */
+    .card.red .card-mobile-top,
+    .card.red .card-mobile-bottom,
+    .card.red .card-mobile-center {
+        color: #111 !important;
+    }
+    
+    .card.black .card-mobile-top,
+    .card.black .card-mobile-bottom,
+    .card.black .card-mobile-center {
+        color: #111 !important;
     }
 
     .game-controls {
