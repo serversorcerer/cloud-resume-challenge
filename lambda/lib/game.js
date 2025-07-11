@@ -17,12 +17,10 @@ class BlackjackGame {
     this.playerTurn = true;
     this.canDouble = true;
     this.canSplit = false;
-    this.canSurrender = true;
     this.gameId = uuidv4();
     this.bet = bet;
     this.originalBet = bet;
     this.insuranceBet = 0;
-    this.surrendered = false;
     this.hands = [];
     this.currentHandIndex = 0;
     this.splitBets = [];
@@ -85,20 +83,27 @@ class BlackjackGame {
     return this.calculateHandValue(cards) > 21;
   }
 
+  // Helper to get card value (10 for 10, J, Q, K)
+  getCardValue(card) {
+    if (card.rank === 'A') return 11;
+    if (['J', 'Q', 'K'].includes(card.rank)) return 10;
+    return parseInt(card.rank);
+  }
+
   canSplit() {
     if (this.hands.length > 0) {
       // Already split - check current hand
       const currentHand = this.hands[this.currentHandIndex];
       return (
         currentHand.length === 2 &&
-        currentHand[0].rank === currentHand[1].rank &&
+        this.getCardValue(currentHand[0]) === this.getCardValue(currentHand[1]) &&
         this.hands.length < this.maxSplits
       );
     } else {
       // Initial hand
       return (
         this.playerCards.length === 2 &&
-        this.playerCards[0].rank === this.playerCards[1].rank
+        this.getCardValue(this.playerCards[0]) === this.getCardValue(this.playerCards[1])
       );
     }
   }
@@ -227,15 +232,6 @@ class BlackjackGame {
     return { type: 'split', hands: this.hands.length };
   }
 
-  playerSurrender() {
-    if (this.gameOver || !this.playerTurn || !this.canSurrender || this.hands.length > 0)
-      throw new Error('Invalid move');
-    this.surrendered = true;
-    this.gameOver = true;
-    this.playerTurn = false;
-    return 'surrender';
-  }
-
   playerInsurance(amount) {
     if (!this.canInsure || this.insuranceBet > 0) throw new Error('Invalid move');
     this.insuranceBet = amount;
@@ -274,7 +270,6 @@ class BlackjackGame {
   }
 
   determineWinner() {
-    if (this.surrendered) return 'surrender';
     let insuranceResult = null;
     if (this.insuranceBet > 0 && this.isBlackjack(this.dealerCards)) {
       insuranceResult = 'insurance_win';
@@ -329,12 +324,10 @@ class BlackjackGame {
       playerTurn: this.playerTurn,
       canDouble: this.canDouble && this.getCurrentHand().length === 2 && this.playerTurn,
       canSplit: this.canSplit && this.playerTurn && this.hands.length === 0,
-      canSurrender: this.canSurrender && this.playerTurn && this.hands.length === 0,
       canInsure: this.canInsure,
       bet: this.bet,
       originalBet: this.originalBet,
       insuranceBet: this.insuranceBet,
-      surrendered: this.surrendered,
       splitBets: this.splitBets,
     };
   }
@@ -350,13 +343,11 @@ class BlackjackGame {
     game.playerTurn = state.playerTurn !== undefined ? state.playerTurn : true;
     game.canDouble = state.canDouble !== undefined ? state.canDouble : true;
     game.canSplit = state.canSplit !== undefined ? state.canSplit : false;
-    game.canSurrender = state.canSurrender !== undefined ? state.canSurrender : true;
     game.canInsure = state.canInsure !== undefined ? state.canInsure : false;
     game.shoe = state.shoe || game.createShoe();
     game.bet = state.bet;
     game.originalBet = state.originalBet || state.bet;
     game.insuranceBet = state.insuranceBet || 0;
-    game.surrendered = state.surrendered || false;
     game.splitBets = state.splitBets || [];
     return game;
   }

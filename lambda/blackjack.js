@@ -250,17 +250,6 @@ exports.handler = async (event) => {
         const updatedBankroll = await getPlayerBankroll(saved.playerId);
         return { statusCode: 200, headers, body: JSON.stringify({ gameState: game.getGameState(), result, bankroll: updatedBankroll, playerId: saved.playerId }) };
       }
-      case 'surrender': {
-        if (!gameId) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Game ID required' }) };
-        const saved = await loadGameState(gameId);
-        if (!saved) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Game not found' }) };
-        const game = BlackjackGame.fromSavedState({ ...saved.gameState, shoe: saved.shoe });
-        const result = game.playerSurrender();
-        await saveGameState(game, saved.playerId);
-        const res = await resolveGame(game, saved.playerId);
-        await updateStats(result);
-        return { statusCode: 200, headers, body: JSON.stringify({ gameState: game.getGameState(), result, bankroll: res.finalBalance, bankrollChange: res.bankrollChange, playerId: saved.playerId }) };
-      }
       case 'insurance': {
         if (!gameId) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Game ID required' }) };
         const saved = await loadGameState(gameId);
