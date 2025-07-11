@@ -125,10 +125,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Setup Node.js for Lambda
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: lambda/package-lock.json
+
+      - name: Install Lambda Production Dependencies
+        run: |
+          cd lambda
+          npm ci --production
+
       - name: Create Lambda Deployment Package
         run: |
           cd lambda
-          zip -r lambda-function.zip . -x "*.zip" "*.git*" "*.DS_Store" "*/__pycache__/*" "*/node_modules/.cache/*"
+          zip -r lambda-function.zip . -x "*.zip" "*.git*" "*.DS_Store" "*/__pycache__/*" "*/node_modules/.cache/*" "*/.env*" "*/coverage/*" "*/tests/*" "*/*.test.js" "*/*.spec.js"
           ls -la lambda-function.zip
 
       - name: Deploy Lambda Function
