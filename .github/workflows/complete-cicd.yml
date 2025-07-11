@@ -107,7 +107,7 @@ jobs:
       - name: Terraform Apply
         run: |
           cd infra
-          terraform apply tfplan -auto-approve
+          terraform apply -auto-approve tfplan
 
   # Deploy Lambda Function
   deploy-lambda:

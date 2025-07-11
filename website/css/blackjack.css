@@ -639,21 +639,41 @@ body {
     }
 
     .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
         width: 70px;
         height: 100px;
         padding: 8px 5px;
+        box-sizing: border-box;
     }
-    .card-value, .card-value-mobile {
+    .card-mobile-top {
         font-size: 1.05rem;
-        padding: 0 2px;
+        text-align: left;
+        padding-left: 4px;
+        font-weight: 700;
+        line-height: 1;
+        min-height: 1.2em;
+        overflow: visible;
     }
-    .card-suit, .card-suit-mobile {
-        font-size: 1rem;
-        padding: 0 2px;
+    .card-mobile-center {
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 0.2em 0;
+        line-height: 1.1;
+        font-weight: 400;
+        min-height: 1.5em;
+        overflow: visible;
     }
-    .card-center, .card-center-mobile {
-        font-size: 1.3rem;
-        margin: 0.15em 0;
+    .card-mobile-bottom {
+        font-size: 1.05rem;
+        text-align: right;
+        padding-right: 4px;
+        font-weight: 700;
+        line-height: 1;
+        min-height: 1.2em;
+        overflow: visible;
     }
 
     .game-controls {
