@@ -24,7 +24,7 @@ class BlackjackGame {
     this.currentHandIndex = 0;
     this.splitBets = [];
     this.splitCount = 0;
-    this.maxSplits = 4; // Allow up to 4 hands total
+    this.maxSplits = MAX_SPLITS; // Allow up to 4 hands total
     this.splitAces = false;
   }
 
