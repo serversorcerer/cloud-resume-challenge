@@ -648,31 +648,28 @@ body {
         padding: 8px 5px;
         box-sizing: border-box;
     }
-    .card-mobile-top {
-        font-size: 1.05rem;
-        text-align: left;
-        padding-left: 4px;
+    .card-mobile-top, .card-mobile-bottom {
+        font-size: 1.15rem;
+        text-align: center;
+        color: #111;
         font-weight: 700;
-        line-height: 1;
-        min-height: 1.2em;
+        line-height: 1.1;
+        min-height: 1.3em;
+        letter-spacing: 0.01em;
         overflow: visible;
+        text-shadow: none;
     }
     .card-mobile-center {
-        font-size: 1.5rem;
+        font-size: 2.1rem;
         text-align: center;
-        margin: 0.2em 0;
+        color: #111;
+        margin: 0.15em 0 0.1em 0;
         line-height: 1.1;
         font-weight: 400;
-        min-height: 1.5em;
-        overflow: visible;
-    }
-    .card-mobile-bottom {
-        font-size: 1.05rem;
-        text-align: right;
-        padding-right: 4px;
-        font-weight: 700;
-        line-height: 1;
-        min-height: 1.2em;
+        min-height: 1.7em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         overflow: visible;
     }
 

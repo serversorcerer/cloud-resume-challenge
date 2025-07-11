@@ -1218,9 +1218,7 @@
             if (isMobile) {
                 let value = card.rank;
                 let pip = card.suit;
-                if (["J", "Q", "K"].includes(card.rank)) {
-                    pip = card.rank === 'J' ? '👨' : card.rank === 'Q' ? '👸' : '👑';
-                }
+                // Always use pip for center, not face emoji, for mobile
                 cardContent = `
                     <div class="card-mobile-top">${value}</div>
                     <div class="card-mobile-center">${pip}</div>
