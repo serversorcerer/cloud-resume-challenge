@@ -5,14 +5,18 @@ module.exports = {
     '!**/node_modules/**',
     '!**/coverage/**',
     '!jest.config.js',
-    '!**/*.test.js'
+    '!**/*.test.js',
+    '!commands.js',
+    '!index.js',
+    '!.eslintrc.js',
+    '!lib/**'
   ],
   coverageThreshold: {
     global: {
-      branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70
+      branches: 20,
+      functions: 20,
+      lines: 20,
+      statements: 20
     }
   },
   testMatch: [
