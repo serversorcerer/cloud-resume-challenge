@@ -66,15 +66,24 @@ Pushing to `main` triggers a pipeline that builds the Lambda package and syncs t
 ## Getting Started
 
 1. Fork this repo.
-2. In `infra/variables.tf`, set your AWS region, domain, and hosted zone ID.
-3. From the `infra` directory run:
+2. Copy `.env.example` to `.env` and configure your values.
+3. In `infra/variables.tf`, set your AWS region, domain, and hosted zone ID.
+4. From the `infra` directory run:
    ```bash
    terraform init
    terraform apply
    ```
-4. Push your changes to `main` to deploy via GitHub Actions.
+5. Push your changes to `main` to deploy via GitHub Actions.
 
 To customize terminal commands, edit `lambda/commands.js` and redeploy.
+
+📚 **See detailed setup instructions in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)**
+
+## Documentation
+
+- **[Development Guide](docs/DEVELOPMENT.md)** - Complete setup and development workflow
+- **[Project Structure](docs/PROJECT_STRUCTURE.md)** - Repository organization and architecture
+- **[Blackjack Game](docs/BLACKJACK_README.md)** - Game features and implementation details
 
 ---
 

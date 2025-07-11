@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const {
   NUM_DECKS,
-  MAX_SPLITS,
+  MAX_SPLITS
 } = require('./constants');
 const { calculatePayout } = require('./resolution');
 
@@ -29,7 +29,7 @@ class BlackjackGame {
   }
 
   createShoe() {
-    let shoe = [];
+    const shoe = [];
     for (let d = 0; d < NUM_DECKS; d++) {
       for (const suit of SUITS) {
         for (const rank of RANKS) {
@@ -210,7 +210,7 @@ class BlackjackGame {
 
       this.hands = [
         [card1, this.dealCard()],
-        [card2, this.dealCard()],
+        [card2, this.dealCard()]
       ];
       this.playerCards = []; // Clear original hand
       this.splitBets = [this.originalBet, this.originalBet];
@@ -331,7 +331,7 @@ class BlackjackGame {
       bet: this.bet,
       originalBet: this.originalBet,
       insuranceBet: this.insuranceBet,
-      splitBets: this.splitBets,
+      splitBets: this.splitBets
     };
   }
 

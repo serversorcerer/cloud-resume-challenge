@@ -1,22 +1,22 @@
 const Player = require('./player');
 const {
-  INSURANCE_PAYOUT,
+  INSURANCE_PAYOUT
 } = require('./constants');
 const { updatePlayerBankroll, getPlayerBankroll } = require('./db');
 
 function calculatePayout(outcome, bet) {
   switch (outcome) {
-    case 'blackjack':
-      return bet * 2.5;
-    case 'win':
-      return bet * 2;
-    case 'push':
-      return bet;
-    case 'surrender':
-      return bet / 2;
-    case 'lose':
-    default:
-      return 0;
+  case 'blackjack':
+    return bet * 2.5;
+  case 'win':
+    return bet * 2;
+  case 'push':
+    return bet;
+  case 'surrender':
+    return bet / 2;
+  case 'lose':
+  default:
+    return 0;
   }
 }
 
@@ -24,7 +24,7 @@ async function resolveGame(game, playerId) {
   const player = new Player(playerId, await getPlayerBankroll(playerId));
   player.bet = game.bet;
   let totalPayout = 0;
-  let outcomes = [];
+  const outcomes = [];
 
   if (game.hands.length > 0) {
     for (let i = 0; i < game.hands.length; i++) {
@@ -42,11 +42,11 @@ async function resolveGame(game, playerId) {
     const handResult = game.surrendered
       ? { result: 'surrender', bet: game.bet, payout: calculatePayout('surrender', game.bet) }
       : game.determineHandWinner(
-          game.playerCards,
-          game.dealerCards,
-          game.bet,
-          false
-        );
+        game.playerCards,
+        game.dealerCards,
+        game.bet,
+        false
+      );
     totalPayout += handResult.payout;
     outcomes.push({ bet: game.bet, result: handResult.result, payout: handResult.payout, net: handResult.payout - game.bet });
   }
@@ -70,7 +70,7 @@ async function resolveGame(game, playerId) {
   return {
     finalBalance,
     bankrollChange: finalBalance - player.bankroll,
-    outcomes, // include detailed hand-by-hand results
+    outcomes // include detailed hand-by-hand results
   };
 }
 

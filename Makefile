@@ -6,18 +6,21 @@
 # Default target
 help:
 	@echo "Available commands:"
-	@echo "  deploy    - Deploy Lambda function to AWS"
-	@echo "  test      - Run local tests"
-	@echo "  clean     - Clean up build artifacts"
-	@echo "  status    - Check AWS Lambda function status"
-	@echo "  logs      - View Lambda function logs"
-	@echo "  zip       - Create deployment package only"
-	@echo "  git-tag   - Create a new git tag"
+	@echo "  deploy         - Deploy Lambda function to AWS"
+	@echo "  test           - Run unit tests"
+	@echo "  test-coverage  - Run tests with coverage report"
+	@echo "  lint           - Run ESLint code quality checks"
+	@echo "  lint-fix       - Fix ESLint issues automatically"
+	@echo "  clean          - Clean up build artifacts"
+	@echo "  status         - Check AWS Lambda function status"
+	@echo "  logs           - View Lambda function logs"
+	@echo "  zip            - Create deployment package only"
+	@echo "  git-tag        - Create a new git tag"
 
 # Deploy the Lambda function
 deploy:
 	@echo "🚀 Starting deployment..."
-	./deploy.sh
+	./scripts/deploy.sh
 
 # Create deployment package only
 zip:
@@ -44,10 +47,25 @@ clean:
 	@find . -name ".DS_Store" -type f -delete 2>/dev/null || true
 	@echo "✅ Cleanup completed"
 
-# Run tests (placeholder for future implementation)
+# Run tests
 test:
 	@echo "🧪 Running tests..."
-	@echo "Tests not implemented yet"
+	@cd lambda && npm test
+
+# Run tests with coverage
+test-coverage:
+	@echo "🧪 Running tests with coverage..."
+	@cd lambda && npm run test:coverage
+
+# Run linting
+lint:
+	@echo "🔍 Running linter..."
+	@cd lambda && npm run lint
+
+# Fix linting issues
+lint-fix:
+	@echo "🔧 Fixing linting issues..."
+	@cd lambda && npm run lint:fix
 
 # Create a new git tag
 git-tag:
