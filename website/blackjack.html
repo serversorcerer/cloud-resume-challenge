@@ -1402,14 +1402,16 @@
                         const handNumber = index + 1;
                         const resultText = handResult.result.toUpperCase();
                         const payout = handResult.payout || 0;
-                        totalPayout += payout;
-                        if (payout > 0) {
-                            message += `Hand ${handNumber}: ${resultText} (+$${payout})\n`;
+                        const bet = handResult.bet || 0;
+                        let net = payout - bet;
+                        totalPayout += net;
+                        if (net > 0) {
+                            message += `Hand ${handNumber}: ${resultText} (+$${net})\n`;
                             if (handResult.result === 'win' || handResult.result === 'blackjack') won = true;
-                        } else if (payout < 0) {
-                            message += `Hand ${handNumber}: ${resultText} (-$${Math.abs(payout)})\n`;
+                        } else if (net < 0) {
+                            message += `Hand ${handNumber}: ${resultText} (-$${Math.abs(net)})\n`;
                         } else {
-                            message += `Hand ${handNumber}: ${resultText} (Push)\n`;
+                            message += `Hand ${handNumber}: ${resultText} ($0)\n`;
                         }
                     });
                     message += `\nTotal Change: ${totalPayout >= 0 ? '+' : ''}$${totalPayout}`;

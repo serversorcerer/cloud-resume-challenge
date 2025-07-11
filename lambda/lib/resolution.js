@@ -35,7 +35,8 @@ async function resolveGame(game, playerId) {
         true
       );
       totalPayout += payout;
-      outcomes.push({ bet: game.splitBets[i], result, payout });
+      const bet = game.splitBets[i];
+      outcomes.push({ bet, result, payout, net: payout - bet });
     }
   } else {
     const handResult = game.surrendered
@@ -47,7 +48,7 @@ async function resolveGame(game, playerId) {
           false
         );
     totalPayout += handResult.payout;
-    outcomes.push({ bet: game.bet, result: handResult.result, payout: handResult.payout });
+    outcomes.push({ bet: game.bet, result: handResult.result, payout: handResult.payout, net: handResult.payout - game.bet });
   }
 
   if (game.insuranceBet > 0) {
@@ -69,6 +70,7 @@ async function resolveGame(game, playerId) {
   return {
     finalBalance,
     bankrollChange: finalBalance - player.bankroll,
+    outcomes, // include detailed hand-by-hand results
   };
 }
 
