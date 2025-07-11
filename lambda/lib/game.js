@@ -16,7 +16,6 @@ class BlackjackGame {
     this.gameOver = false;
     this.playerTurn = true;
     this.canDouble = true;
-    this.canSplit = false;
     this.gameId = uuidv4();
     this.bet = bet;
     this.originalBet = bet;
@@ -114,7 +113,7 @@ class BlackjackGame {
     this.playerCards.push(this.dealCard());
     this.dealerCards.push(this.dealCard());
     // Allow split if both cards have the same value (10, J, Q, K all count as 10)
-    this.canSplit = this.playerCards.length === 2 && this.getCardValue(this.playerCards[0]) === this.getCardValue(this.playerCards[1]);
+    // Note: canSplit is now a method, not a property
     this.canInsure = this.dealerCards[0].rank === 'A';
     this.splitCount = 0;
     this.splitAces = false;
@@ -343,7 +342,7 @@ class BlackjackGame {
     game.gameOver = state.gameOver || false;
     game.playerTurn = state.playerTurn !== undefined ? state.playerTurn : true;
     game.canDouble = state.canDouble !== undefined ? state.canDouble : true;
-    game.canSplit = state.canSplit !== undefined ? state.canSplit : false;
+    // canSplit is now a method, not a property
     game.canInsure = state.canInsure !== undefined ? state.canInsure : false;
     game.shoe = state.shoe || game.createShoe();
     game.bet = state.bet;
