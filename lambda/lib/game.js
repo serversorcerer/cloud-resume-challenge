@@ -113,7 +113,8 @@ class BlackjackGame {
     this.dealerCards.push(this.dealCard());
     this.playerCards.push(this.dealCard());
     this.dealerCards.push(this.dealCard());
-    this.canSplit = this.playerCards.length === 2 && this.playerCards[0].rank === this.playerCards[1].rank;
+    // Allow split if both cards have the same value (10, J, Q, K all count as 10)
+    this.canSplit = this.playerCards.length === 2 && this.getCardValue(this.playerCards[0]) === this.getCardValue(this.playerCards[1]);
     this.canInsure = this.dealerCards[0].rank === 'A';
     this.splitCount = 0;
     this.splitAces = false;

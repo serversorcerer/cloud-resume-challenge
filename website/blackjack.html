@@ -1223,19 +1223,20 @@
             const cardClass = isRed ? 'card red' : 'card black';
             let cardContent = '';
 
-            // Mobile: show only one pip in the center
+            // Mobile: show number/face and one pip in a clean layout
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
             if (isMobile) {
+                let mainValue = card.rank;
+                let mainSymbol = card.suit;
                 if (['J', 'Q', 'K'].includes(card.rank)) {
-                    const faceSymbol = card.rank === 'J' ? '👨' : card.rank === 'Q' ? '👸' : '👑';
-                    cardContent = `
-                        <div class="card-center">${faceSymbol}</div>
-                    `;
-                } else {
-                    cardContent = `
-                        <div class="card-center">${card.suit}</div>
-                    `;
+                    mainSymbol = card.rank === 'J' ? '👨' : card.rank === 'Q' ? '👸' : '👑';
                 }
+                cardContent = `
+                    <div class="card-mobile-main">
+                        <span class="card-mobile-value">${mainValue}</span>
+                        <span class="card-mobile-pip">${mainSymbol}</span>
+                    </div>
+                `;
             } else {
                 if (card.rank === 'A') {
                     cardContent = `
@@ -1245,7 +1246,7 @@
                         <div class="card-suit" style="transform: rotate(180deg);">${card.suit}</div>
                         <div class="card-value" style="transform: rotate(180deg);">A</div>
                     `;
-                } else if (['J', 'Q', 'K'].includes(card.rank)) {
+                } else if (["J", "Q", "K"].includes(card.rank)) {
                     const faceSymbol = card.rank === 'J' ? '👨' : card.rank === 'Q' ? '👸' : '👑';
                     cardContent = `
                         <div class="card-value">${card.rank}</div>
