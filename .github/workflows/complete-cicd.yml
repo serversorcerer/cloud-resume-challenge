@@ -67,6 +67,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    timeout-minutes: 15
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -101,12 +102,12 @@ jobs:
       - name: Terraform Plan
         run: |
           cd infra
-          terraform plan -out=tfplan
+          terraform plan -out=tfplan -input=false -var="domain_name=josephaleto.io" -var="hosted_zone_id=Z04832552KPXWKAMHA0H2"
 
       - name: Terraform Apply
         run: |
           cd infra
-          terraform apply tfplan
+          terraform apply tfplan -auto-approve
 
   # Deploy Lambda Function
   deploy-lambda:

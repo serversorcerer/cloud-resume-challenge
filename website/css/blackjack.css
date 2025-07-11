@@ -639,21 +639,21 @@ body {
     }
 
     .card {
-        width: 60px;
-        height: 85px;
-        padding: 4px 2px;
+        width: 70px;
+        height: 100px;
+        padding: 8px 5px;
     }
     .card-value, .card-value-mobile {
-        font-size: 0.85rem;
+        font-size: 1.05rem;
         padding: 0 2px;
     }
     .card-suit, .card-suit-mobile {
-        font-size: 0.8rem;
+        font-size: 1rem;
         padding: 0 2px;
     }
     .card-center, .card-center-mobile {
-        font-size: 1.1rem;
-        margin: 0.1em 0;
+        font-size: 1.3rem;
+        margin: 0.15em 0;
     }
 
     .game-controls {
