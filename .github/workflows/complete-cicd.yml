@@ -66,7 +66,7 @@ jobs:
   infrastructure:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: false  # Skip infrastructure - resources already exist
     timeout-minutes: 15
     steps:
       - name: Checkout Code
@@ -111,7 +111,7 @@ jobs:
 
   # Deploy Lambda Function
   deploy-lambda:
-    needs: [test, infrastructure]
+    needs: test  # Remove infrastructure dependency
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
