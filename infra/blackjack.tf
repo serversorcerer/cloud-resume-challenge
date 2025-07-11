@@ -1,9 +1,9 @@
 # DynamoDB table for blackjack game state and statistics
 resource "aws_dynamodb_table" "blackjack_games" {
-  name           = "blackjack-games"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "pk"
-  range_key      = "sk"
+  name         = "blackjack-games"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "pk"
+  range_key    = "sk"
 
   attribute {
     name = "pk"
@@ -106,13 +106,13 @@ data "archive_file" "blackjack_lambda_zip" {
 
 # Blackjack Lambda function
 resource "aws_lambda_function" "blackjack_function" {
-  filename         = data.archive_file.blackjack_lambda_zip.output_path
-  function_name    = "blackjack-game"
-  role            = aws_iam_role.blackjack_lambda_role.arn
-  handler         = "blackjack.handler"
-  runtime         = "nodejs18.x"
-  timeout         = 30
-  memory_size     = 256
+  filename      = data.archive_file.blackjack_lambda_zip.output_path
+  function_name = "blackjack-game"
+  role          = aws_iam_role.blackjack_lambda_role.arn
+  handler       = "blackjack.handler"
+  runtime       = "nodejs18.x"
+  timeout       = 30
+  memory_size   = 256
 
   source_code_hash = data.archive_file.blackjack_lambda_zip.output_base64sha256
 
@@ -157,7 +157,7 @@ resource "aws_apigatewayv2_api" "blackjack_api" {
     allow_headers     = ["content-type", "x-amz-date", "authorization", "x-api-key", "x-amz-security-token", "x-amz-user-agent"]
     allow_methods     = ["GET", "POST", "OPTIONS"]
     allow_origins     = ["https://josephaleto.io", "https://www.josephaleto.io", "http://localhost:3000", "http://127.0.0.1:3000"]
-    max_age          = 86400
+    max_age           = 86400
   }
 
   tags = {
