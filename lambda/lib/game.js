@@ -324,7 +324,7 @@ class BlackjackGame {
       gameOver: this.gameOver,
       playerTurn: this.playerTurn,
       canDouble: this.canDouble && this.getCurrentHand().length === 2 && this.playerTurn,
-      canSplit: this.canSplit && this.playerTurn && this.hands.length === 0,
+      canSplit: this.canSplit() && this.playerTurn,
       canInsure: this.canInsure,
       bet: this.bet,
       originalBet: this.originalBet,
