@@ -1,16 +1,14 @@
- codex/rewrite-portfolio-to-target-specific-tech-role
-# josephaleto.io — Cloud Engineering Portfolio
-
-# josephaleto.io — A Cloud Terminal Story
-main
+# josephaleto.io — Interactive Cloud Resume
 
 [![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 
-Welcome! I'm **Joseph Leto**, a cloud architect focused on AWS (not currently AWS certified). I still deal poker on the side and code between shifts. I prefer to show rather than tell. This repository contains the source for my interactive terminal portfolio at [josephaleto.io](https://josephaleto.io). Every command you run on the site executes live Lambda code that I deployed through Terraform and GitHub Actions. It's a resume, a lab, and a real proof of how I build in the cloud.
+Welcome! I'm **Joseph Leto**, a cloud engineer who codes between poker shifts. This repository contains the source for my interactive terminal portfolio at [josephaleto.io](https://josephaleto.io). 
 
-Built to highlight my skills as a cloud engineer, this project demonstrates how I design, automate, and deploy modern infrastructure.
+**What makes this different?** Every command you run on the site executes live Lambda code deployed through Terraform and GitHub Actions. It's not just a resume—it's a working demonstration of modern cloud architecture.
+
+This project showcases my skills in cloud engineering, infrastructure as code, and automated deployment pipelines.
 
 <p align="center">
   <img src="website/images/architecture.png" alt="Cloud Architecture Diagram" width="600" />
@@ -24,33 +22,42 @@ Built to highlight my skills as a cloud engineer, this project demonstrates how 
 
 ---
 
-## How It Started
+## The Story Behind This Project
 
-This project began with the [Cloud Resume Challenge](https://cloudresumechallenge.dev/). I wanted more than a static page, so I built a full CLI experience. Visitors interact with a simulated shell that mirrors real AWS resources. Each command maps to a Lambda function—no demos or mock-ups, just working code.
+This started as the [Cloud Resume Challenge](https://cloudresumechallenge.dev/)—a project to build a resume website using cloud technologies. But I wanted to go beyond a static page.
 
----
-
-## Architecture at a Glance
-
-- **S3** hosts the static website
-- **CloudFront** distributes content globally
-- **API Gateway** receives each terminal command
-- **Lambda** processes those commands
-- **DynamoDB** tracks visitors and command usage
-- **Terraform** manages every resource as code
-- **GitHub Actions** drives continuous deployment
-
-Pushing to `main` triggers a pipeline that builds the Lambda package and syncs the site to S3. It's the same process I use on client projects—automated, repeatable, and visible in version control.
+**My approach:** Build a fully interactive terminal experience where visitors can explore my skills through actual commands. Each command you type executes real Lambda functions that interact with live AWS resources. No mock-ups, no demos—just working cloud infrastructure.
 
 ---
 
-## Key Features
+## Architecture Overview
 
-- **Real Terminal Interface** — command history, tab completion, and colorful output
-- **InfraMirror** — see the live stack directly from the terminal
-- **Zapier Integration** — `offer` posts your info to a Zap for follow‑ups
-- **Visitor Counter** — stored in DynamoDB and displayed via Lambda
-- **Built‑in Commands** — from `resume` to `source code`, everything is a quick type away
+**Frontend:**
+- **S3** hosts the static website files
+- **CloudFront** provides global content distribution
+- **Route 53** manages DNS routing
+
+**Backend:**
+- **API Gateway** receives terminal commands
+- **Lambda** processes commands and game logic
+- **DynamoDB** stores visitor data and game states
+
+**DevOps:**
+- **Terraform** manages all infrastructure as code
+- **GitHub Actions** automates testing and deployment
+
+**The workflow:** Push to `main` → GitHub Actions builds and tests → Lambda deploys → S3 syncs → Site updates. It's the same CI/CD process I use for production systems.
+
+---
+
+## What You Can Do
+
+- **Interactive Terminal** — Full bash-like experience with command history and tab completion
+- **Explore Commands** — Type `help` to see all available commands
+- **View Architecture** — See the live infrastructure with `stack` command
+- **Play Blackjack** — Full-featured casino game with real game logic
+- **Contact Me** — Use `offer` to send your details via Zapier integration
+- **Track Analytics** — Visitor counter stored in DynamoDB
 
 ---
 
@@ -63,38 +70,50 @@ Pushing to `main` triggers a pipeline that builds the Lambda package and syncs t
 
 ---
 
-## Getting Started
+## Quick Start Guide
 
-1. Fork this repo.
-2. Copy `.env.example` to `.env` and configure your values.
-3. In `infra/variables.tf`, set your AWS region, domain, and hosted zone ID.
-4. From the `infra` directory run:
+**Want to build your own version?**
+
+1. **Fork this repository**
+2. **Configure your environment:**
    ```bash
+   cp .env.example .env
+   # Edit .env with your AWS settings
+   ```
+3. **Set up infrastructure:**
+   ```bash
+   cd infra
    terraform init
    terraform apply
    ```
-5. Push your changes to `main` to deploy via GitHub Actions.
+4. **Deploy automatically:**
+   Push to `main` branch to trigger GitHub Actions deployment
 
-To customize terminal commands, edit `lambda/commands.js` and redeploy.
+**Need help?** Check out the detailed setup guide in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)
 
-📚 **See detailed setup instructions in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)**
+---
 
-## Documentation
+## Project Documentation
 
-- **[Development Guide](docs/DEVELOPMENT.md)** - Complete setup and development workflow
-- **[Project Structure](docs/PROJECT_STRUCTURE.md)** - Repository organization and architecture
-- **[Blackjack Game](docs/BLACKJACK_README.md)** - Game features and implementation details
+| Document | Purpose |
+|----------|----------|
+| **[Development Guide](docs/DEVELOPMENT.md)** | Complete setup instructions and development workflow |
+| **[Project Structure](docs/PROJECT_STRUCTURE.md)** | How the codebase is organized |
+| **[Blackjack Game](docs/BLACKJACK_README.md)** | Full-featured casino game implementation |
 
 ---
 
 ## About Me
 
-I'm **Joseph Leto**—a poker dealer who builds AWS solutions whenever I'm off the tables. Feel free to reach out or explore more of my work:
+I'm **Joseph Leto**—a cloud engineer who happens to deal poker between coding sessions. I believe in building things that work, not just things that look good in demos.
 
-- [josephaleto.io](https://josephaleto.io)
-- [joe@josephaleto.io](mailto:joe@josephaleto.io)
-- [github.com/serversorcerer](https://github.com/serversorcerer)
+**Get in touch:**
+- 🌐 [josephaleto.io](https://josephaleto.io) — Try the live terminal!
+- 📧 [joe@josephaleto.io](mailto:joe@josephaleto.io) — Let's talk cloud architecture
+- 🐙 [github.com/serversorcerer](https://github.com/serversorcerer) — More projects
 
 ---
 
-Built from scratch. Architected for scale. Documented for clarity.
+**Built from scratch. Architected for production. Documented for developers.**
+
+*This project demonstrates real-world cloud engineering skills through working code, not just buzzwords.*
