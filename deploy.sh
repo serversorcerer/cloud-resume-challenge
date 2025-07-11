@@ -68,12 +68,6 @@ fi
 # Return to project root
 cd ..
 
-# Git operations
-echo -e "${YELLOW}Committing changes...${NC}"
-git add .
-git commit -m "Deploy: Updated Lambda function $(date '+%Y-%m-%d %H:%M:%S')"
-
-echo -e "${YELLOW}Pushing to remote...${NC}"
-git push origin main
-
-echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
+echo -e "${GREEN}✅ Lambda function deployed successfully!${NC}"
+echo -e "${YELLOW}💡 Note: For production deployments, push your changes to GitHub${NC}"
+echo -e "${YELLOW}   The CI/CD pipeline will handle automatic deployment${NC}"
