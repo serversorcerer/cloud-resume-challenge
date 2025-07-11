@@ -285,6 +285,10 @@ exports.handler = async (event) => {
       return { statusCode: 200, headers, body: JSON.stringify({ bankroll, playerId: currentPlayerId }) };
     }
     default:
+      // Handle missing or invalid action more gracefully
+      if (!action) {
+        return { statusCode: 200, headers, body: JSON.stringify({ error: 'No action specified' }) };
+      }
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid action' }) };
     }
   } catch (err) {
