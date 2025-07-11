@@ -310,7 +310,10 @@ class BlackjackGame {
 
     if (playerValue > dealerValue) return { result: 'win', bet, payout: calculatePayout('win', bet) };
     if (playerValue < dealerValue) return { result: 'lose', bet, payout: calculatePayout('lose', bet) };
-    return { result: 'push', bet, payout: calculatePayout('push', bet) };
+    // Only push if both values are equal and neither is bust
+    if (playerValue === dealerValue && playerValue <= 21 && dealerValue <= 21) return { result: 'push', bet, payout: calculatePayout('push', bet) };
+    // Otherwise, it's a loss
+    return { result: 'lose', bet, payout: calculatePayout('lose', bet) };
   }
 
   getGameState() {
