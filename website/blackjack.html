@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Blackjack | Joe Leto</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -305,31 +305,30 @@
             transition: all 0.3s ease;
         }
 
-        /* Card dealing animation */
+        /* Card dealing animation - minimal and smooth */
         .card-deal {
-            animation: dealCard 0.6s ease-out forwards;
-            transform: translateY(-200px) rotateY(180deg);
+            animation: dealCard 0.4s cubic-bezier(0.4,0,0.2,1) forwards;
         }
-
         @keyframes dealCard {
             0% {
-                transform: translateY(-200px) rotateY(180deg);
+                transform: translateY(-40px);
                 opacity: 0;
             }
-            50% {
-                transform: translateY(-100px) rotateY(90deg);
-                opacity: 0.5;
-            }
             100% {
-                transform: translateY(0) rotateY(0deg);
+                transform: translateY(0);
                 opacity: 1;
             }
         }
 
-        /* Card hover effects */
+        /* Remove win/loss/blackjack card animations for minimalism */
+        .card.win, .card.lose, .card.blackjack {
+            animation: none !important;
+        }
+
+        /* Card hover effect - subtle */
         .card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.18);
         }
 
         /* Win/loss card effects */
@@ -393,13 +392,7 @@
         .card.hidden {
             background: linear-gradient(45deg, #2c3e50, #34495e);
             border-color: #34495e;
-            animation: flipCard 0.8s ease-out;
-        }
-
-        @keyframes flipCard {
-            0% { transform: rotateY(0deg); }
-            50% { transform: rotateY(90deg); }
-            100% { transform: rotateY(180deg); }
+            animation: none !important;
         }
 
         .card-value {
@@ -802,23 +795,18 @@
             100% { transform: scale(1.1); }
         }
 
-        /* Chip movement to betting circle */
+        /* Chip movement to betting circle - minimal */
         .chip-moving {
-            animation: chipToBet 0.8s ease-out forwards;
+            animation: chipToBet 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
             pointer-events: none;
         }
-
         @keyframes chipToBet {
             0% {
-                transform: scale(1) translateY(0);
+                transform: scale(1);
                 opacity: 1;
             }
-            50% {
-                transform: scale(0.8) translateY(-20px);
-                opacity: 0.8;
-            }
             100% {
-                transform: scale(0.6) translateY(-40px);
+                transform: scale(0.7);
                 opacity: 0;
             }
         }
@@ -934,7 +922,6 @@
                 <button class="btn btn-primary" id="standBtn" onclick="playerStand()" disabled>Stand</button>
                 <button class="btn btn-warning" id="doubleBtn" onclick="playerDouble()" disabled>Double</button>
                 <button class="btn btn-success" id="splitBtn" onclick="playerSplit()" disabled>Split</button>
-                <button class="btn btn-danger" id="surrenderBtn" onclick="playerSurrender()" disabled>Surrender</button>
                 <button class="btn btn-warning" id="insuranceBtn" onclick="takeInsurance()" disabled>Insurance</button>
             </div>
 
@@ -1034,7 +1021,6 @@
             document.getElementById('standBtn').disabled = true;
             document.getElementById('doubleBtn').disabled = true;
             document.getElementById('splitBtn').disabled = true;
-            document.getElementById('surrenderBtn').disabled = true;
             document.getElementById('insuranceBtn').disabled = true;
         }
 
@@ -1043,22 +1029,15 @@
             document.getElementById('standBtn').disabled = false;
             document.getElementById('doubleBtn').disabled = !gameState.canDouble;
             document.getElementById('splitBtn').disabled = !gameState.canSplit;
-            document.getElementById('surrenderBtn').disabled = !gameState.canSurrender;
             document.getElementById('insuranceBtn').disabled = !gameState.canInsure;
-            
-            // For split hands, update button states based on current hand
+            // Surrender logic removed
             if (gameState.hands.length > 0) {
                 const currentHand = gameState.hands[gameState.currentHandIndex];
                 const handValue = calculateHandValue(currentHand);
-                
-                // Disable double if hand has more than 2 cards or if busted
                 if (currentHand.length > 2 || handValue > 21) {
                     document.getElementById('doubleBtn').disabled = true;
                 }
-                
-                // Can't split after initial split or if busted
                 document.getElementById('splitBtn').disabled = true;
-                document.getElementById('surrenderBtn').disabled = true;
                 document.getElementById('insuranceBtn').disabled = true;
             }
         }
@@ -1120,13 +1099,15 @@
             } else {
                 updateDisplay();
                 updateBankrollDisplay();
-                loadStats();
                 disableGameControls();
                 updateStatus('Session loaded! Place a bet to continue playing.');
             }
             
             // Add chip click handlers
             setupChipHandlers();
+
+            // Wire up buttons
+            document.getElementById('splitBtn').onclick = playerSplit;
         });
 
         function setupChipHandlers() {
@@ -1204,100 +1185,21 @@
             }, 800);
         }
 
+        // --- Animation helper functions ---
         function animateCardDeal(cardElement, delay = 0) {
             if (!cardElement) return;
-            
             // Reset animation
             cardElement.classList.remove('card-deal');
             void cardElement.offsetWidth; // Force reflow
-            
             // Add animation with delay
             setTimeout(() => {
                 cardElement.classList.add('card-deal');
             }, delay);
         }
 
-        function animateWinLossCards(result) {
-            const playerCards = document.querySelectorAll('#playerHand .card, .split-hand.active .card');
-            const dealerCards = document.querySelectorAll('#dealerHand .card');
-            
-            if (typeof result === 'object' && result.type === 'split') {
-                // Handle split results
-                result.results.forEach((handResult, index) => {
-                    const splitHand = document.querySelector(`[data-hand-index="${index}"]`);
-                    if (splitHand) {
-                        const cards = splitHand.querySelectorAll('.card');
-                        const resultType = handResult.result;
-                        cards.forEach(card => {
-                            if (resultType === 'win' || resultType === 'blackjack') {
-                                card.classList.add('win');
-                            } else if (resultType === 'lose') {
-                                card.classList.add('lose');
-                            }
-                        });
-                    }
-                });
-            } else {
-                // Handle single hand results
-                const resultType = typeof result === 'object' ? result.result : result;
-                playerCards.forEach(card => {
-                    if (resultType === 'blackjack') {
-                        card.classList.add('blackjack');
-                    } else if (resultType === 'win') {
-                        card.classList.add('win');
-                    } else if (resultType === 'lose') {
-                        card.classList.add('lose');
-                    }
-                });
-            }
-        }
-
-        function animateDealerCardFlip() {
-            const hiddenCards = document.querySelectorAll('#dealerHand .card.hidden');
-            hiddenCards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.remove('hidden');
-                    card.style.background = '#fff';
-                    card.style.borderColor = '#bbb';
-                    // Add content to the card
-                    const cardData = gameState.dealerCards[index + 1]; // +1 because first card is always shown
-                    if (cardData) {
-                        const isRed = cardData.suit === '♥️' || cardData.suit === '♦️';
-                        const cardClass = isRed ? 'red' : 'black';
-                        card.classList.add(cardClass);
-                        
-                        let cardContent = '';
-                        if (cardData.rank === 'A') {
-                            cardContent = `
-                                <div class="card-value">A</div>
-                                <div class="card-suit">${cardData.suit}</div>
-                                <div class="card-center">${cardData.suit}</div>
-                                <div class="card-suit" style="transform: rotate(180deg);">${cardData.suit}</div>
-                                <div class="card-value" style="transform: rotate(180deg);">A</div>
-                            `;
-                        } else if (['J', 'Q', 'K'].includes(cardData.rank)) {
-                            const faceSymbol = cardData.rank === 'J' ? '👨' : cardData.rank === 'Q' ? '👸' : '👑';
-                            cardContent = `
-                                <div class="card-value">${cardData.rank}</div>
-                                <div class="card-suit">${cardData.suit}</div>
-                                <div class="card-center">${faceSymbol}</div>
-                                <div class="card-suit" style="transform: rotate(180deg);">${cardData.suit}</div>
-                                <div class="card-value" style="transform: rotate(180deg);">${cardData.rank}</div>
-                            `;
-                        } else {
-                            cardContent = `
-                                <div class="card-value">${cardData.rank}</div>
-                                <div class="card-suit">${cardData.suit}</div>
-                                <div class="card-center">${cardData.suit}</div>
-                                <div class="card-suit" style="transform: rotate(180deg);">${cardData.suit}</div>
-                                <div class="card-value" style="transform: rotate(180deg);">${cardData.rank}</div>
-                            `;
-                        }
-                        card.innerHTML = cardContent;
-                    }
-                }, index * 300); // Stagger the card flips
-            });
-        }
+        // Remove win/loss/flip/extra card animations
+        function animateWinLossCards(result) { /* No-op for minimalism */ }
+        function animateDealerCardFlip() { /* No-op for minimalism */ }
 
         function updateBetDisplay() {
             const betAmount = document.getElementById('betAmount');
@@ -1319,38 +1221,51 @@
 
             const isRed = card.suit === '♥️' || card.suit === '♦️';
             const cardClass = isRed ? 'card red' : 'card black';
-            
             let cardContent = '';
-            
-            if (card.rank === 'A') {
-                cardContent = `
-                    <div class="card-value">A</div>
-                    <div class="card-suit">${card.suit}</div>
-                    <div class="card-center">${card.suit}</div>
-                    <div class="card-suit" style="transform: rotate(180deg);">${card.suit}</div>
-                    <div class="card-value" style="transform: rotate(180deg);">A</div>
-                `;
-            } else if (['J', 'Q', 'K'].includes(card.rank)) {
-                const faceSymbol = card.rank === 'J' ? '👨' : card.rank === 'Q' ? '👸' : '👑';
-                cardContent = `
-                    <div class="card-value">${card.rank}</div>
-                    <div class="card-suit">${card.suit}</div>
-                    <div class="card-center">${faceSymbol}</div>
-                    <div class="card-suit" style="transform: rotate(180deg);">${card.suit}</div>
-                    <div class="card-value" style="transform: rotate(180deg);">${card.rank}</div>
-                `;
+
+            // Mobile: show only one pip in the center
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            if (isMobile) {
+                if (['J', 'Q', 'K'].includes(card.rank)) {
+                    const faceSymbol = card.rank === 'J' ? '👨' : card.rank === 'Q' ? '👸' : '👑';
+                    cardContent = `
+                        <div class="card-center">${faceSymbol}</div>
+                    `;
+                } else {
+                    cardContent = `
+                        <div class="card-center">${card.suit}</div>
+                    `;
+                }
             } else {
-                const rank = card.rank;
-                const suit = card.suit;
-                cardContent = `
-                    <div class="card-value">${rank}</div>
-                    <div class="card-suit">${suit}</div>
-                    <div class="card-center">${suit}</div>
-                    <div class="card-suit" style="transform: rotate(180deg);">${suit}</div>
-                    <div class="card-value" style="transform: rotate(180deg);">${rank}</div>
-                `;
+                if (card.rank === 'A') {
+                    cardContent = `
+                        <div class="card-value">A</div>
+                        <div class="card-suit">${card.suit}</div>
+                        <div class="card-center">${card.suit}</div>
+                        <div class="card-suit" style="transform: rotate(180deg);">${card.suit}</div>
+                        <div class="card-value" style="transform: rotate(180deg);">A</div>
+                    `;
+                } else if (['J', 'Q', 'K'].includes(card.rank)) {
+                    const faceSymbol = card.rank === 'J' ? '👨' : card.rank === 'Q' ? '👸' : '👑';
+                    cardContent = `
+                        <div class="card-value">${card.rank}</div>
+                        <div class="card-suit">${card.suit}</div>
+                        <div class="card-center">${faceSymbol}</div>
+                        <div class="card-suit" style="transform: rotate(180deg);">${card.suit}</div>
+                        <div class="card-value" style="transform: rotate(180deg);">${card.rank}</div>
+                    `;
+                } else {
+                    const rank = card.rank;
+                    const suit = card.suit;
+                    cardContent = `
+                        <div class="card-value">${rank}</div>
+                        <div class="card-suit">${suit}</div>
+                        <div class="card-center">${suit}</div>
+                        <div class="card-suit" style="transform: rotate(180deg);">${suit}</div>
+                        <div class="card-value" style="transform: rotate(180deg);">${rank}</div>
+                    `;
+                }
             }
-            
             return `<div class="card ${cardClass}">${cardContent}</div>`;
         }
 
@@ -1410,18 +1325,13 @@
             const dealerCards = gameState.dealerCards;
             const showDealerCards = !gameState.playerTurn || gameState.gameOver;
             if (dealerCards.length > 0) {
-                const firstCard = renderCard(dealerCards[0], false);
-                const remainingCards = dealerCards.slice(1).map(card => 
-                    renderCard(card, !showDealerCards)
-                ).join('');
-                dealerHand.innerHTML = firstCard + remainingCards;
-                
-                // Animate dealer cards if they're being revealed
-                if (showDealerCards && !gameState.playerTurn) {
-                    setTimeout(() => {
-                        animateDealerCardFlip();
-                    }, 500);
+                // Always render both cards side by side, even if hidden
+                let cardsHtml = '';
+                for (let i = 0; i < dealerCards.length; i++) {
+                    // Only the second card is hidden if not showDealerCards
+                    cardsHtml += renderCard(dealerCards[i], i === 1 && !showDealerCards);
                 }
+                dealerHand.innerHTML = cardsHtml;
             } else {
                 dealerHand.innerHTML = '';
             }
@@ -1456,6 +1366,7 @@
                     animateCardDeal(card, index * 150); // Stagger card animations
                 });
             }, 100);
+            checkPlayerAutoStand();
         }
 
         function getSplitHandHtml(hand, index) {
@@ -1566,12 +1477,7 @@
             updateStatsUI();
             updateStatus(message, statusClass);
             document.getElementById('newHandBtn').disabled = false;
-            
-            // Trigger animations
-            setTimeout(() => {
-                animateWinLossCards(result);
-                animateDealerCardFlip();
-            }, 500);
+            // Only minimal animation: no win/loss/flip
         }
 
         function clearCardAnimations() {
@@ -1650,28 +1556,8 @@
                 updateBankrollDisplay();
                 if (data.result && gameState.gameOver) {
                     handleGameEnd(data.result);
-                } else if (gameState.hands.length > 0) {
-                    const currentHand = gameState.hands[gameState.currentHandIndex];
-                    const handValue = calculateHandValue(currentHand);
-                    if (handValue >= 21) {
-                        if (gameState.currentHandIndex < gameState.hands.length - 1) {
-                            updateStatus(`Hand ${gameState.currentHandIndex + 1} complete. Moving to Hand ${gameState.currentHandIndex + 2}...`);
-                            setTimeout(() => {
-                                updateDisplay();
-                                enableGameControls();
-                                updateStatus(`Playing Hand ${gameState.currentHandIndex + 2} of ${gameState.hands.length} - Choose your action!`);
-                            }, 1500);
-                        } else {
-                            updateStatus('All hands complete. Dealer playing...');
-                            setTimeout(() => {
-                                enableGameControls();
-                            }, 1500);
-                        }
-                    } else {
-                        enableGameControls();
-                    }
                 } else {
-                    enableGameControls();
+                    checkPlayerAutoStand();
                 }
             } catch (error) {}
         }
@@ -1755,6 +1641,23 @@
             } catch (error) {}
         }
 
+        async function playerSplit() {
+            if (!gameState.gameId) return;
+            try {
+                const data = await sendGameAction('split');
+                if (data.error) {
+                    updateStatus(data.error, 'status-lose');
+                    return;
+                }
+                gameState = { ...gameState, ...data.gameState };
+                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                updateDisplay();
+                updateBankrollDisplay();
+                enableGameControls();
+                updateStatus('Hand split! Play your first split hand.');
+            } catch (error) {}
+        }
+
         function renderSingleHand() {
             const playerHand = document.getElementById('playerHand');
             const splitHandsContainer = document.getElementById('splitHands');
@@ -1827,6 +1730,24 @@
             updateStatsUI();
             disableGameControls();
             updateStatus('New session started! Place a bet to begin playing.');
+        }
+
+        // --- Player action lock on 21 ---
+        function checkPlayerAutoStand() {
+            if (gameState.hands.length > 0) {
+                const currentHand = gameState.hands[gameState.currentHandIndex];
+                if (calculateHandValue(currentHand) === 21 && currentHand.length > 2 && !gameState.gameOver) {
+                    // Not a blackjack, auto-stand
+                    setTimeout(() => playerStand(), 500);
+                    return true;
+                }
+            } else if (gameState.playerCards.length > 0) {
+                if (calculateHandValue(gameState.playerCards) === 21 && gameState.playerCards.length > 2 && !gameState.gameOver) {
+                    setTimeout(() => playerStand(), 500);
+                    return true;
+                }
+            }
+            return false;
         }
     </script>
 </body>
