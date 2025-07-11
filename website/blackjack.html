@@ -1220,9 +1220,8 @@
                 let pip = card.suit;
                 // Always use pip for center, not face emoji, for mobile
                 cardContent = `
-                    <div class="card-mobile-top">${value}</div>
-                    <div class="card-mobile-center">${pip}</div>
-                    <div class="card-mobile-bottom">${value}</div>
+                    <div class="card-mobile-top" style="color:#111 !important;">${value}</div>
+                    <div class="card-mobile-center" style="color:#111 !important;">${pip}</div>
                 `;
             } else {
                 if (card.rank === 'A') {
