@@ -1030,16 +1030,7 @@
             document.getElementById('doubleBtn').disabled = !gameState.canDouble;
             document.getElementById('splitBtn').disabled = !gameState.canSplit;
             document.getElementById('insuranceBtn').disabled = !gameState.canInsure;
-            // Surrender logic removed
-            if (gameState.hands.length > 0) {
-                const currentHand = gameState.hands[gameState.currentHandIndex];
-                const handValue = calculateHandValue(currentHand);
-                if (currentHand.length > 2 || handValue > 21) {
-                    document.getElementById('doubleBtn').disabled = true;
-                }
-                document.getElementById('splitBtn').disabled = true;
-                document.getElementById('insuranceBtn').disabled = true;
-            }
+            // Remove logic that disables split after first split
         }
 
         function saveSessionState() {
