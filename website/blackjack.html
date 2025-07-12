@@ -1647,6 +1647,31 @@
             } catch (error) {}
         }
 
+        async function takeInsurance() {
+            if (!gameState.gameId) return;
+            try {
+                const data = await sendGameAction('insurance');
+                if (data.error) {
+                    updateStatus(data.error, 'status-lose');
+                    return;
+                }
+                gameState = { ...gameState, ...data.gameState };
+                if (data.bankroll !== undefined) gameState.bankroll = data.bankroll;
+                if (data.bankrollChange !== undefined) gameState.bankrollChange = data.bankrollChange;
+                updateDisplay();
+                updateBankrollDisplay();
+                
+                if (data.result && gameState.gameOver) {
+                    handleGameEnd(data.result);
+                } else {
+                    enableGameControls();
+                    updateStatus('Insurance taken! Continue with your hand.');
+                }
+            } catch (error) {
+                updateStatus('Error taking insurance. Please try again.', 'status-lose');
+            }
+        }
+
         function renderSingleHand() {
             const playerHand = document.getElementById('playerHand');
             const splitHandsContainer = document.getElementById('splitHands');
