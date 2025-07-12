@@ -255,13 +255,29 @@ exports.handler = async (event) => {
       const saved = await loadGameState(gameId);
       if (!saved) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Game not found' }) };
       const game = BlackjackGame.fromSavedState({ ...saved.gameState, shoe: saved.shoe });
+      
+      // Validate insurance can be taken
+      if (!game.canInsure) {
+        return { statusCode: 400, headers, body: JSON.stringify({ error: 'Insurance not available' }) };
+      }
+      if (game.insuranceBet > 0) {
+        return { statusCode: 400, headers, body: JSON.stringify({ error: 'Insurance already taken' }) };
+      }
+      
       const player = new Player(saved.playerId, await getPlayerBankroll(saved.playerId));
       const insuranceAmount = body.insuranceAmount || Math.floor(game.originalBet * 0.5);
+      
+      // Validate insurance amount
+      if (insuranceAmount <= 0 || insuranceAmount > game.originalBet) {
+        return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid insurance amount' }) };
+      }
+      
       try {
         await player.placeBet(insuranceAmount);
       } catch (err) {
         return { statusCode: 400, headers, body: JSON.stringify({ error: err.message, bankroll: await getPlayerBankroll(saved.playerId) }) };
       }
+      
       const result = game.playerInsurance(insuranceAmount);
       await saveGameState(game, saved.playerId);
         

@@ -269,6 +269,24 @@ class BlackjackGame {
     return value === 17 && aces > 0;
   }
 
+  // Test method for debugging soft 17 logic
+  testSoft17() {
+    const testCases = [
+      { cards: [{ rank: 'A', suit: '♠️' }, { rank: '6', suit: '♥️' }], expected: true, description: 'A-6 = Soft 17' },
+      { cards: [{ rank: 'K', suit: '♠️' }, { rank: '6', suit: '♥️' }, { rank: 'A', suit: '♦️' }], expected: true, description: 'K-6-A = Soft 17' },
+      { cards: [{ rank: 'A', suit: '♠️' }, { rank: 'A', suit: '♥️' }, { rank: '5', suit: '♦️' }], expected: true, description: 'A-A-5 = Soft 17' },
+      { cards: [{ rank: '8', suit: '♠️' }, { rank: '9', suit: '♥️' }], expected: false, description: '8-9 = Hard 17' },
+      { cards: [{ rank: '10', suit: '♠️' }, { rank: '7', suit: '♥️' }], expected: false, description: '10-7 = Hard 17' }
+    ];
+    
+    console.log('Testing Soft 17 Logic:');
+    testCases.forEach(test => {
+      const result = this.hasSoft17(test.cards);
+      const status = result === test.expected ? '✅ PASS' : '❌ FAIL';
+      console.log(`${status} ${test.description}: ${result} (expected ${test.expected})`);
+    });
+  }
+
   determineWinner() {
     let insuranceResult = null;
     if (this.insuranceBet > 0 && this.isBlackjack(this.dealerCards)) {

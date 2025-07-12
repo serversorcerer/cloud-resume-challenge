@@ -989,6 +989,7 @@
             canSplit: false,
             canSurrender: false,
             canInsure: false,
+            insuranceBet: 0,
             currentBet: 0,
             bankroll: 1000,
             userId: null,
@@ -1029,8 +1030,8 @@
             document.getElementById('standBtn').disabled = false;
             document.getElementById('doubleBtn').disabled = !gameState.canDouble;
             document.getElementById('splitBtn').disabled = !gameState.canSplit;
-            document.getElementById('insuranceBtn').disabled = !gameState.canInsure;
-            // Remove logic that disables split after first split
+            // Insurance is only available when dealer shows Ace and not already taken
+            document.getElementById('insuranceBtn').disabled = !gameState.canInsure || gameState.insuranceBet > 0;
         }
 
         function saveSessionState() {
@@ -1346,6 +1347,11 @@
             renderPlayerHandOrSplit();
             updateScores();
             
+            // Show insurance status if applicable
+            if (gameState.insuranceBet > 0) {
+                updateStatus(`Insurance bet: $${gameState.insuranceBet} placed`, 'status-playing');
+            }
+            
             // Trigger card dealing animations for new cards
             setTimeout(() => {
                 const newCards = document.querySelectorAll('.card:not(.card-deal)');
@@ -1389,6 +1395,14 @@
             let statusClass = 'status-push';
             let message = '';
             let won = false;
+            
+            // Handle insurance results
+            if (typeof result === 'object' && result.insurance === 'insurance_win') {
+                message = '🛡️ INSURANCE WON! +2:1 payout on insurance bet!';
+                statusClass = 'status-win';
+                won = true;
+            }
+            
             if (typeof result === 'object') {
                 if (result.type === 'split') {
                     message = '🎯 SPLIT RESULTS:\n';
@@ -1512,6 +1526,7 @@
                     canSplit: data.gameState.canSplit || false,
                     canSurrender: data.gameState.canSurrender || false,
                     canInsure: data.gameState.canInsure || false,
+                    insuranceBet: data.gameState.insuranceBet || 0,
                     splitBets: data.gameState.splitBets || []
                 };
                 updateDisplay();
@@ -1662,12 +1677,15 @@
                 updateBankrollDisplay();
                 
                 if (data.result && gameState.gameOver) {
+                    // Handle insurance win/loss in the result
                     handleGameEnd(data.result);
                 } else {
+                    // Insurance taken but game continues
                     enableGameControls();
                     updateStatus('Insurance taken! Continue with your hand.');
                 }
             } catch (error) {
+                console.error('Insurance error:', error);
                 updateStatus('Error taking insurance. Please try again.', 'status-lose');
             }
         }
@@ -1762,6 +1780,21 @@
                 }
             }
             return false;
+        }
+
+        // Debug function for troubleshooting
+        function debugGameState() {
+            console.log('=== GAME STATE DEBUG ===');
+            console.log('Game ID:', gameState.gameId);
+            console.log('Player Cards:', gameState.playerCards);
+            console.log('Dealer Cards:', gameState.dealerCards);
+            console.log('Can Insure:', gameState.canInsure);
+            console.log('Insurance Bet:', gameState.insuranceBet);
+            console.log('Game Over:', gameState.gameOver);
+            console.log('Player Turn:', gameState.playerTurn);
+            console.log('Bankroll:', gameState.bankroll);
+            console.log('Current Bet:', gameState.currentBet);
+            console.log('========================');
         }
     </script>
 </body>
