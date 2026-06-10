@@ -1028,19 +1028,29 @@ footer .social li a{
 }
 
 /* Resume timeline — alternating cards with center spine */
+#resume .timeline .timeline-item:after {
+  content: none !important;
+  display: none !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
 .resume-timeline-track {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
-  background-image: linear-gradient(
-    to right,
-    transparent calc(50% - 1px),
-    #00f7ff calc(50% - 1px),
-    #00f7ff calc(50% + 1px),
-    transparent calc(50% + 1px)
-  );
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+}
+
+.resume-spine {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #00f7ff;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* Legacy timeline z-index would bury the spine behind row boxes */
@@ -1179,6 +1189,7 @@ footer .social li a{
     padding: 0 1rem;
   }
 
+  .resume-spine,
   .resume-timeline-track {
     background-image: none;
   }
@@ -1189,6 +1200,7 @@ footer .social li a{
     padding: 0 1rem;
   }
 
+  .resume-spine,
   .resume-timeline-track .timeline-caption-outer::after,
   .resume-timeline .timeline-item:before,
   .resume-timeline .timeline-item:after,
