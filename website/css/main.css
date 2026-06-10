@@ -1109,14 +1109,21 @@ footer .social li a{
   height: 0 !important;
 }
 
-/* Dots sit on the center spine */
-.resume-timeline .timeline-item:nth-child(odd):before,
+/* Dots anchor to the column edge that meets the center spine */
+.resume-timeline .timeline-item:nth-child(odd):before {
+  left: auto;
+  right: 0;
+  transform: translateX(50%);
+  top: 31%;
+  z-index: 3;
+}
+
 .resume-timeline .timeline-item:nth-child(even):before {
-  left: 50%;
+  left: 0;
   right: auto;
   transform: translateX(-50%);
   top: 31%;
-  z-index: 2;
+  z-index: 3;
 }
 
 .resume-timeline .timeline-outer {
