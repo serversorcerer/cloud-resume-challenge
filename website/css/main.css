@@ -1043,14 +1043,13 @@ footer .social li a{
 
 .resume-spine {
   position: absolute;
-  left: 50%;
+  left: 0;
   top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #00f7ff;
-  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
   z-index: 1;
   pointer-events: none;
+  overflow: visible;
 }
 
 /* Legacy timeline z-index would bury the spine behind row boxes */
