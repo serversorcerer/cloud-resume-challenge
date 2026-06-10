@@ -1028,15 +1028,58 @@ footer .social li a{
 }
 
 /* Resume timeline — alternating cards with center spine */
+.resume-timeline-track {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* One spine for the entire resume (Experience through Projects) */
+.resume-timeline-track::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #00f7ff;
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Section badges sit on the spine — redraw line through the pill */
+.resume-timeline-track .timeline-caption-outer {
+  position: relative;
+  z-index: 2;
+}
+
+.resume-timeline-track .timeline-caption-outer::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #00f7ff;
+  transform: translateX(-50%);
+  z-index: 3;
+  pointer-events: none;
+}
+
 .resume-timeline {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  row-gap: 2.5rem;
 }
 
 .resume-timeline .timeline-item {
   margin-top: 0;
   padding-top: 0;
-  margin-bottom: 2.5rem;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .resume-timeline .timeline-item:first-child {
@@ -1046,6 +1089,21 @@ footer .social li a{
 
 .resume-timeline .timeline-item:last-child {
   margin-bottom: 0;
+}
+
+/* Per-item segments leave gaps at margins — use container spine instead */
+.resume-timeline .timeline-item:after {
+  display: none;
+}
+
+/* Dots sit on the center spine */
+.resume-timeline .timeline-item:nth-child(odd):before,
+.resume-timeline .timeline-item:nth-child(even):before {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  top: 31%;
+  z-index: 2;
 }
 
 .resume-timeline .timeline-outer {
@@ -1100,11 +1158,16 @@ footer .social li a{
 }
 
 @media (max-width: 767px) {
+  .resume-timeline {
+    row-gap: 2rem;
+  }
+
   .resume-timeline .timeline-item {
-    margin-bottom: 2rem;
     padding: 0 1rem;
   }
 
+  .resume-timeline-track::before,
+  .resume-timeline-track .timeline-caption-outer::after,
   .resume-timeline .timeline-item:before,
   .resume-timeline .timeline-item:after,
   .resume-timeline .timeline-outer:after {
