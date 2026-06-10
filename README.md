@@ -4,7 +4,7 @@
 [![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 
-Welcome! I'm **Joseph Leto**, a Cloud Engineer at [Strategic Business Systems (SBS)](https://sbsplanet.com/) who codes between poker shifts. This repository contains the source for my interactive terminal portfolio at [josephaleto.io](https://josephaleto.io).
+Welcome! I'm **Joseph Leto**, an SRE/DevOps engineer at **AWS Professional Services** who builds production platforms, ships secure CI/CD pipelines, and delivers solutions that make measurable impact. This repository powers my interactive terminal portfolio at [josephaleto.io](https://josephaleto.io).
 
 **What makes this different?** Every command you run on the site executes live Lambda code deployed through Terraform and GitHub Actions. It's not just a resume—it's a working demonstration of modern cloud architecture.
 
@@ -105,7 +105,7 @@ This started as the [Cloud Resume Challenge](https://cloudresumechallenge.dev/)�
 
 ## About Me
 
-I'm **Joseph Leto**—a cloud engineer who happens to deal poker between coding sessions. I believe in building things that work, not just things that look good in demos.
+I'm **Joseph Leto**—an AWS ProServe engineer who partners with stakeholders to ship platforms that scale. Production ownership over slide decks.
 
 **Get in touch:**
 - 🌐 [josephaleto.io](https://josephaleto.io) — Try the live terminal!
