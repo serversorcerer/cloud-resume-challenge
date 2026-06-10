@@ -1026,6 +1026,25 @@ footer .social li a{
     transform: translateX(-1.5px);
   }
 }
+
+/* Card grid for non-timeline sections (skills, certs) */
+.resume-card-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.resume-card-grid > [class*="col-"] {
+  margin-bottom: 30px;
+}
+
+.resume-card-grid .timeline-outer {
+  height: 100%;
+  margin-bottom: 0;
+}
+
+.timeline-section-end {
+  margin-bottom: 30px;
+}
  
 
 /* Skills  */
