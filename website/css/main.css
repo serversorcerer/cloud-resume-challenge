@@ -1027,18 +1027,46 @@ footer .social li a{
   }
 }
 
-/* Card grid for resume sections (experience, skills, certs, projects) */
+/* Card layouts for resume sections */
 .resume-card-grid {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.resume-card-grid > [class*="col-"] {
-  margin-bottom: 30px;
+.resume-stagger {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 0 1rem;
 }
 
-.resume-card-grid .timeline-outer {
-  height: 100%;
+.resume-stagger .resume-card {
+  width: 88%;
+  max-width: 540px;
+}
+
+.resume-stagger .resume-card:nth-child(odd) {
+  align-self: flex-start;
+}
+
+.resume-stagger .resume-card:nth-child(even) {
+  align-self: flex-end;
+}
+
+.resume-stack {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.resume-card-grid .timeline-outer,
+.resume-stagger .timeline-outer,
+.resume-stack .timeline-outer {
   margin-bottom: 0;
   padding: 45px;
   border-radius: 12px;
@@ -1048,8 +1076,26 @@ footer .social li a{
   position: relative;
 }
 
-.resume-card-grid .timeline-outer:after {
+.resume-card-grid .timeline-outer:after,
+.resume-stagger .timeline-outer:after,
+.resume-stack .timeline-outer:after {
   display: none;
+}
+
+.resume-section-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  max-width: 1200px;
+  margin: 3rem auto;
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .resume-stagger .resume-card {
+    width: 100%;
+    max-width: none;
+    align-self: stretch !important;
+  }
 }
  
 
