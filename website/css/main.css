@@ -1032,20 +1032,21 @@ footer .social li a{
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
+  background-image: linear-gradient(
+    to right,
+    transparent calc(50% - 1px),
+    #00f7ff calc(50% - 1px),
+    #00f7ff calc(50% + 1px),
+    transparent calc(50% + 1px)
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
-/* One spine for the entire resume (Experience through Projects) */
-.resume-timeline-track::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #00f7ff;
-  transform: translateX(-50%);
-  z-index: 0;
-  pointer-events: none;
+/* Legacy timeline z-index would bury the spine behind row boxes */
+.resume-timeline-track .timeline,
+.resume-timeline-track .resume-timeline {
+  z-index: auto;
 }
 
 /* Section badges sit on the spine — redraw line through the pill */
@@ -1074,26 +1075,37 @@ footer .social li a{
   row-gap: 2.5rem;
 }
 
+.resume-timeline-track .timeline .timeline-item,
 .resume-timeline .timeline-item {
-  margin-top: 0;
-  padding-top: 0;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
   margin-bottom: 0;
   position: relative;
   z-index: 1;
 }
 
+.resume-timeline-track .timeline .timeline-item:first-child,
 .resume-timeline .timeline-item:first-child {
-  margin-top: 0;
-  padding-top: 0;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .resume-timeline .timeline-item:last-child {
   margin-bottom: 0;
 }
 
-/* Per-item segments leave gaps at margins — use container spine instead */
+/* Kill legacy per-item line segments from the theme */
+.resume-timeline-track .timeline .timeline-item:after,
 .resume-timeline .timeline-item:after {
-  display: none;
+  content: none !important;
+  display: none !important;
+  height: 0 !important;
+}
+
+.resume-timeline-track .timeline .timeline-item:last-child:after {
+  content: none !important;
+  display: none !important;
+  height: 0 !important;
 }
 
 /* Dots sit on the center spine */
@@ -1127,12 +1139,13 @@ footer .social li a{
 }
 
 .resume-stack {
-  max-width: 640px;
-  margin: 0 auto;
+  max-width: calc(50% - 2rem);
+  margin: 0;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 0 1rem;
+  padding: 0 1rem 0 0.5rem;
 }
 
 .resume-stack .timeline-outer {
@@ -1166,7 +1179,16 @@ footer .social li a{
     padding: 0 1rem;
   }
 
-  .resume-timeline-track::before,
+  .resume-timeline-track {
+    background-image: none;
+  }
+
+  .resume-stack {
+    max-width: none;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
   .resume-timeline-track .timeline-caption-outer::after,
   .resume-timeline .timeline-item:before,
   .resume-timeline .timeline-item:after,
