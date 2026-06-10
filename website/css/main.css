@@ -1058,23 +1058,15 @@ footer .social li a{
   z-index: auto;
 }
 
-/* Section badges sit on the spine — redraw line through the pill */
+/* Section badges sit above the spine and cover it */
 .resume-timeline-track .timeline-caption-outer {
   position: relative;
   z-index: 2;
 }
 
-.resume-timeline-track .timeline-caption-outer::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #00f7ff;
-  transform: translateX(-50%);
-  z-index: 3;
-  pointer-events: none;
+.resume-timeline-track .timeline-caption-outer .timeline-caption {
+  position: relative;
+  z-index: 2;
 }
 
 .resume-timeline {
@@ -1200,7 +1192,6 @@ footer .social li a{
   }
 
   .resume-spine,
-  .resume-timeline-track .timeline-caption-outer::after,
   .resume-timeline .timeline-item:before,
   .resume-timeline .timeline-item:after,
   .resume-timeline .timeline-outer:after {
