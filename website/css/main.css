@@ -1027,32 +1027,45 @@ footer .social li a{
   }
 }
 
-/* Card layouts for resume sections */
-.resume-card-grid {
+/* Resume timeline — alternating cards with center spine */
+.resume-timeline {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.resume-stagger {
-  max-width: 960px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  padding: 0 1rem;
+.resume-timeline .timeline-item {
+  margin-top: 0;
+  padding-top: 0;
+  margin-bottom: 2.5rem;
 }
 
-.resume-stagger .resume-card {
-  width: 88%;
-  max-width: 540px;
+.resume-timeline .timeline-item:first-child {
+  margin-top: 0;
+  padding-top: 0;
 }
 
-.resume-stagger .resume-card:nth-child(odd) {
-  align-self: flex-start;
+.resume-timeline .timeline-item:last-child {
+  margin-bottom: 0;
 }
 
-.resume-stagger .resume-card:nth-child(even) {
-  align-self: flex-end;
+.resume-timeline .timeline-outer {
+  margin-bottom: 0;
+  padding: 45px;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  background: rgba(255, 255, 255, 0.20);
+  border-left: 5px solid #00f7ff;
+  position: relative;
+}
+
+/* Re-enable connector arrows toward center spine */
+.resume-timeline .timeline-outer:after {
+  display: block;
+  border-color: transparent transparent transparent rgba(255, 255, 255, 0.20);
+}
+
+.resume-timeline .timeline-item:nth-child(even) .timeline-outer:after {
+  border-color: transparent rgba(255, 255, 255, 0.20) transparent transparent;
 }
 
 .resume-stack {
@@ -1064,8 +1077,6 @@ footer .social li a{
   padding: 0 1rem;
 }
 
-.resume-card-grid .timeline-outer,
-.resume-stagger .timeline-outer,
 .resume-stack .timeline-outer {
   margin-bottom: 0;
   padding: 45px;
@@ -1076,8 +1087,6 @@ footer .social li a{
   position: relative;
 }
 
-.resume-card-grid .timeline-outer:after,
-.resume-stagger .timeline-outer:after,
 .resume-stack .timeline-outer:after {
   display: none;
 }
@@ -1091,10 +1100,15 @@ footer .social li a{
 }
 
 @media (max-width: 767px) {
-  .resume-stagger .resume-card {
-    width: 100%;
-    max-width: none;
-    align-self: stretch !important;
+  .resume-timeline .timeline-item {
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .resume-timeline .timeline-item:before,
+  .resume-timeline .timeline-item:after,
+  .resume-timeline .timeline-outer:after {
+    display: none;
   }
 }
  
