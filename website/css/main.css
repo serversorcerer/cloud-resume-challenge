@@ -1027,7 +1027,7 @@ footer .social li a{
   }
 }
 
-/* Card grid for non-timeline sections (skills, certs) */
+/* Card grid for resume sections (experience, skills, certs, projects) */
 .resume-card-grid {
   max-width: 1200px;
   margin: 0 auto;
@@ -1040,10 +1040,16 @@ footer .social li a{
 .resume-card-grid .timeline-outer {
   height: 100%;
   margin-bottom: 0;
+  padding: 45px;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  background: rgba(255, 255, 255, 0.20);
+  border-left: 5px solid #00f7ff;
+  position: relative;
 }
 
-.timeline-section-end {
-  margin-bottom: 30px;
+.resume-card-grid .timeline-outer:after {
+  display: none;
 }
  
 
