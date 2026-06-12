@@ -10,8 +10,9 @@ function showFallback() {
   if (fallback) fallback.classList.add('show');
 }
 
+// Under reduced motion we still draw the graph — just as a static frame.
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!canvas || reducedMotion) {
+if (!canvas) {
   showFallback();
 } else {
   init();
@@ -74,7 +75,7 @@ function init() {
   const lineGeo = new THREE.BufferGeometry();
   lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
   const lineMat = new THREE.LineBasicMaterial({
-    color: BLUE, transparent: true, opacity: 0.22,
+    color: BLUE, transparent: true, opacity: 0.3,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
   group.add(new THREE.LineSegments(lineGeo, lineMat));
@@ -143,9 +144,17 @@ function init() {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    if (reducedMotion) renderer.render(scene, camera);
   }
   resize();
   window.addEventListener('resize', resize);
+
+  // Static mode: one composed frame, no animation loop, no listeners.
+  if (reducedMotion) {
+    group.rotation.set(-0.08, 0.35, 0);
+    renderer.render(scene, camera);
+    return;
+  }
 
   // --- Render loop: paused when hero is off-screen or tab hidden ---
   let running = true;
