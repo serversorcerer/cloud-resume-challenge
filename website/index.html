@@ -59,7 +59,7 @@
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="css/redesign.css?v=3">
+  <link rel="stylesheet" href="css/redesign.css?v=4">
 </head>
 
 <body>
@@ -111,9 +111,9 @@
         </h1>
 
         <p class="hero-sub" data-anim="rise">
-          Cloud platforms, AI agents, and automation — engineered with the discipline
-          of <strong>AWS&nbsp;Professional&nbsp;Services</strong> delivery. This site is the proof:
-          the terminal below executes on live infrastructure I designed, provisioned, and run.
+          Platform engineer at <strong>AWS&nbsp;Professional&nbsp;Services</strong>.
+          I'd rather show you working code than talk about it — the terminal below
+          runs on live infrastructure I built, and this page deployed itself.
         </p>
 
         <div class="hero-ctas" data-anim="rise">
@@ -139,35 +139,41 @@
       </a>
     </section>
 
-    <!-- ============ LIVE TELEMETRY TICKER ============ -->
+    <!-- ============ LIVE TELEMETRY TICKER (real data only — items appear as they load) ============ -->
     <div class="ticker" aria-hidden="true">
       <div class="ticker-track mono" id="tickerTrack">
         <span class="tick"><span class="tick-dot"></span>SYSTEMS ONLINE</span>
         <span class="tick">region: us-east-1</span>
-        <span class="tick" id="tickVisitors">visitors: —</span>
-        <span class="tick" id="tickLatency">api latency: —</span>
-        <span class="tick" id="tickDeploy">last deploy: —</span>
-        <span class="tick">terraform: no drift</span>
-        <span class="tick">pipeline: green</span>
-        <span class="tick">agents: 4 online</span>
+        <span class="tick tick-pending" data-tick="visitors"></span>
+        <span class="tick tick-pending" data-tick="latency"></span>
+        <span class="tick tick-pending" data-tick="deploy"></span>
+        <span class="tick tick-pending" data-tick="pipeline"></span>
         <span class="tick amber">open to senior cloud / ai roles</span>
       </div>
     </div>
 
-    <!-- ============ ORIGIN ============ -->
-    <section class="origin" id="origin" aria-label="Origin story">
-      <div class="origin-pin">
-        <p class="origin-kicker mono">// origin</p>
-        <div class="origin-beats">
-          <p class="origin-beat" data-beat="1">I ran poker tables for a living.<br>
-            <span class="muted">Read the room. Keep the game moving. Never blink when it gets loud.</span>
-          </p>
-          <p class="origin-beat" data-beat="2">Now I run production.<br>
-            <span class="muted">Same nerves, different stakes — CI/CD pipelines, multi-account AWS,
-              platforms teams depend on.</span>
-          </p>
-          <p class="origin-beat" data-beat="3"><em>Calm is a skill. Uptime is the proof.</em></p>
+    <!-- ============ THE OPERATOR ============ -->
+    <section class="origin" id="origin" aria-label="The operator">
+      <div class="origin-inner">
+        <div class="origin-story">
+          <p class="kicker mono">// the operator</p>
+          <h2 data-split>Before I ran production,<br>I ran the table.</h2>
+          <p data-anim="rise">Years of dealing poker — real money, real tempers, no pause button —
+            taught me the job underneath the job: read the room, manage risk in real time,
+            and stay calm while everything moves.</p>
+          <p data-anim="rise">I do the same work now. The table is a multi-account AWS estate.
+            The chips are production traffic. The skill hasn't changed:
+            <strong>keep the game running, no matter what gets dealt.</strong></p>
         </div>
+        <aside class="origin-rules" data-anim="rise" aria-label="House rules">
+          <p class="rules-title mono">house rules · operator's edition</p>
+          <ul class="rules-list mono">
+            <li><span>read the table</span><span class="rule-arrow" aria-hidden="true">→</span><span>read the telemetry</span></li>
+            <li><span>protect the pot</span><span class="rule-arrow" aria-hidden="true">→</span><span>protect production</span></li>
+            <li><span>count every chip</span><span class="rule-arrow" aria-hidden="true">→</span><span>audit every change</span></li>
+            <li><span>never blink</span><span class="rule-arrow" aria-hidden="true">→</span><span>never blink</span></li>
+          </ul>
+        </aside>
       </div>
     </section>
 
@@ -254,59 +260,37 @@
         <h2 data-split>Three systems, one operator.</h2>
       </div>
 
-      <div class="stat-row" role="list" aria-label="Key metrics">
-        <div class="stat" role="listitem">
-          <span class="stat-num mono"><span data-count="64">0</span>+</span>
-          <span class="stat-label">AWS accounts standardized</span>
-        </div>
-        <div class="stat" role="listitem">
-          <span class="stat-num mono"><span data-count="500">0</span>+</span>
-          <span class="stat-label">firewall ranges in production</span>
-        </div>
-        <div class="stat" role="listitem">
-          <span class="stat-num mono"><span data-count="4">0</span></span>
-          <span class="stat-label">security scanners in CI/CD</span>
-        </div>
-        <div class="stat" role="listitem">
-          <span class="stat-num mono"><span data-count="20">0</span>+</span>
-          <span class="stat-label">live terminal commands</span>
-        </div>
-      </div>
-
       <div class="build-grid">
         <article class="build-card" data-anim="card">
           <h3><span class="card-index mono">01</span> Cloud Platforms</h3>
-          <p>Multi-account AWS that scales past one team's tribal knowledge — landing zones,
-            networking, guardrails, and the pipelines that keep them honest.</p>
+          <p>Multi-account AWS for organizations that can't afford surprises. Landing zones,
+            networking, guardrails — built so the right way is the default way.</p>
           <ul class="mono">
-            <li>64+ AWS accounts standardized with Terraform + StackSets</li>
-            <li>~40% faster provisioning</li>
-            <li>Network Firewall · 500+ approved ranges</li>
-            <li>Transit Gateway validated at enterprise scale</li>
+            <li>Terraform + StackSets provisioning</li>
+            <li>Network Firewall and Transit Gateway in production</li>
+            <li>Patterns architects and security both sign off on</li>
           </ul>
         </article>
 
         <article class="build-card" data-anim="card">
           <h3><span class="card-index mono">02</span> AI Agents</h3>
-          <p>Agentic systems with real hands — terminal, files, browser, memory — deployed as
-            production services, not weekend demos.</p>
+          <p>Self-hosted agents that do real work — research, operations, deployments —
+            with scoped credentials and a human on the loop.</p>
           <ul class="mono">
-            <li>Self-hosted agent gateway on a hardened VPS</li>
-            <li>Discord-driven ops: research, jobs, server changes</li>
-            <li>LLM tooling wired to live APIs with least privilege</li>
-            <li>Memory + cron: agents that learn and act on schedule</li>
+            <li>Always-on agent gateway, self-hosted</li>
+            <li>Driven from chat, accountable in logs</li>
+            <li>Least-privilege access to live APIs</li>
           </ul>
         </article>
 
         <article class="build-card" data-anim="card">
           <h3><span class="card-index mono">03</span> Automation</h3>
-          <p>If it happens twice, it gets a pipeline. Security scanning, release governance,
-            and workflow automation that removes humans from the boring path.</p>
+          <p>If it happens twice, it gets a pipeline. Security feedback on every change,
+            gates that block risk without blocking people.</p>
           <ul class="mono">
-            <li>4 security scanners wired into CI/CD</li>
-            <li>Deployment gates that block risk without blocking teams</li>
-            <li>n8n pipelines: research → publish → notify</li>
-            <li>Compliance exports leadership actually reads (JSON/SARIF/PDF)</li>
+            <li>Scanners wired into CI/CD</li>
+            <li>Deployment gates and release governance</li>
+            <li>n8n pipelines for everything else</li>
           </ul>
         </article>
       </div>
@@ -367,7 +351,7 @@
 
       <div class="work-grid">
         <article class="work-card" data-anim="card">
-          <p class="work-metric mono">20+ live commands</p>
+          <p class="work-metric mono">running on this page</p>
           <h3>Cloud Resume Terminal</h3>
           <p>This site. A production AWS stack with an interactive terminal — Lambda, API Gateway, S3,
             CloudFront, DynamoDB, all Terraform-managed, all deployed by CI/CD on merge.</p>
@@ -376,7 +360,7 @@
         </article>
 
         <article class="work-card" data-anim="card">
-          <p class="work-metric mono">64+ accounts · ~40% faster</p>
+          <p class="work-metric mono">enterprise aws</p>
           <h3>Enterprise Multi-Account Platform</h3>
           <p>Three-tier architecture across multiple VPCs with centralized Transit Gateway routing,
             repeatable Terraform/CloudFormation provisioning, and automated misconfiguration checks.</p>
@@ -385,7 +369,7 @@
         </article>
 
         <article class="work-card" data-anim="card">
-          <p class="work-metric mono">4 scanners · 4 environments</p>
+          <p class="work-metric mono">secure delivery</p>
           <h3>Security &amp; Release Governance Platform</h3>
           <p>Automated security scanning and release governance with deployment gates, RBAC, and
             audit exports — security feedback on every change, before it ships.</p>

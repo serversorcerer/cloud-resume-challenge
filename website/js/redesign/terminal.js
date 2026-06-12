@@ -66,6 +66,10 @@
     if (entry.isIntersecting) { boot(); obs.disconnect(); }
   }, { threshold: 0.35 }).observe(terminalWrapper);
 
+  // Probe immediately so the telemetry ticker has real latency without
+  // waiting for the visitor to reach the terminal.
+  probeLatency();
+
   /* ---------- Real latency probe (also feeds the footnote) ---------- */
   async function probeLatency(report = false) {
     if (!API_URL) return null;
@@ -138,12 +142,11 @@ Type "automate" for the automation story.`, C.ok),
     'automate': () => print(
 `AUTOMATION DOCTRINE
 ────────────────────────────────────────────────
-  if it happens twice          → it gets a pipeline
-  4 security scanners          → wired into CI/CD
-  deployment gates             → block risk, not teams
-  64+ AWS accounts             → standardized via Terraform
-  compliance exports           → JSON / SARIF / PDF
-  this site                    → deploys itself on git push
+  if it happens twice     → it gets a pipeline
+  security feedback       → on every change, before prod
+  deployment gates        → block risk, not people
+  compliance evidence     → generated, never assembled
+  this site               → deploys itself on git push
 
 Humans for judgment. Machines for repetition.`, C.ok),
 
@@ -169,9 +172,9 @@ Humans for judgment. Machines for repetition.`, C.ok),
 ────────────────────────────────────────────────
   role targets   senior platform · ai infrastructure
                  solutions architect · automation lead
-  superpowers    multi-account AWS · CI/CD platforms
-                 AI agents with real hands · security automation
-  receipts       64+ accounts · 4 scanners · this terminal
+  focus          multi-account AWS · CI/CD platforms
+                 AI agents with real hands
+  receipts       this terminal · the pipeline that shipped it
   availability   OPEN — direct line below
 
   → joe@josephaleto.io`, C.signal);
