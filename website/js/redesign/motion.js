@@ -45,6 +45,69 @@
     });
   }
 
+  /* ---------- Telemetry ticker: real data + seamless loop ---------- */
+  const tickerTrack = document.getElementById('tickerTrack');
+  if (tickerTrack) {
+    // Visitors + latency are filled by other modules; poll until they exist
+    const sync = setInterval(() => {
+      const visitors = document.querySelector('.counter-number')?.textContent.trim();
+      const latency = document.getElementById('apiLatency')?.textContent.trim();
+      const tv = document.getElementById('tickVisitors');
+      const tl = document.getElementById('tickLatency');
+      if (tv && visitors && visitors !== '—') tv.textContent = `visitors: ${visitors}`;
+      if (tl && latency && latency !== '—') tl.textContent = `api latency: ${latency}`;
+      if (tv?.textContent.includes(':') && !tv.textContent.includes('—')
+        && tl?.textContent.includes('ms')) clearInterval(sync);
+    }, 1500);
+    setTimeout(() => clearInterval(sync), 30000);
+
+    // Last deploy straight from the GitHub API (public, unauthenticated)
+    fetch('https://api.github.com/repos/serversorcerer/cloud-resume-challenge/commits/main')
+      .then((r) => r.json())
+      .then((data) => {
+        const td = document.getElementById('tickDeploy');
+        const when = new Date(data?.commit?.committer?.date);
+        if (td && !isNaN(when)) {
+          const hrs = Math.max(0, Math.round((Date.now() - when) / 36e5));
+          td.textContent = `last deploy: ${hrs < 1 ? '<1h' : hrs < 48 ? hrs + 'h' : Math.round(hrs / 24) + 'd'} ago`;
+        }
+      })
+      .catch(() => {});
+
+    // Duplicate items so the -50% translate loops seamlessly
+    if (!reducedMotion) tickerTrack.innerHTML += tickerTrack.innerHTML;
+  }
+
+  /* ---------- Copy email + toast ---------- */
+  const copyBtn = document.getElementById('copyEmail');
+  const toast = document.getElementById('toast');
+  if (copyBtn && toast) {
+    let toastTimer;
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('joe@josephaleto.io');
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+      } catch {
+        window.location.href = 'mailto:joe@josephaleto.io';
+      }
+    });
+  }
+
+  /* ---------- Stat counters (instant under reduced motion) ---------- */
+  const counters = document.querySelectorAll('.stat-num [data-count]');
+  if (reducedMotion || typeof gsap === 'undefined') {
+    counters.forEach((el) => { el.textContent = el.dataset.count; });
+  }
+
+  /* ---------- Pipeline final state under reduced motion ---------- */
+  if (reducedMotion || typeof gsap === 'undefined') {
+    document.querySelectorAll('.pipe-stage').forEach((s) => s.classList.add('lit'));
+    const pulse = document.getElementById('pipePulse');
+    if (pulse) pulse.style.strokeDashoffset = '0';
+  }
+
   /* ---------- Nav hide-on-scroll ---------- */
   const nav = document.getElementById('hudNav');
   if (nav) {
@@ -165,6 +228,45 @@
       scrollTrigger: { trigger: item, start: 'top 82%' },
     });
   });
+
+  /* ---------- Stat counters count up on entry ---------- */
+  counters.forEach((el) => {
+    const target = parseInt(el.dataset.count, 10);
+    const obj = { v: 0 };
+    gsap.to(obj, {
+      v: target,
+      duration: 1.6,
+      ease: 'power2.out',
+      snap: { v: 1 },
+      onUpdate: () => { el.textContent = obj.v; },
+      scrollTrigger: { trigger: el.closest('.stat-row'), start: 'top 82%' },
+    });
+  });
+
+  /* ---------- Pipeline: pulse travels the pipe, stages light up ---------- */
+  const pipePulse = document.getElementById('pipePulse');
+  if (pipePulse) {
+    const stages = gsap.utils.toArray('.pipe-stage');
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.pipe-wrap',
+        start: 'top 78%',
+        end: 'bottom 45%',
+        scrub: 0.6,
+      },
+    });
+    tl.to(pipePulse, { strokeDashoffset: 0, ease: 'none', duration: 1 });
+    stages.forEach((stage, i) => {
+      tl.add(() => stage.classList.toggle('lit', tl.progress() >= i / (stages.length - 1) - 0.01),
+        (i / (stages.length - 1)) * 0.98);
+    });
+    // Ensure final state when scrolled fully past
+    ScrollTrigger.create({
+      trigger: '.pipe-wrap',
+      start: 'bottom 45%',
+      onEnter: () => stages.forEach((s) => s.classList.add('lit')),
+    });
+  }
 
   /* ---------- Terminal shell reveal ---------- */
   const shell = document.getElementById('terminalShell');

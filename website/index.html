@@ -59,7 +59,7 @@
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="css/redesign.css?v=2">
+  <link rel="stylesheet" href="css/redesign.css?v=3">
 </head>
 
 <body>
@@ -139,6 +139,21 @@
       </a>
     </section>
 
+    <!-- ============ LIVE TELEMETRY TICKER ============ -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track mono" id="tickerTrack">
+        <span class="tick"><span class="tick-dot"></span>SYSTEMS ONLINE</span>
+        <span class="tick">region: us-east-1</span>
+        <span class="tick" id="tickVisitors">visitors: —</span>
+        <span class="tick" id="tickLatency">api latency: —</span>
+        <span class="tick" id="tickDeploy">last deploy: —</span>
+        <span class="tick">terraform: no drift</span>
+        <span class="tick">pipeline: green</span>
+        <span class="tick">agents: 4 online</span>
+        <span class="tick amber">open to senior cloud / ai roles</span>
+      </div>
+    </div>
+
     <!-- ============ ORIGIN ============ -->
     <section class="origin" id="origin" aria-label="Origin story">
       <div class="origin-pin">
@@ -188,11 +203,74 @@
         latency <span id="apiLatency">—</span></p>
     </section>
 
+    <!-- ============ SELF-SHIPPING PIPELINE ============ -->
+    <section class="pipeline" id="pipeline" aria-label="Deployment pipeline">
+      <div class="section-head">
+        <p class="kicker mono">// self-shipping</p>
+        <h2 data-split>This site deploys itself.</h2>
+        <p class="section-sub">Push to <code class="mono">main</code> and the pipeline takes over —
+          tests, S3 sync, CloudFront invalidation. No humans in the deploy path.
+          The page you're reading shipped exactly this way.</p>
+      </div>
+
+      <div class="pipe-wrap">
+        <svg class="pipe-svg" viewBox="0 0 1000 170" role="img"
+          aria-label="Deployment pipeline: git push, GitHub Actions tests, S3 sync, CloudFront invalidation, live site">
+          <path class="pipe-base" d="M70,70 H930" />
+          <path class="pipe-pulse" id="pipePulse" d="M70,70 H930" />
+          <g class="pipe-stage" data-stage="0">
+            <circle cx="70" cy="70" r="13" />
+            <text x="70" y="115">git push</text>
+            <text class="pipe-sub" x="70" y="136">feature → main</text>
+          </g>
+          <g class="pipe-stage" data-stage="1">
+            <circle cx="285" cy="70" r="13" />
+            <text x="285" y="115">actions</text>
+            <text class="pipe-sub" x="285" y="136">lint · test · audit</text>
+          </g>
+          <g class="pipe-stage" data-stage="2">
+            <circle cx="500" cy="70" r="13" />
+            <text x="500" y="115">s3 sync</text>
+            <text class="pipe-sub" x="500" y="136">website/ → bucket</text>
+          </g>
+          <g class="pipe-stage" data-stage="3">
+            <circle cx="715" cy="70" r="13" />
+            <text x="715" y="115">cloudfront</text>
+            <text class="pipe-sub" x="715" y="136">invalidate /*</text>
+          </g>
+          <g class="pipe-stage" data-stage="4">
+            <circle cx="930" cy="70" r="13" />
+            <text x="930" y="115">you</text>
+            <text class="pipe-sub" x="930" y="136">reading it live</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
     <!-- ============ WHAT I BUILD ============ -->
     <section class="build" id="build" aria-label="Capabilities">
       <div class="section-head">
         <p class="kicker mono">// capabilities</p>
         <h2 data-split>Three systems, one operator.</h2>
+      </div>
+
+      <div class="stat-row" role="list" aria-label="Key metrics">
+        <div class="stat" role="listitem">
+          <span class="stat-num mono"><span data-count="64">0</span>+</span>
+          <span class="stat-label">AWS accounts standardized</span>
+        </div>
+        <div class="stat" role="listitem">
+          <span class="stat-num mono"><span data-count="500">0</span>+</span>
+          <span class="stat-label">firewall ranges in production</span>
+        </div>
+        <div class="stat" role="listitem">
+          <span class="stat-num mono"><span data-count="4">0</span></span>
+          <span class="stat-label">security scanners in CI/CD</span>
+        </div>
+        <div class="stat" role="listitem">
+          <span class="stat-num mono"><span data-count="20">0</span>+</span>
+          <span class="stat-label">live terminal commands</span>
+        </div>
       </div>
 
       <div class="build-grid">
@@ -372,10 +450,16 @@
         SYSTEM STATUS: AVAILABLE — SENIOR CLOUD · AI AGENTS · AUTOMATION
       </p>
       <h2 class="contact-title" data-split>Let's build systems<br>that don't blink.</h2>
+      <p class="contact-roles mono" data-anim="rise">
+        senior platform engineer · ai infrastructure · solutions architect · automation lead
+      </p>
       <div class="hero-ctas center" data-anim="rise">
         <a class="btn btn-signal btn-lg" href="mailto:joe@josephaleto.io" data-magnetic>
           joe@josephaleto.io <span aria-hidden="true">→</span>
         </a>
+        <button class="btn btn-ghost copy-email mono" id="copyEmail" type="button" data-magnetic>
+          copy email
+        </button>
       </div>
       <ul class="contact-links mono" data-anim="rise">
         <li><a href="https://www.linkedin.com/in/joseph-leto/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
@@ -389,9 +473,14 @@
 
   <footer class="site-footer">
     <p class="mono muted"><span class="counter-number">—</span> visitors logged in DynamoDB</p>
+    <p class="colophon">Meta-proof: this redesign was designed, built, and shipped end-to-end by an
+      <strong>AI agent</strong> under Joe's direction — infrastructure audit, code, deploy, verification.
+      <a href="https://github.com/serversorcerer/cloud-resume-challenge/pull/63" target="_blank"
+        rel="noopener">Read the pull request ↗</a></p>
     <p class="muted">© 2026 Joe Leto · Built on AWS, deployed by CI/CD, narrated by a live terminal.</p>
   </footer>
 
+  <div class="toast mono" id="toast" role="status" aria-live="polite">joe@josephaleto.io copied ✓</div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
   <!-- Config (generated by scripts/sync-api-urls.sh — do not hand-edit) -->

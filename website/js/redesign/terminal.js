@@ -109,7 +109,7 @@
     'experience', 'skills', 'resume', 'linkedin', 'github', 'email', 'projects',
     'projects cloud-terminal', 'projects cosmos', 'projects cloud-resume', 'projects terraform',
     'stack', 'architecture', 'quote', 'offer', 'clear', 'exit', 'source code',
-    'agents', 'automate', 'status', 'deploy', 'blackjack', 'joker mode', 'professional mode',
+    'agents', 'automate', 'status', 'deploy', 'hire', 'blackjack', 'joker mode', 'professional mode',
   ];
 
   const openCommands = {
@@ -161,6 +161,21 @@ Humans for judgment. Machines for repetition.`, C.ok),
       } else {
         print('api unreachable — even good systems have bad days. try again.', C.err);
       }
+    },
+
+    'hire': () => {
+      print(
+`HIRING JOE — quick brief
+────────────────────────────────────────────────
+  role targets   senior platform · ai infrastructure
+                 solutions architect · automation lead
+  superpowers    multi-account AWS · CI/CD platforms
+                 AI agents with real hands · security automation
+  receipts       64+ accounts · 4 scanners · this terminal
+  availability   OPEN — direct line below
+
+  → joe@josephaleto.io`, C.signal);
+      window.open('mailto:joe@josephaleto.io', '_blank');
     },
 
     'deploy': () => {
@@ -284,11 +299,15 @@ Humans for judgment. Machines for repetition.`, C.ok),
 
     const input = terminalInput.value.trim();
     if (!input) return;
+    terminalSuggestion.style.display = 'none';
+    clearInput();
+    await submit(input);
+  });
+
+  async function submit(input) {
     commandHistory.push(input);
     historyIndex = commandHistory.length;
     printEcho(input);
-    terminalSuggestion.style.display = 'none';
-    clearInput();
 
     const cmd = input.toLowerCase();
 
@@ -352,7 +371,7 @@ Humans for judgment. Machines for repetition.`, C.ok),
     });
     terminalContent.appendChild(out);
     scrollToBottom();
-  });
+  }
 
   function fadeClear() {
     terminalContent.classList.add('terminal-fade');
@@ -367,4 +386,33 @@ Humans for judgment. Machines for repetition.`, C.ok),
     if (e.target !== terminalInput) terminalInput.focus({ preventScroll: true });
   });
   terminalInput.addEventListener('focus', scrollToBottom);
+
+  /* ---------- Attract mode: the terminal demos itself once ---------- */
+  let userTouched = false;
+  terminalInput.addEventListener('keydown', () => { userTouched = true; }, { once: true });
+  terminalWrapper.addEventListener('pointerdown', () => { userTouched = true; }, { once: true });
+
+  const origBoot = boot;
+  boot = function bootWithAttract() {
+    origBoot();
+    if (reducedMotion) return;
+    setTimeout(() => {
+      if (userTouched || !API_URL) return;
+      const demo = 'whoami';
+      let i = 0;
+      (function typeChar() {
+        if (userTouched) { if (typedText) typedText.textContent = ''; return; }
+        if (i < demo.length) {
+          if (typedText) typedText.textContent = demo.slice(0, ++i);
+          setTimeout(typeChar, 90 + Math.random() * 80);
+        } else {
+          setTimeout(() => {
+            if (userTouched) { if (typedText) typedText.textContent = ''; return; }
+            if (typedText) typedText.textContent = '';
+            submit(demo);
+          }, 350);
+        }
+      })();
+    }, 2600);
+  };
 })();
