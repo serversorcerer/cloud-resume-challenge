@@ -1,11 +1,12 @@
 # Makefile for Cloud Resume Challenge
 # Provides convenient commands for deployment and development
 
-.PHONY: help deploy test clean status logs
+.PHONY: help deploy test clean status logs sync-api-urls
 
 # Default target
 help:
 	@echo "Available commands:"
+	@echo "  sync-api-urls  - Update website/js/api-config.js from AWS API Gateway"
 	@echo "  deploy         - Deploy Lambda function to AWS"
 	@echo "  test           - Run unit tests"
 	@echo "  test-coverage  - Run tests with coverage report"
@@ -16,6 +17,10 @@ help:
 	@echo "  logs           - View Lambda function logs"
 	@echo "  zip            - Create deployment package only"
 	@echo "  git-tag        - Create a new git tag"
+
+# Sync frontend API URLs from live API Gateway
+sync-api-urls:
+	@./scripts/sync-api-urls.sh
 
 # Deploy the Lambda function
 deploy:

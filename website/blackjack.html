@@ -974,8 +974,9 @@
         </div>
     </div>
 
+    <script src="js/api-config.js"></script>
     <script>
-        const API_URL = 'https://cdqyabz9mj.execute-api.us-east-1.amazonaws.com/prod/blackjack';
+        const API_URL = window.SITE_CONFIG.BLACKJACK_API_URL;
         
         let gameState = {
             gameId: null,
