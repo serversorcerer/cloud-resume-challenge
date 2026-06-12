@@ -2,1002 +2,425 @@
 <html lang="en">
 
 <head>
-  <title>Joe Leto | Platform Engineer · AWS</title>
   <meta charset="UTF-8">
-  <meta name="description" content="I build production systems that ship. AWS ProServe engineer, production obsessive. And yes, the terminal is real.">
-  <meta name="theme-color" content="#0a0a0a">
-  <meta name="keywords" content="AWS Professional Services, SRE, DevOps, platform engineering, CI/CD, AWS">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- Favicon -->
-  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joe Leto — Cloud Platform &amp; AI Agent Engineer | AWS Professional Services</title>
+  <meta name="description"
+    content="I build systems that run themselves. Cloud platforms, AI agents, and automation — engineered at AWS Professional Services scale. The terminal on this site hits live Lambda, API Gateway, and DynamoDB.">
+  <meta name="keywords"
+    content="AWS Professional Services, platform engineering, AI agents, automation, SRE, DevOps, Terraform, CI/CD, cloud architect">
+  <meta name="author" content="Joe Leto">
+  <meta name="theme-color" content="#030608">
+  <link rel="canonical" href="https://josephaleto.io/">
+  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/main.min.css?v=20260610e" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://josephaleto.io/">
+  <meta property="og:title" content="Joe Leto — Cloud Platform &amp; AI Agent Engineer">
+  <meta property="og:description"
+    content="I build systems that run themselves. Cloud platforms, AI agents, automation. The terminal is live — type a command, hit real AWS.">
+  <meta property="og:image" content="https://josephaleto.io/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
-  <!-- Google Web fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Joe Leto — Cloud Platform &amp; AI Agent Engineer">
+  <meta name="twitter:description"
+    content="I build systems that run themselves. Cloud platforms, AI agents, automation. The terminal is live.">
+  <meta name="twitter:image" content="https://josephaleto.io/images/og-image.jpg">
 
-  <!-- Font icons -->
-  <link rel="stylesheet" href="icon-fonts/flat-icon/flaticon.css" />
-  <link rel="stylesheet" href="icon-fonts/font-awesome/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
-
-
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-</head>
-
-<body class=" dark-version onepage without-wrapper">
-
-  <!-- 
-     _   _   _   _   _   _   _   _  
-  / \ / \ / \ / \ / \ / \ / \ / \ 
- ( C | L | O | U | D |   | D | E )
-  \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ 
-  -->
-  <!-- GitHub Actions test deployment with new IAM credentials -->
-
-
-  <div class="page-cover">
-    <div id="page-scroll">
-        <main data-barba="container">
-          <!-- Page Wrapper -->
-          <div class="container">
-            <div class="page-wrapper">
-
-              <header id="fixed">
-              </header>
-              
-              <section class="hero" id="home">
-                <div class="row">
-                  <div class="col-xl-3 col-lg-4 col-md-6 profile-pic" style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 10px;">
-                    <div class="image clip-animation from-left profile-image-hero" onclick="toggleVibeMode()"></div>
-                    <div class="social-links clip-animation">
-                      <ul>
-                        <li><a href="https://www.linkedin.com/in/joseph-leto/" target="_blank"><i class="fab fa-linkedin" style="font-size: 1.5rem;"></i></a></li>
-                        <li><a href="https://github.com/serversorcerer" target="_blank"><i class="fab fa-github" style="font-size: 1.5rem;"></i></a></li>
-                        <li><a href="https://medium.com/@joe_92405" target="_blank"><i class="fab fa-medium" style="font-size: 1.5rem;"></i></a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-xl-9 col-lg-8 col-md-6 right-content">
-                    <h5 class="hi classic-animation" data-delay=".5">Hey, glad you're here <span style="margin-left: 8px;">☁️</span></h5>
-                    <div class="spacer-15"></div>
-                    <h1 class="hero-big classic-animation" data-delay=".7">
-                      I'm <span class="glow-hover" style="color:#00c3ff; font-weight: 700; text-shadow: 0 0 4px #00c3ff, 0 0 8px #005eff;">Joe Leto</span><br>
-                      I build production systems that actually ship.
-                    </h1>
-                    <div class="spacer-30"></div>
-                    <hr class="clip-animation" data-delay="1">
-                    <ul class="row profile-info clip-animation" data-delay="1">
-                      <li class="col-xl-4 col-lg-6"><a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf" target="_blank" title="Download CV"><i class="fas fa-file-alt">
-						  </i> <span>Download CV</span></a></li>
-                      <li class="col-xl-4 col-lg-6"> <a target="_blank" href="mailto:joe@josephaleto.io"><i
-                            class="fa-solid fa-at"></i> <span>joe@josephaleto.io</span></a></li>
-                      <li class="col-xl-4 col-lg-6"> <i class="fa-solid fa-location-dot"></i> <span>Ashburn, Virginia</span></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="spacer-30"></div>
-                <div class="clip-animation" data-delay="1.1" style="max-width: 820px; color: #d0d0d0; text-align: center; margin: 0 auto;">
-                  <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1rem;">
-                    I used to run poker tables for a living. Stay sharp, keep the system running, don't blink when it gets loud. Same energy, different industry. Now I'm at <strong style="color: #e0e0e0;">AWS Professional Services</strong>, building the platforms teams actually depend on: CI/CD pipelines, multi-account infrastructure, and production systems that don't break on Friday afternoons.
-                  </p>
-                  <p style="line-height: 1.8; font-size: 1rem;">
-                    This site isn't a mockup. Scroll down, open the terminal, type a command. You're hitting live Lambda, API Gateway, and DynamoDB I wrote and deployed myself. Proof of work, not a pitch deck.
-                  </p>
-                </div>
-
-                <div class="desktop-only" style="text-align:center; color:#00c3ff; font-family:monospace; font-size: 0.9rem; margin-bottom: -40px;">
-                  ↓ try the terminal. it's live
-                </div>
-        
-              </section>
-
-              <!-- Interactive Terminal Section -->
-              <section id="infraMirrorConsole" style="margin: 4rem auto 3rem; max-width: 960px;">
-                <h2 class="sr-only">Cloud Resume Terminal</h2>
-                <div style="border-radius: 8px; box-shadow: 0 0 20px rgba(0,195,255,0.5); background-color: #111;">
-                  <div style="padding-top: 30px; padding-bottom: 0;">
-                    <!-- Removed InfraMirror Console title for cleaner appearance -->
-                  </div>
-                  <div style="background-color: #222; padding: 10px 16px; color: #ccc; font-family: monospace; font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #333;">
-                    <span style="color: #4caf50;">joe@josephaleto.io</span><span style="opacity: 0.6;">:~$</span>
-                    <div style="display: flex; gap: 6px;">
-                      <div style="height: 12px; width: 12px; background: #ff5f56; border-radius: 50%;"></div>
-                      <div style="height: 12px; width: 12px; background: #ffbd2e; border-radius: 50%;"></div>
-                      <div style="height: 12px; width: 12px; background: #27c93f; border-radius: 50%;"></div>
-                    </div>
-                  </div>
-                    <div id="terminal">
-                      <div id="terminal-content"></div>
-                      <div id="terminal-suggestion" class="terminal-suggestion" style="display:none;"></div>
-                      <div class="terminal-input-row" style="position: relative;">
-                        <span id="terminal-prompt">joe@josephaleto.io:~$</span>
-                        <span id="typedContainer" style="display:inline;">
-                          <span id="typedText" style="color:#e0f7ff;"></span>
-                          <span class="blinking-cursor">▉</span>
-                        </span>
-                        <input id="terminal-input" type="text" autocomplete="off" spellcheck="false"
-                          style="opacity: 0; position: absolute; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: none; border: none;" />
-                      </div>
-                    </div>
-                </div>
-              </section>
-    
-
-              <!-- RESUME -->
-              <section id="resume">
-                <div class="spacer-75"></div>
-              <!-- Page Caption -->
-              <div class="section-title page-caption">
-                <h5>My Resume</h5>
-                    <div class="zigzag">
-                      <hr class="left">
-                      <hr class="right">
-                      <svg xml:space="preserve" viewBox="0 0 69.172 14.975" width="37" height="28" y="0px" x="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1">
-                      <path d="M1.357,12.26 10.807,2.81 20.328,12.332
-                      29.781,2.879 39.223,12.321 48.754,2.79 58.286,12.321 67.815,2.793 " style="stroke-dasharray: 93.9851, 93.9851; stroke-dashoffset: 0;"></path>
-                      </svg>
-                    </div>
-              </div>
-
-                <!-- Experience -->
-                <div class="resume-timeline-track">
-                <svg class="resume-spine" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 2 100">
-                  <line x1="1" y1="0" x2="1" y2="100" stroke="#00f7ff" stroke-width="2" vector-effect="non-scaling-stroke" />
-                </svg>
-                <div class="spacer-45"></div>
-                <div class="timeline-caption-outer">
-                  <div class="timeline-caption">💼 <span>Experience</span></div>
-                </div>
-                <div class="spacer-30"></div>
-                <div class="timeline row resume-timeline">
-                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">Jan 2026 to Present</span>
-                      <h5 class="timeline-title">Lead Software Engineer, AWS Professional Services</h5>
-                      <p class="timeline-description">Chantilly, VA · Client-facing delivery</p>
-                      <ul class="timeline-list">
-                        <li>Led delivery of a cloud platform that automates security scanning and release governance across four environments</li>
-                        <li>Worked with engineering, security, and leadership to ship a React console that consolidates findings, surfaces fixes, and re-runs pipelines in one place</li>
-                        <li>Plugged four automated scanners into CI/CD so every code change gets security feedback before it hits production</li>
-                        <li>Built deployment gates that block risky releases automatically without slowing teams down</li>
-                        <li>Shipped Keycloak RBAC, compliance dashboards, and audit exports in JSON, SARIF, and PDF that leadership actually uses</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="col-xl-6 offset-xl-6 col-lg-6 offset-lg-6 col-md-12 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5" data-delay=".3">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">Jul 2025 to Jan 2026</span>
-                      <h5 class="timeline-title">Cloud Platform Engineer, COSMOS</h5>
-                      <p class="timeline-description">Strategic Business Systems (SBS) · Enterprise AWS</p>
-                      <ul class="timeline-list">
-                        <li>Built production Network Firewall policies for 500+ approved ranges and cut unauthorized access attempts</li>
-                        <li>Standardized landing zones across 64+ AWS accounts with Terraform and StackSets, cutting provisioning time by about 40%</li>
-                        <li>Got architects, app teams, and security aligned on one set of AWS patterns that scaled across the org</li>
-                        <li>Validated every Transit Gateway attachment so network ops stayed reliable at enterprise scale</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Skills -->
-                <div class="spacer-45"></div>
-                <div class="timeline-caption-outer">
-                  <div class="timeline-caption">🛠 <span>Skills</span></div>
-                </div>
-                <div class="spacer-30"></div>
-                <div class="resume-stack">
-                  <div class="clip-animation from-top" data-duration="1.5">
-                    <div class="timeline-outer">
-                      <h5 class="timeline-title">SRE &amp; Platform</h5>
-                      <ul class="timeline-list">
-                        <li>CI/CD pipelines (GitHub Actions), Docker, EKS, Helm</li>
-                        <li>Terraform, CloudFormation, StackSets for infrastructure as code at scale</li>
-                        <li>Zero downtime deploys, incident response, blameless postmortems</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="clip-animation from-top" data-duration="1.5" data-delay=".2">
-                    <div class="timeline-outer">
-                      <h5 class="timeline-title">Observability</h5>
-                      <ul class="timeline-list">
-                        <li>Prometheus, Grafana, CloudWatch</li>
-                        <li>Structured logging and metrics so you see problems before your users do</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="clip-animation from-top" data-duration="1.5" data-delay=".4">
-                    <div class="timeline-outer">
-                      <h5 class="timeline-title">Cloud &amp; Security</h5>
-                      <ul class="timeline-list">
-                        <li>Multi-account AWS: Organizations, Control Tower, VPC, Transit Gateway, IAM</li>
-                        <li>Lambda, S3, RDS, ECR, Route 53 across the full stack</li>
-                        <li>Policy as code, guardrails, least privilege by default</li>
-                        <li>Python, Bash, Go, Git, YAML/JSON, Boto3</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Certifications -->
-                <div class="spacer-45"></div>
-                <div class="timeline-caption-outer">
-                  <div class="timeline-caption">📜 <span>Certifications</span></div>
-                </div>
-                <div class="spacer-30"></div>
-                <div class="timeline row resume-timeline">
-                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2025</span>
-                      <h5 class="timeline-title">AWS Certified Solutions Architect, Associate</h5>
-                      <p class="timeline-description">Amazon Web Services Training and Certification</p>
-                    </div>
-                  </div>
-                  <div class="col-xl-6 offset-xl-6 col-lg-6 offset-lg-6 col-md-12 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5" data-delay=".3">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2023</span>
-                      <h5 class="timeline-title">AWS Certified Cloud Practitioner</h5>
-                      <p class="timeline-description">Amazon Web Services Training and Certification</p>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Projects -->
-                <div class="spacer-45"></div>
-                <div class="timeline-caption-outer">
-                  <div class="timeline-caption">👨‍💻 <span>Projects in Action</span></div>
-                </div>
-                <div class="spacer-30"></div>
-                <div class="timeline row resume-timeline">
-                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2024 to Present</span>
-                      <h5 class="timeline-title">Cloud Resume Terminal</h5>
-                      <p class="timeline-description">
-                        A production AWS stack with an interactive terminal built in. I don't just design systems. I run them.
-                      </p>
-                      <ul class="timeline-list">
-                        <li>20+ live commands backed by Lambda, API Gateway, S3, and DynamoDB</li>
-                        <li>Real-time lead capture with under 2 second response times</li>
-                        <li>Full stack replication in under 10 minutes with Terraform, GitHub Actions, and docs to match</li>
-                        <li><a href="https://josephaleto.io/" target="_blank">Live site</a></li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="col-xl-6 offset-xl-6 col-lg-6 offset-lg-6 col-md-12 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5" data-delay=".3">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2025</span>
-                      <h5 class="timeline-title">Enterprise Multi-Account AWS Platform</h5>
-                      <p class="timeline-description">
-                        A production 3-tier setup across multiple VPCs. The kind of foundation you need when one AWS account is not enough.
-                      </p>
-                      <ul class="timeline-list">
-                        <li>Repeatable, auditable provisioning with Terraform and CloudFormation</li>
-                        <li>Centralized Transit Gateway routing across 3+ VPCs without sacrificing security</li>
-                        <li>Automated validation that catches misconfigurations before they become incidents</li>
-                        <li><a href="https://github.com/serversorcerer/aws-govcloud-cosmos-project" target="_blank">GitHub Repository</a></li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5" data-delay=".6">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2024</span>
-                      <h5 class="timeline-title">Infrastructure as Code (Terraform)</h5>
-                      <p class="timeline-description">
-                        Codified my entire AWS stack in Terraform. Deploy, tear down, and roll back in minutes instead of days.
-                      </p>
-                      <ul class="timeline-list">
-                        <li>Modular Terraform configs for Lambda, IAM, S3, DNS, and APIs</li>
-                        <li>Rollback, change previews, and drift detection built in</li>
-                        <li>Wired into CI/CD for automated, repeatable deployments</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="col-xl-6 offset-xl-6 col-lg-6 offset-lg-6 col-md-12 col-sm-12 timeline-item clip-animation from-top" data-duration="1.5" data-delay=".8">
-                    <div class="timeline-outer">
-                      <span class="timeline-date">2024</span>
-                      <h5 class="timeline-title">Cloud Resume Challenge</h5>
-                      <p class="timeline-description">
-                        My first cloud project. A static resume that turned into a working serverless stack and changed how I think about infrastructure.
-                      </p>
-                      <ul class="timeline-list">
-                        <li>Hosted on S3, delivered through CloudFront, routed via Route 53</li>
-                        <li>Visitor tracking with Lambda, API Gateway, and DynamoDB</li>
-                        <li>Hands off deployment through GitHub Actions</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                </div><!-- /.resume-timeline-track -->
-
-                <div class="spacer-45"></div>
-                <hr class="resume-section-divider">
-                <div class="spacer-45"></div>
-              </section>
-
-       
-    
-        </div> <!-- page wrapper end -->
-      </div><!-- container -->
-
-
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="view-counter" style="text-align: center; margin: 20px 0;">
-        <span class="counter-number">Couldn't read views</span>
-      </div>
-      <div style="text-align: center; font-family: monospace; font-size: 12px; color: #888; padding-bottom: 10px;">
-        <!-- Cloud engineering with hands-on infrastructure. -->
-      </div>
-      <div class="copyright">
-        <p>© 2026 Joe Leto · AWS platform engineering. Built to ship.</p>
-      </div>
-      <ul class="social">      
-        <li>
-          <a target="_blank" href="https://www.linkedin.com/in/joseph-leto/">
-             <i class="fab fa-linkedin"></i> LinkedIn
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://github.com/serversorcerer">
-             <i class="fab fa-github"></i> Github
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://medium.com/@joe_92405">
-            <i class="fab fa-medium"></i> Medium
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</footer>
-        </main>
-      </div>
-  </div>
-
-  <!-- Javascripts -->
-  <script src="js/jquery.js" defer></script>
-  <script src="js/main.min.js" defer></script>
-
-  <!-- Subtle cloud-themed matrix rain background -->
-  <canvas id="matrixRain"></canvas>
-  <script>
-  // Subtle cloud-themed matrix rain background
-  const canvas = document.getElementById("matrixRain");
-  const ctx = canvas.getContext("2d");
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Joseph Leto",
+    "alternateName": "Joe Leto",
+    "url": "https://josephaleto.io",
+    "email": "mailto:joe@josephaleto.io",
+    "jobTitle": "Lead Software Engineer",
+    "worksFor": { "@type": "Organization", "name": "AWS Professional Services" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Ashburn", "addressRegion": "VA", "addressCountry": "US" },
+    "sameAs": [
+      "https://www.linkedin.com/in/joseph-leto/",
+      "https://github.com/serversorcerer",
+      "https://medium.com/@joe_92405"
+    ],
+    "knowsAbout": ["AWS", "Platform Engineering", "AI Agents", "Automation", "Terraform", "CI/CD", "SRE"]
   }
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
-
-  // List of AWS/cloud terms for the rain effect (full AWS stack)
-  const awsTerms = [
-    "Lambda", "S3", "API Gateway", "DynamoDB", "Route 53", "IAM",
-    "CloudFront", "GitHub Actions", "Terraform", "VPC", "EC2",
-    "CloudWatch", "SNS", "SQS", "ECS", "EKS", "Helm", "Docker",
-    "Prometheus", "Grafana", "Postmortem", "CodeBuild", "CodePipeline",
-    "WAF", "KMS", "RDS", "Athena", "Glue"
-  ];
-  let fontSize = 18;
-  let columns = Math.floor(canvas.width / fontSize);
-  let drops = Array(columns).fill(1);
-  let terminalMode = 'professional';
-
-  // --- Intro Mode: matrix burst on load ---
-  // --- Intro Mode: matrix burst on load ---
-  let introMode = true;
-  setTimeout(() => { introMode = false; }, 1200);
-
-  function drawMatrixRain() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.015)'; // trail fade effect, more persistent, maximize brightness
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // --- Intro Mode: vibrant neon chaos burst on load (Joker-level energy) ---
-    if (introMode) {
-      const chaosChars = [
-        ...Array(96).fill().map((_, j) => String.fromCharCode(0x30A0 + j)),
-        "♠", "♥", "♦", "♣", "★", "⚡", "☁", "✦"
-      ];
-      const neonColors = ['#00eaff', '#00ffff', '#00c3ff', '#00bfff', '#ff00ff'];
-      for (let i = 0; i < drops.length; i++) {
-        const char = chaosChars[Math.floor(Math.random() * chaosChars.length)];
-        ctx.font = fontSize + "px monospace";
-        ctx.shadowBlur = 20;
-        ctx.fillStyle = neonColors[Math.floor(Math.random() * neonColors.length)];
-        ctx.shadowColor = ctx.fillStyle;
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-      ctx.shadowBlur = 0;
-      ctx.shadowColor = "transparent";
-      return;
-    }
-
-    // --- Professional Mode: iconic, crisp Matrix green rain, brighter and more legible ---
-    if (terminalMode === 'professional') {
-      const chaosChars = [
-        ...Array(96).fill().map((_, j) => String.fromCharCode(0x30A0 + j)), // Katakana
-        "♠", "♥", "♦", "♣", "★", "⚡", "☁", "✦"
-      ];
-      // Maximize contrast and sharpness for professional mode
-      ctx.globalAlpha = 1.0;
-      fontSize = 18;
-      for (let i = 0; i < drops.length; i++) {
-        const char = chaosChars[Math.floor(Math.random() * chaosChars.length)];
-        ctx.font = fontSize + "px monospace";
-        ctx.fillStyle = '#39ff14';
-        ctx.shadowColor = '#39ff14';
-        ctx.shadowBlur = 16;
-        ctx.globalAlpha = 1.0;
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-      ctx.shadowBlur = 0;
-      ctx.shadowColor = "transparent";
-      return;
-    }
-
-    // --- Joker Mode: neon terminal accent colors ---
-    if (terminalMode === 'joker') {
-      const chaosChars = [
-        ...Array(96).fill().map((_, j) => String.fromCharCode(0x30A0 + j)), // Katakana
-        "♠", "♥", "♦", "♣", "★", "⚡", "☁", "✦"
-      ];
-      const neonColors = ['#00eaff', '#00ffff', '#00c3ff', '#00bfff', '#ff00ff'];
-      for (let i = 0; i < drops.length; i++) {
-        const char = chaosChars[Math.floor(Math.random() * chaosChars.length)];
-        ctx.font = fontSize + "px monospace";
-        ctx.shadowBlur = 10;
-        ctx.fillStyle = neonColors[Math.floor(Math.random() * neonColors.length)];
-        ctx.shadowColor = ctx.fillStyle;
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-      ctx.shadowBlur = 0;
-      ctx.shadowColor = "transparent";
-      return;
-    }
-
-    // --- Default: subtle matrix green ---
-    ctx.fillStyle = '#33ff33';
-    ctx.font = fontSize + 'px monospace';
-    for (let i = 0; i < drops.length; i++) {
-      const char = String.fromCharCode(0x30A0 + Math.random() * 96);
-      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-      drops[i]++;
-    }
-  }
-
-  let frameDelay = 60;
-  setTimeout(() => {
-    frameDelay = 100;
-    startMatrixRain(); // reapply with new delay
-  }, 1200);
-  if (window.matchMedia('(max-width: 600px)').matches) frameDelay = 150;
-  let matrixInterval = setInterval(drawMatrixRain, frameDelay);
-
-  function startMatrixRain() {
-    clearInterval(matrixInterval);
-    matrixInterval = setInterval(drawMatrixRain, frameDelay);
-  }
-
-  function activateJokerMode() {
-    terminalMode = 'joker';
-    fontSize = 20;
-    document.getElementById('matrixRain').style.opacity = '0.3';
-    frameDelay = 70;
-    columns = Math.floor(canvas.width / fontSize);
-    drops = Array(columns).fill(1);
-    startMatrixRain();
-    terminalWrapper.classList.add('joker-active');
-    document.querySelector('.profile-image-hero').style.backgroundImage = "url('images/profile-purple.png')";
-    const msg = document.createElement('div');
-    msg.textContent = 'Wake up, Neo...';
-    msg.style.color = '#ff66ff';
-    msg.style.textShadow = '0 0 8px #ff00ff, 0 0 16px #00ffff';
-    terminalContent.appendChild(msg);
-    scrollToBottom();
-  }
-
-  function activateProfessionalMode() {
-    terminalMode = 'professional';
-    fontSize = 18;
-    document.getElementById('matrixRain').style.opacity = '0.2';
-    frameDelay = window.matchMedia('(max-width: 600px)').matches ? 150 : 100;
-    columns = Math.floor(canvas.width / fontSize);
-    drops = Array(columns).fill(1);
-    startMatrixRain();
-    terminalWrapper.classList.remove('joker-active');
-    document.querySelector('.profile-image-hero').style.backgroundImage = "url('images/profile-blue.png')";
-    const msg = document.createElement('div');
-    msg.textContent = 'Professional mode activated';
-    msg.style.color = '#33ff33';
-    msg.style.textShadow = '0 0 8px #00eaff, 0 0 16px #00ffff';
-    terminalContent.appendChild(msg);
-    scrollToBottom();
-  }
-
-  // Recalculate columns and drops on resize
-  window.addEventListener("resize", () => {
-    columns = Math.floor(canvas.width / fontSize);
-    drops = Array(columns).fill(1);
-  });
   </script>
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="css/redesign.css?v=1">
+</head>
+
+<body>
+  <a class="skip-link" href="#console">Skip to the live terminal</a>
+
+  <!-- Fixed HUD nav -->
+  <header class="hud-nav" id="hudNav">
+    <a class="brand" href="#hero" aria-label="Joe Leto — home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">JL<span class="brand-dim">·OPS</span></span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="#console">Console</a>
+      <a href="#build">Capabilities</a>
+      <a href="#experience">Experience</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="mailto:joe@josephaleto.io">Hire me</a>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero" aria-label="Introduction">
+      <div class="hero-canvas-wrap" aria-hidden="true">
+        <canvas id="agentGraph"></canvas>
+        <div class="hero-fallback"></div>
+        <div class="hero-vignette"></div>
+      </div>
+
+      <div class="hud-corners" aria-hidden="true">
+        <span class="hud-corner tl"></span><span class="hud-corner tr"></span>
+        <span class="hud-corner bl"></span><span class="hud-corner br"></span>
+      </div>
+
+      <div class="hero-telemetry mono" aria-hidden="true">
+        <span id="telemetryLine">region: us-east-1 · edge: cloudfront · state: nominal</span>
+      </div>
+
+      <div class="hero-content">
+        <p class="status-chip mono" data-anim="rise">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          SYSTEMS ONLINE — OPEN TO SENIOR CLOUD / AI ROLES
+        </p>
+
+        <h1 class="hero-title" data-split>
+          I build systems<br>that <em>run themselves.</em>
+        </h1>
+
+        <p class="hero-sub" data-anim="rise">
+          Cloud platforms, AI agents, and automation — engineered with the discipline
+          of <strong>AWS&nbsp;Professional&nbsp;Services</strong> delivery. This site is the proof:
+          the terminal below executes on live infrastructure I designed, provisioned, and run.
+        </p>
+
+        <div class="hero-ctas" data-anim="rise">
+          <a class="btn btn-signal" href="mailto:joe@josephaleto.io" data-magnetic>
+            Let's talk <span aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn-ghost" href="#console" data-magnetic>
+            Open the console <span class="mono" aria-hidden="true">⌨</span>
+          </a>
+        </div>
+
+        <ul class="hero-meta mono" data-anim="rise">
+          <li>Ashburn, VA</li>
+          <li>Lead Software Engineer · AWS ProServe</li>
+          <li><a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf"
+              target="_blank" rel="noopener">Download CV ↓</a></li>
+        </ul>
+      </div>
+
+      <a class="scroll-cue mono" href="#origin" aria-label="Scroll to story">
+        <span>scroll</span>
+        <span class="scroll-cue-line" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <!-- ============ ORIGIN ============ -->
+    <section class="origin" id="origin" aria-label="Origin story">
+      <div class="origin-pin">
+        <p class="origin-kicker mono">// origin</p>
+        <div class="origin-beats">
+          <p class="origin-beat" data-beat="1">I ran poker tables for a living.<br>
+            <span class="muted">Read the room. Keep the game moving. Never blink when it gets loud.</span>
+          </p>
+          <p class="origin-beat" data-beat="2">Now I run production.<br>
+            <span class="muted">Same nerves, different stakes — CI/CD pipelines, multi-account AWS,
+              platforms teams depend on.</span>
+          </p>
+          <p class="origin-beat" data-beat="3"><em>Calm is a skill. Uptime is the proof.</em></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LIVE CONSOLE ============ -->
+    <section class="console" id="console" aria-label="Live terminal">
+      <div class="section-head">
+        <p class="kicker mono">// live proof</p>
+        <h2 data-split>The console is real.</h2>
+        <p class="section-sub">Every command executes on live <strong>Lambda + API Gateway + DynamoDB</strong>
+          in us-east-1 — infrastructure I wrote, terraformed, and shipped through CI/CD.
+          Try <code class="mono">help</code>, <code class="mono">agents</code>, or <code class="mono">status</code>.</p>
+      </div>
+
+      <div class="terminal-shell" id="terminalShell">
+        <div class="terminal-chrome">
+          <div class="traffic" aria-hidden="true"><span></span><span></span><span></span></div>
+          <span class="terminal-host mono">joe@josephaleto.io:~$</span>
+          <span class="terminal-live mono"><span class="pulse-dot ok" aria-hidden="true"></span>LIVE</span>
+        </div>
+        <div id="terminal" tabindex="-1">
+          <div id="terminal-content" aria-live="polite"></div>
+          <div id="terminal-suggestion" class="terminal-suggestion mono" style="display:none;"></div>
+          <div class="terminal-input-row">
+            <span id="terminal-prompt" class="mono">joe@josephaleto.io:~$</span>
+            <span id="typedContainer"><span id="typedText"></span><span class="blinking-cursor" aria-hidden="true">▉</span></span>
+            <label class="sr-only" for="terminal-input">Terminal command input</label>
+            <input id="terminal-input" type="text" autocomplete="off" autocapitalize="off"
+              spellcheck="false" aria-describedby="terminal-suggestion">
+          </div>
+        </div>
+      </div>
+      <p class="console-footnote mono">backend: <span id="apiHost">api gateway → lambda → dynamodb</span> ·
+        latency <span id="apiLatency">—</span></p>
+    </section>
+
+    <!-- ============ WHAT I BUILD ============ -->
+    <section class="build" id="build" aria-label="Capabilities">
+      <div class="section-head">
+        <p class="kicker mono">// capabilities</p>
+        <h2 data-split>Three systems, one operator.</h2>
+      </div>
+
+      <div class="build-grid">
+        <article class="build-card" data-anim="card">
+          <h3><span class="card-index mono">01</span> Cloud Platforms</h3>
+          <p>Multi-account AWS that scales past one team's tribal knowledge — landing zones,
+            networking, guardrails, and the pipelines that keep them honest.</p>
+          <ul class="mono">
+            <li>64+ AWS accounts standardized with Terraform + StackSets</li>
+            <li>~40% faster provisioning</li>
+            <li>Network Firewall · 500+ approved ranges</li>
+            <li>Transit Gateway validated at enterprise scale</li>
+          </ul>
+        </article>
+
+        <article class="build-card" data-anim="card">
+          <h3><span class="card-index mono">02</span> AI Agents</h3>
+          <p>Agentic systems with real hands — terminal, files, browser, memory — deployed as
+            production services, not weekend demos.</p>
+          <ul class="mono">
+            <li>Self-hosted agent gateway on a hardened VPS</li>
+            <li>Discord-driven ops: research, jobs, server changes</li>
+            <li>LLM tooling wired to live APIs with least privilege</li>
+            <li>Memory + cron: agents that learn and act on schedule</li>
+          </ul>
+        </article>
+
+        <article class="build-card" data-anim="card">
+          <h3><span class="card-index mono">03</span> Automation</h3>
+          <p>If it happens twice, it gets a pipeline. Security scanning, release governance,
+            and workflow automation that removes humans from the boring path.</p>
+          <ul class="mono">
+            <li>4 security scanners wired into CI/CD</li>
+            <li>Deployment gates that block risk without blocking teams</li>
+            <li>n8n pipelines: research → publish → notify</li>
+            <li>Compliance exports leadership actually reads (JSON/SARIF/PDF)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section class="experience" id="experience" aria-label="Experience">
+      <div class="section-head">
+        <p class="kicker mono">// trajectory</p>
+        <h2 data-split>Experience &amp; impact.</h2>
+      </div>
+
+      <div class="timeline">
+        <svg class="timeline-spine" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 2 100">
+          <line id="spineLine" x1="1" y1="0" x2="1" y2="100" vector-effect="non-scaling-stroke"/>
+        </svg>
+
+        <article class="t-item" data-anim="t-item">
+          <p class="t-date mono">Jan 2026 — present</p>
+          <h3>Lead Software Engineer · AWS Professional Services</h3>
+          <p class="t-where muted">Chantilly, VA · client-facing delivery</p>
+          <ul>
+            <li>Led delivery of a cloud platform automating security scanning and release governance across four environments</li>
+            <li>Shipped a React console consolidating findings, surfacing fixes, and re-running pipelines in one place</li>
+            <li>Wired four automated scanners into CI/CD — every change gets security feedback before production</li>
+            <li>Built deployment gates that block risky releases automatically, plus Keycloak RBAC, compliance dashboards, and audit exports</li>
+          </ul>
+        </article>
+
+        <article class="t-item" data-anim="t-item">
+          <p class="t-date mono">Jul 2025 — Jan 2026</p>
+          <h3>Cloud Platform Engineer · COSMOS</h3>
+          <p class="t-where muted">Strategic Business Systems · enterprise AWS</p>
+          <ul>
+            <li>Standardized landing zones across 64+ AWS accounts with Terraform and StackSets — ~40% faster provisioning</li>
+            <li>Built production Network Firewall policies for 500+ approved ranges</li>
+            <li>Aligned architects, app teams, and security on one set of AWS patterns that scaled</li>
+            <li>Validated every Transit Gateway attachment for reliable enterprise network ops</li>
+          </ul>
+        </article>
+
+        <article class="t-item certs" data-anim="t-item">
+          <p class="t-date mono">Certifications</p>
+          <div class="cert-chips">
+            <span class="chip mono">AWS Solutions Architect — Associate · 2025</span>
+            <span class="chip mono">AWS Cloud Practitioner · 2023</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ SELECTED WORK ============ -->
+    <section class="work" id="work" aria-label="Selected work">
+      <div class="section-head">
+        <p class="kicker mono">// selected work</p>
+        <h2 data-split>Built. Shipped. Running.</h2>
+      </div>
+
+      <div class="work-grid">
+        <article class="work-card" data-anim="card">
+          <p class="work-metric mono">20+ live commands</p>
+          <h3>Cloud Resume Terminal</h3>
+          <p>This site. A production AWS stack with an interactive terminal — Lambda, API Gateway, S3,
+            CloudFront, DynamoDB, all Terraform-managed, all deployed by CI/CD on merge.</p>
+          <p class="work-links mono"><a href="https://github.com/serversorcerer/cloud-resume-challenge"
+              target="_blank" rel="noopener">source ↗</a></p>
+        </article>
+
+        <article class="work-card" data-anim="card">
+          <p class="work-metric mono">64+ accounts · ~40% faster</p>
+          <h3>Enterprise Multi-Account Platform</h3>
+          <p>Three-tier architecture across multiple VPCs with centralized Transit Gateway routing,
+            repeatable Terraform/CloudFormation provisioning, and automated misconfiguration checks.</p>
+          <p class="work-links mono"><a href="https://github.com/serversorcerer/aws-govcloud-cosmos-project"
+              target="_blank" rel="noopener">repository ↗</a></p>
+        </article>
+
+        <article class="work-card" data-anim="card">
+          <p class="work-metric mono">4 scanners · 4 environments</p>
+          <h3>Security &amp; Release Governance Platform</h3>
+          <p>Automated security scanning and release governance with deployment gates, RBAC, and
+            audit exports — security feedback on every change, before it ships.</p>
+        </article>
+
+        <article class="work-card" data-anim="card">
+          <p class="work-metric mono">always-on · self-hosted</p>
+          <h3>Agentic Ops Stack</h3>
+          <p>A self-hosted AI agent gateway on a hardened VPS plus n8n automation pipelines —
+            Discord-driven research, scheduled jobs, and server operations with memory and least-privilege tooling.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section class="skills" id="skills" aria-label="Skills">
+      <div class="section-head">
+        <p class="kicker mono">// stack</p>
+        <h2 data-split>The operating stack.</h2>
+      </div>
+
+      <div class="skill-clusters">
+        <div class="cluster" data-anim="card">
+          <h3 class="mono">platform / sre</h3>
+          <div class="chips">
+            <span class="chip">GitHub Actions</span><span class="chip">Docker</span><span class="chip">EKS</span>
+            <span class="chip">Helm</span><span class="chip">Terraform</span><span class="chip">CloudFormation</span>
+            <span class="chip">StackSets</span><span class="chip">Zero-downtime deploys</span>
+          </div>
+        </div>
+        <div class="cluster" data-anim="card">
+          <h3 class="mono">cloud / security</h3>
+          <div class="chips">
+            <span class="chip">Organizations</span><span class="chip">Control Tower</span><span class="chip">VPC</span>
+            <span class="chip">Transit Gateway</span><span class="chip">IAM</span><span class="chip">Lambda</span>
+            <span class="chip">S3</span><span class="chip">RDS</span><span class="chip">Route 53</span>
+            <span class="chip">Policy as code</span><span class="chip">Least privilege</span>
+          </div>
+        </div>
+        <div class="cluster" data-anim="card">
+          <h3 class="mono">observability</h3>
+          <div class="chips">
+            <span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">CloudWatch</span>
+            <span class="chip">Structured logging</span><span class="chip">Blameless postmortems</span>
+          </div>
+        </div>
+        <div class="cluster" data-anim="card">
+          <h3 class="mono">ai / automation</h3>
+          <div class="chips">
+            <span class="chip">AI agent gateways</span><span class="chip">n8n</span><span class="chip">LLM tooling</span>
+            <span class="chip">Python</span><span class="chip">Bash</span><span class="chip">Go</span>
+            <span class="chip">Boto3</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact" aria-label="Contact">
+      <p class="status-chip mono center" data-anim="rise">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        SYSTEM STATUS: AVAILABLE — SENIOR CLOUD · AI AGENTS · AUTOMATION
+      </p>
+      <h2 class="contact-title" data-split>Let's build systems<br>that don't blink.</h2>
+      <div class="hero-ctas center" data-anim="rise">
+        <a class="btn btn-signal btn-lg" href="mailto:joe@josephaleto.io" data-magnetic>
+          joe@josephaleto.io <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <ul class="contact-links mono" data-anim="rise">
+        <li><a href="https://www.linkedin.com/in/joseph-leto/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://github.com/serversorcerer" target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href="https://medium.com/@joe_92405" target="_blank" rel="noopener">Medium ↗</a></li>
+        <li><a href="https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf"
+            target="_blank" rel="noopener">CV ↓</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="mono muted"><span class="counter-number">—</span> visitors logged in DynamoDB</p>
+    <p class="muted">© 2026 Joe Leto · Built on AWS, deployed by CI/CD, narrated by a live terminal.</p>
+  </footer>
+
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- Config (generated by scripts/sync-api-urls.sh — do not hand-edit) -->
+  <script src="js/api-config.js"></script>
+
+  <!-- View counter -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       fetch('https://5nicaize7x4k2jduz3whpqnvky0iawgp.lambda-url.us-east-1.on.aws/')
         .then(res => res.json())
         .then(data => {
-          const viewCounter = document.querySelector('.counter-number');
-          if (viewCounter && data.views !== undefined) {
-            viewCounter.textContent = data.views;
-          } else if (viewCounter) {
-            viewCounter.textContent = 'View error';
-          }
+          const el = document.querySelector('.counter-number');
+          if (el && data.views !== undefined) el.textContent = Number(data.views).toLocaleString();
+          else if (el) el.textContent = '—';
         })
-        .catch((err) => {
-          console.error('View count fetch failed:', err);
-          const viewCounter = document.querySelector('.counter-number');
-          if (viewCounter) viewCounter.textContent = 'Error';
+        .catch(() => {
+          const el = document.querySelector('.counter-number');
+          if (el) el.textContent = '—';
         });
     });
   </script>
 
-  <script>
-  const terminalContent = document.getElementById('terminal-content');
-  const terminalInput = document.getElementById('terminal-input');
-  const terminalWrapper = document.getElementById('terminal');
-  const terminalPrompt = document.getElementById('terminal-prompt');
-  const terminalSuggestion = document.getElementById('terminal-suggestion');
+  <!-- GSAP core + ScrollTrigger (free plugins only) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 
-  function scrollToBottom() {
-    // Always scroll terminal to show latest input/output, smoothly
-    terminalWrapper.scrollTo({ top: terminalWrapper.scrollHeight, behavior: 'smooth' });
-  }
-
-  // Simulated startup message for terminal
-  const startupMsg = document.createElement('div');
-  startupMsg.style.whiteSpace = 'pre-line';
-  startupMsg.style.color = '#b2eaff';
-  startupMsg.innerHTML =
-    'joe@josephaleto.io · live AWS terminal\nType "help" to explore. Type "bio" for my story.';
-  terminalContent.appendChild(startupMsg);
-  scrollToBottom();
-
-  // Terminal commands served by backend
-  // Endpoint for Lambda-backed command processor
-  const API_URL = 'https://4wmuu5rp71.execute-api.us-east-1.amazonaws.com/';
-
-  const commandList = [
-    'help',
-    'aws s3 ls',
-    'view counter',
-    'terraform apply',
-    'motd',
-    'whoami',
-    'bio',
-    'experience',
-    'skills',
-    'resume',
-    'linkedin',
-    'github',
-    'email',
-    'projects',
-    'projects cloud-terminal',
-    'projects cosmos',
-    'projects cloud-resume',
-    'projects terraform',
-    'stack',
-    'architecture',
-    'quote',
-    'offer',
-    'clear',
-    'exit',
-    'source code'
-    ,'joker mode'
-    ,'professional mode'
-  ];
-
-  const openCommands = {
-    'resume': 'https://josephaletoresume.s3.amazonaws.com/joseph-leto-soultions-architect.pdf',
-    'linkedin': 'https://www.linkedin.com/in/joseph-leto/',
-    'github': 'https://github.com/serversorcerer',
-    'email': 'mailto:joe@josephaleto.io',
-    'source code': 'https://github.com/serversorcerer/cloud-resume-challenge',
-    'blackjack': 'https://josephaleto.io/blackjack.html'
-  };
-
-  async function executeCommand(cmd) {
-    try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ command: cmd })
-      });
-      return await res.text();
-    } catch (err) {
-      console.error(err);
-      return 'Error processing command';
-    }
-  }
-
-  // Command history
-  let commandHistory = [];
-  let historyIndex = -1;
-let offerState = null; // null, 'name', 'email', 'company', 'message'
-let offerName = '';
-let offerEmail = '';
-let offerCompany = '';
-let offerMessage = '';
-
-  // Tab-completion and suggestion
-  terminalInput.addEventListener('input', function(e) {
-    // Mirror input to visible terminal text
-    const typedText = document.getElementById('typedText');
-    if (typedText) typedText.textContent = terminalInput.value;
-    const val = terminalInput.value.trim().toLowerCase();
-    if (!val) {
-      terminalSuggestion.style.display = 'none';
-      return;
-    }
-    // Show closest matching command if not exact
-    let matches = commandList.filter(cmd => cmd.startsWith(val));
-    if (!matches.length) matches = commandList.filter(cmd => cmd.includes(val));
-    if (matches.length && matches[0].toLowerCase() !== val) {
-      terminalSuggestion.style.display = 'block';
-      terminalSuggestion.textContent = matches[0];
-    } else {
-      terminalSuggestion.style.display = 'none';
-    }
-  });
-  // Tab-complete on Tab
-  terminalInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      const val = terminalInput.value.trim().toLowerCase();
-      let matches = commandList.filter(cmd => cmd.startsWith(val));
-      if (!matches.length) matches = commandList.filter(cmd => cmd.includes(val));
-      if (matches.length) {
-        terminalInput.value = matches[0];
-        const typedText = document.getElementById('typedText');
-        if (typedText) typedText.textContent = terminalInput.value;
-        terminalSuggestion.style.display = 'none';
-      }
-    }
-  });
-
-  // Command history navigation
-  terminalInput.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-      if (commandHistory.length === 0) return;
-      if (e.key === 'ArrowUp') {
-        historyIndex = (historyIndex <= 0) ? commandHistory.length - 1 : historyIndex - 1;
-      } else if (e.key === 'ArrowDown') {
-        historyIndex = (historyIndex >= commandHistory.length - 1) ? 0 : historyIndex + 1;
-      }
-      terminalInput.value = commandHistory[historyIndex];
-      // Mirror input to visible terminal text
-      const typedText = document.getElementById('typedText');
-      if (typedText) typedText.textContent = terminalInput.value;
-      // Show suggestion for history entry
-      const val = terminalInput.value.trim().toLowerCase();
-      let matches = commandList.filter(cmd => cmd.startsWith(val));
-      if (!matches.length) matches = commandList.filter(cmd => cmd.includes(val));
-      if (matches.length && matches[0].toLowerCase() !== val) {
-        terminalSuggestion.style.display = 'block';
-        terminalSuggestion.textContent = matches[0];
-      } else {
-        terminalSuggestion.style.display = 'none';
-      }
-      e.preventDefault();
-    }
-  });
-  terminalInput.addEventListener('keydown', async function(e) {
-    if (e.key === "Enter") {
-      const input = terminalInput.value.trim();
-      // Mirror input to visible terminal text
-      const typedText = document.getElementById('typedText');
-      if (typedText) typedText.textContent = '';
-      if (!input) return;
-      commandHistory.push(input);
-      historyIndex = commandHistory.length;
-      const output = document.createElement("div");
-      output.innerHTML = `<span style="color:#00ffff;">$</span> <span style="color:#e0f7ff;">${input}</span>`;
-      terminalContent.appendChild(output);
-      terminalSuggestion.style.display = "none";
-
-      const cmdLower = input.toLowerCase();
-
-      if (offerState) {
-        if (cmdLower === 'clear' || cmdLower === 'exit') {
-          offerState = null;
-          offerName = '';
-          offerEmail = '';
-          offerCompany = '';
-          offerMessage = '';
-          const resp = await executeCommand(cmdLower);
-          if (resp === "__CLEAR__") {
-            terminalContent.classList.add("terminal-fade");
-            setTimeout(() => {
-              terminalContent.innerHTML = "";
-              terminalContent.classList.remove("terminal-fade");
-            }, 500);
-          } else {
-            const r = document.createElement('div');
-            r.innerHTML = `<span style="color:#33ff33;">${resp}</span>`;
-            terminalContent.appendChild(r);
-          }
-          terminalInput.value = '';
-          if (typedText) typedText.textContent = '';
-          scrollToBottom();
-          return;
-        }
-
-        // Updated offer flow logic
-        if (offerState === 'name') {
-          offerName = input;
-          offerState = 'email';
-          const prompt = document.createElement('div');
-          prompt.textContent = 'Enter your email:';
-          prompt.style.color = '#33ff33';
-          terminalContent.appendChild(prompt);
-          terminalInput.value = '';
-          if (typedText) typedText.textContent = '';
-          scrollToBottom();
-          return;
-        } else if (offerState === 'email') {
-          offerEmail = input;
-          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(offerEmail);
-          if (!valid) {
-            const err = document.createElement('div');
-            err.textContent = 'Invalid email. Try again:';
-            err.style.color = '#ff6666';
-            terminalContent.appendChild(err);
-            terminalInput.value = '';
-            scrollToBottom();
-            return;
-          }
-          offerState = 'company';
-          const prompt = document.createElement('div');
-          prompt.textContent = 'Enter your company (optional):';
-          prompt.style.color = '#33ff33';
-          terminalContent.appendChild(prompt);
-          terminalInput.value = '';
-          if (typedText) typedText.textContent = '';
-          scrollToBottom();
-          return;
-        } else if (offerState === 'company') {
-          offerCompany = input;
-          offerState = 'message';
-          const prompt = document.createElement('div');
-          prompt.textContent = 'Enter your message (optional):';
-          prompt.style.color = '#33ff33';
-          terminalContent.appendChild(prompt);
-          terminalInput.value = '';
-          if (typedText) typedText.textContent = '';
-          scrollToBottom();
-          return;
-        } else if (offerState === 'message') {
-          offerMessage = input;
-          offerState = null;
-          const payload = {
-            command: 'offer',
-            name: offerName,
-            email: offerEmail,
-            company: offerCompany,
-            message: offerMessage
-          };
-          console.log('Sending payload:', payload);
-          try {
-            const res = await fetch(API_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-            const text = await res.text();
-            const msg = document.createElement('div');
-            msg.textContent = res.ok ? '✅ Offer sent!' : text;
-            msg.style.color = '#33ff33';
-            terminalContent.appendChild(msg);
-          } catch (err) {
-            const errDiv = document.createElement('div');
-            errDiv.textContent = 'Error sending offer';
-            errDiv.style.color = '#ff6666';
-            terminalContent.appendChild(errDiv);
-          }
-          terminalInput.value = '';
-          if (typedText) typedText.textContent = '';
-          scrollToBottom();
-          return;
-        }
-      }
-
-      if (cmdLower === 'offer') {
-        offerState = 'name';
-        offerName = '';
-        offerEmail = '';
-        offerCompany = '';
-        offerMessage = '';
-        const prompt = document.createElement('div');
-        prompt.textContent = 'Enter your name:';
-        prompt.style.color = '#33ff33';
-        terminalContent.appendChild(prompt);
-        terminalInput.value = '';
-        if (typedText) typedText.textContent = '';
-        scrollToBottom();
-        return;
-      }
-      if (openCommands[cmdLower]) {
-        window.open(openCommands[cmdLower], '_blank');
-        const response = document.createElement('div');
-        response.textContent = `Opening ${cmdLower}...`;
-        response.style.color = '#33ff33';
-        terminalContent.appendChild(response);
-        terminalInput.value = "";
-        if (typedText) typedText.textContent = '';
-        scrollToBottom();
-        return;
-      }
-
-      if (cmdLower === 'view counter') {
-        const count = document.querySelector('.counter-number')?.textContent.trim() || 'Unknown';
-        const response = document.createElement('div');
-        response.textContent = `Total views: ${count}`;
-        response.style.color = '#33ff33';
-        terminalContent.appendChild(response);
-        terminalInput.value = "";
-        if (typedText) typedText.textContent = '';
-        scrollToBottom();
-        return;
-      }
-
-      if (cmdLower === 'joker mode') {
-        activateJokerMode();
-        terminalInput.value = "";
-        if (typedText) typedText.textContent = '';
-        return;
-      }
-
-      if (cmdLower === 'professional mode') {
-        activateProfessionalMode();
-        terminalInput.value = "";
-        if (typedText) typedText.textContent = '';
-        return;
-      }
-
-      // Short-circuit mobile 'architecture' command before backend call
-      if (input.toLowerCase() === 'architecture' && window.innerWidth < 768) {
-        const img = document.createElement('img');
-        img.src = 'images/architecture.png';
-        img.alt = 'Cloud Architecture';
-        img.style.maxWidth = '100%';
-        img.style.marginTop = '1rem';
-
-        const container = document.createElement('div');
-        container.classList.add('terminal-output');
-        container.appendChild(img);
-        terminalContent.appendChild(container);
-        terminalInput.value = "";
-        scrollToBottom();
-        return;
-      }
-      const resp = await executeCommand(input);
-      if (resp === "__CLEAR__") {
-        terminalContent.classList.add("terminal-fade");
-        setTimeout(() => {
-          terminalContent.innerHTML = "";
-          terminalContent.classList.remove("terminal-fade");
-        }, 500);
-      } else {
-        // Mobile-specific rendering for 'architecture'
-        if (input.toLowerCase() === 'architecture' && window.innerWidth < 768) {
-          const img = document.createElement('img');
-          img.src = 'images/architecture.png';
-          img.alt = 'Cloud Architecture';
-          img.style.maxWidth = '100%';
-          img.style.marginTop = '1rem';
-
-          const container = document.createElement('div');
-          container.classList.add('terminal-output');
-          container.appendChild(img);
-          terminalContent.appendChild(container);
-        } else {
-          const response = document.createElement("div");
-          if (resp.includes('<img')) {
-            response.innerHTML = resp;
-          } else {
-            response.innerHTML = `<pre style="white-space: pre-wrap; overflow-x: auto; color:#33ff33;">${resp}</pre>`;
-          }
-
-          setTimeout(() => {
-            [...response.querySelectorAll("a")].forEach(a => {
-              a.target = "_blank";
-              a.classList.add("glow-hover");
-              a.style.color = "#00ffff";
-              a.style.textShadow = "0 0 6px #00eaff, 0 0 10px #00ffff";
-            });
-          }, 0);
-
-          terminalContent.appendChild(response);
-        }
-      }
-      terminalInput.value = "";
-      if (typedText) typedText.textContent = '';
-      scrollToBottom();
-    }
-  });
-
-
-  // Ensure terminal auto-scrolls on input focus (for mobile/resize)
-  terminalInput.addEventListener('focus', scrollToBottom);
-
-  // Mirror input to visible terminal text on load (in case of autofill)
-  document.addEventListener('DOMContentLoaded', () => {
-    const typedText = document.getElementById('typedText');
-    if (typedText) typedText.textContent = terminalInput.value;
-  });
-
-  // Always focus input on click anywhere inside terminal area
-  terminalWrapper.addEventListener('click', function(e) {
-    if (e.target !== terminalInput) terminalInput.focus();
-  });
-
-  // Ensure monospace font is used always in terminal
-  terminalContent.style.fontFamily = "monospace";
-  terminalInput.style.fontFamily = "monospace";
-
-
-  // Style scrollbar for neon blue glow
-  const style = document.createElement('style');
-  style.innerHTML = `
-    #terminal::-webkit-scrollbar-thumb {
-      background: linear-gradient(90deg, #00ffff 30%, #00bfff 100%);
-      box-shadow: 0 0 8px #00eaff, 0 0 16px #00ffff;
-      border-radius: 6px;
-    }
-    #terminal::-webkit-scrollbar-track {
-      background: #0a0a0a;
-    }
-    #terminal::-webkit-scrollbar {
-      width: 10px;
-    }
-  `;
-  document.head.appendChild(style);
-  </script>
-  <button id="terminal-button" onclick="document.getElementById('terminal').scrollIntoView({ behavior: 'smooth', block: 'center' })"
-    style="position: fixed; bottom: 16px; right: 16px; z-index: 1000; background: #00c3ff; color: #000; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-family: monospace;">
-    Open Terminal ⌨️
-  </button>
+  <script src="js/redesign/terminal.js" defer></script>
+  <script src="js/redesign/motion.js" defer></script>
+  <script type="module" src="js/redesign/hero-graph.js"></script>
 </body>
 
 </html>
