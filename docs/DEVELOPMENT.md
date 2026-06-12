@@ -145,12 +145,26 @@ npx serve .
 ### Manual Deployment
 
 ```bash
+# Sync frontend API URLs from AWS (after API Gateway changes)
+./scripts/sync-api-urls.sh
+
 # Deploy Lambda function
 ./scripts/deploy.sh
 
 # Deploy Blackjack specifically
 ./scripts/deploy-blackjack.sh
 ```
+
+### API Gateway URLs
+
+Terminal and blackjack pages read endpoints from `website/js/api-config.js`. After recreating API Gateway in Terraform, run:
+
+```bash
+./scripts/sync-api-urls.sh
+git add website/js/api-config.js
+```
+
+This prevents stale hardcoded URLs (which break blackjack with DNS/CORS errors).
 
 ## Troubleshooting
 

@@ -56,3 +56,6 @@ coverage/
 # AWS credentials (should never be committed)
 .aws/
 credentials
+
+# n8n automation (workflows, credentials, server configs, career tooling)
+n8n/
