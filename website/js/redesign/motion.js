@@ -9,10 +9,9 @@
   if (telemetry && !reducedMotion) {
     const lines = [
       'region: us-east-1 · edge: cloudfront · state: nominal',
-      'pipeline: github-actions · last deploy: green',
-      'iac: terraform · drift: none detected',
-      'agents: 4 online · queue: empty',
-      'lambda: warm · dynamodb: PAY_PER_REQUEST',
+      'pipeline: github-actions · deploys on merge',
+      'iac: terraform · everything reviewable',
+      'lambda: warm · dynamodb: pay-per-request',
     ];
     let i = 0;
     setInterval(() => {
@@ -45,37 +44,49 @@
     });
   }
 
-  /* ---------- Telemetry ticker: real data + seamless loop ---------- */
+  /* ---------- Telemetry ticker: real data only, items appear as they load ---------- */
   const tickerTrack = document.getElementById('tickerTrack');
   if (tickerTrack) {
-    // Visitors + latency are filled by other modules; poll until they exist
+    // Duplicate items first so the -50% translate loops seamlessly;
+    // setTick() updates every copy by class, so late data lands in both halves.
+    if (!reducedMotion) tickerTrack.innerHTML += tickerTrack.innerHTML;
+
+    const setTick = (name, text) => {
+      document.querySelectorAll(`[data-tick="${name}"]`).forEach((el) => {
+        el.textContent = text;
+        el.classList.remove('tick-pending');
+      });
+    };
+
+    // Visitors + latency are produced by other modules; poll briefly until present
     const sync = setInterval(() => {
       const visitors = document.querySelector('.counter-number')?.textContent.trim();
       const latency = document.getElementById('apiLatency')?.textContent.trim();
-      const tv = document.getElementById('tickVisitors');
-      const tl = document.getElementById('tickLatency');
-      if (tv && visitors && visitors !== '—') tv.textContent = `visitors: ${visitors}`;
-      if (tl && latency && latency !== '—') tl.textContent = `api latency: ${latency}`;
-      if (tv?.textContent.includes(':') && !tv.textContent.includes('—')
-        && tl?.textContent.includes('ms')) clearInterval(sync);
-    }, 1500);
+      if (visitors && visitors !== '—') setTick('visitors', `visitors: ${visitors}`);
+      if (latency && latency.includes('ms')) setTick('latency', `api latency: ${latency}`);
+    }, 1200);
     setTimeout(() => clearInterval(sync), 30000);
 
-    // Last deploy straight from the GitHub API (public, unauthenticated)
+    // Last deploy + pipeline state straight from the GitHub API (public, unauthenticated)
     fetch('https://api.github.com/repos/serversorcerer/cloud-resume-challenge/commits/main')
       .then((r) => r.json())
       .then((data) => {
-        const td = document.getElementById('tickDeploy');
         const when = new Date(data?.commit?.committer?.date);
-        if (td && !isNaN(when)) {
+        if (!isNaN(when)) {
           const hrs = Math.max(0, Math.round((Date.now() - when) / 36e5));
-          td.textContent = `last deploy: ${hrs < 1 ? '<1h' : hrs < 48 ? hrs + 'h' : Math.round(hrs / 24) + 'd'} ago`;
+          setTick('deploy', `last deploy: ${hrs < 1 ? '<1h' : hrs < 48 ? hrs + 'h' : Math.round(hrs / 24) + 'd'} ago`);
         }
       })
       .catch(() => {});
 
-    // Duplicate items so the -50% translate loops seamlessly
-    if (!reducedMotion) tickerTrack.innerHTML += tickerTrack.innerHTML;
+    fetch('https://api.github.com/repos/serversorcerer/cloud-resume-challenge/actions/runs?branch=main&per_page=1')
+      .then((r) => r.json())
+      .then((data) => {
+        const run = data?.workflow_runs?.[0];
+        if (run?.conclusion === 'success') setTick('pipeline', 'pipeline: green');
+        else if (run?.status === 'in_progress') setTick('pipeline', 'pipeline: deploying');
+      })
+      .catch(() => {});
   }
 
   /* ---------- Copy email + toast ---------- */
@@ -93,12 +104,6 @@
         window.location.href = 'mailto:joe@josephaleto.io';
       }
     });
-  }
-
-  /* ---------- Stat counters (instant under reduced motion) ---------- */
-  const counters = document.querySelectorAll('.stat-num [data-count]');
-  if (reducedMotion || typeof gsap === 'undefined') {
-    counters.forEach((el) => { el.textContent = el.dataset.count; });
   }
 
   /* ---------- Pipeline final state under reduced motion ---------- */
@@ -188,28 +193,13 @@
     });
   });
 
-  /* ---------- Origin: pinned three-beat scene ---------- */
-  const origin = document.querySelector('.origin');
-  const beats = gsap.utils.toArray('.origin-beat');
-  if (origin && beats.length === 3) {
-    origin.classList.add('motion');
-    gsap.set(beats, { autoAlpha: 0, y: 30 });
-
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: '.origin-pin',
-        start: 'top top',
-        end: '+=220%',
-        pin: true,
-        scrub: 0.6,
-      },
-    })
-      .to(beats[0], { autoAlpha: 1, y: 0, duration: 1 })
-      .to(beats[0], { autoAlpha: 0, y: -30, duration: 1 }, '+=1')
-      .to(beats[1], { autoAlpha: 1, y: 0, duration: 1 })
-      .to(beats[1], { autoAlpha: 0, y: -30, duration: 1 }, '+=1')
-      .to(beats[2], { autoAlpha: 1, y: 0, duration: 1 })
-      .to(beats[2], { scale: 1.04, duration: 1.2 });
+  /* ---------- Operator section: rule rows cascade in ---------- */
+  const ruleRows = gsap.utils.toArray('.rules-list li');
+  if (ruleRows.length) {
+    gsap.from(ruleRows, {
+      x: 26, autoAlpha: 0, duration: 0.55, stagger: 0.12, ease: 'power3.out',
+      scrollTrigger: { trigger: '.origin-rules', start: 'top 80%' },
+    });
   }
 
   /* ---------- Experience spine draw + items ---------- */
@@ -226,20 +216,6 @@
     gsap.from(item, {
       x: -30, autoAlpha: 0, duration: 0.7, ease: 'power3.out',
       scrollTrigger: { trigger: item, start: 'top 82%' },
-    });
-  });
-
-  /* ---------- Stat counters count up on entry ---------- */
-  counters.forEach((el) => {
-    const target = parseInt(el.dataset.count, 10);
-    const obj = { v: 0 };
-    gsap.to(obj, {
-      v: target,
-      duration: 1.6,
-      ease: 'power2.out',
-      snap: { v: 1 },
-      onUpdate: () => { el.textContent = obj.v; },
-      scrollTrigger: { trigger: el.closest('.stat-row'), start: 'top 82%' },
     });
   });
 
