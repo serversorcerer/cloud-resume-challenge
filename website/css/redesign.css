@@ -539,6 +539,134 @@ section { position: relative; }
 .site-footer p { margin: 4px 0; }
 .counter-number { color: var(--cyan-bright); }
 
+/* ---------- Live telemetry ticker ---------- */
+.ticker {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(7, 13, 20, 0.7);
+  padding: 12px 0;
+}
+.ticker-track {
+  display: inline-flex; gap: 48px;
+  white-space: nowrap;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted);
+  animation: tickerScroll 36s linear infinite;
+  will-change: transform;
+}
+.tick { display: inline-flex; align-items: center; gap: 10px; }
+.tick-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ok); box-shadow: 0 0 8px var(--ok);
+}
+.tick.amber { color: var(--signal); }
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; flex-wrap: wrap; white-space: normal; padding: 0 20px; }
+}
+
+/* ---------- Self-shipping pipeline ---------- */
+.pipeline { padding: 110px 0 90px; }
+.pipe-wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 50px);
+}
+.pipe-svg { width: 100%; height: auto; overflow: visible; }
+.pipe-base {
+  stroke: rgba(0, 195, 255, 0.18); stroke-width: 2; fill: none;
+}
+.pipe-pulse {
+  stroke: var(--cyan); stroke-width: 2.5; fill: none;
+  filter: drop-shadow(0 0 6px rgba(0, 195, 255, 0.8));
+  stroke-dasharray: 860; stroke-dashoffset: 860;
+}
+.pipe-stage circle {
+  fill: var(--bg-1); stroke: rgba(0, 195, 255, 0.35); stroke-width: 2;
+  transition: fill 0.3s ease, stroke 0.3s ease, filter 0.3s ease;
+}
+.pipe-stage text {
+  fill: var(--text); font-family: var(--font-mono); font-size: 17px;
+  text-anchor: middle; letter-spacing: 0.06em;
+}
+.pipe-stage .pipe-sub { fill: var(--muted); font-size: 13px; }
+.pipe-stage.lit circle {
+  fill: rgba(0, 195, 255, 0.25); stroke: var(--cyan);
+  filter: drop-shadow(0 0 10px rgba(0, 195, 255, 0.9));
+}
+.pipe-stage:last-child.lit circle {
+  fill: rgba(255, 158, 44, 0.3); stroke: var(--signal);
+  filter: drop-shadow(0 0 12px rgba(255, 158, 44, 0.9));
+}
+@media (max-width: 640px) {
+  .pipe-stage text { font-size: 24px; }
+  .pipe-stage .pipe-sub { font-size: 18px; }
+}
+
+/* ---------- Stat counters ---------- */
+.stat-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+  max-width: 1080px; margin: 0 auto 64px;
+  padding: 0 clamp(20px, 5vw, 60px);
+  text-align: center;
+}
+@media (max-width: 860px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
+.stat { display: flex; flex-direction: column; gap: 6px; }
+.stat-num {
+  font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 700;
+  color: var(--cyan-bright);
+  text-shadow: 0 0 22px rgba(0, 195, 255, 0.45);
+}
+.stat-label {
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Contact extras ---------- */
+.contact-roles {
+  margin-top: -16px; margin-bottom: 8px;
+  font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted);
+}
+.copy-email { cursor: pointer; font-size: 0.85rem; }
+
+.toast {
+  position: fixed; bottom: 28px; left: 50%; z-index: 400;
+  transform: translate(-50%, 80px);
+  background: var(--bg-2); color: var(--ok);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px; padding: 10px 22px;
+  font-size: 0.8rem; letter-spacing: 0.08em;
+  box-shadow: 0 8px 32px rgba(0, 20, 40, 0.7), 0 0 18px rgba(0, 195, 255, 0.2);
+  opacity: 0; pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+.toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+/* ---------- Footer colophon ---------- */
+.colophon {
+  max-width: 640px; margin: 10px auto !important;
+  color: var(--muted); font-size: 0.82rem;
+}
+.colophon strong { color: var(--cyan-bright); font-weight: 600; }
+
+/* ---------- Hero agent-node labels ---------- */
+.hero-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.graph-label {
+  position: absolute; top: 0; left: 0;
+  font-family: var(--font-mono); font-size: 0.62rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--signal);
+  text-shadow: 0 0 10px rgba(255, 158, 44, 0.6);
+  white-space: nowrap;
+  transform: translate(-50%, -180%);
+  opacity: 0.85;
+}
+
 /* ---------- Custom cursor ---------- */
 .cursor-dot {
   position: fixed; top: 0; left: 0; z-index: 300;
