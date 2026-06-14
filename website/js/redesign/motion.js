@@ -62,7 +62,7 @@
     const sync = setInterval(() => {
       const visitors = document.querySelector('.counter-number')?.textContent.trim();
       const latency = document.getElementById('apiLatency')?.textContent.trim();
-      if (visitors && visitors !== '—') setTick('visitors', `visitors: ${visitors}`);
+      if (visitors && visitors !== '…') setTick('visitors', `visitors: ${visitors}`);
       if (latency && latency.includes('ms')) setTick('latency', `api latency: ${latency}`);
     }, 1200);
     setTimeout(() => clearInterval(sync), 30000);
