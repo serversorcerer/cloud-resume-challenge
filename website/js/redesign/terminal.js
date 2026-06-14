@@ -128,13 +128,13 @@
   /* ---------- New client-side commands (agent era) ---------- */
   const localCommands = {
     'agents': () => print(
-`AGENT ROSTER — self-hosted, production-deployed
+`AGENT ROSTER · self-hosted, production-deployed
 ────────────────────────────────────────────────
   ops-gateway    self-hosted AI agent on a hardened VPS
                  discord-driven: research, jobs, server ops
   n8n-pipelines  workflow automation: research → publish → notify
   llm-tooling    least-privilege agents wired to live APIs
-  this-site      the terminal you're typing into — lambda-backed
+  this-site      the terminal you're typing into, lambda-backed
 
 Agents with real hands: terminal, files, browser, memory.
 Type "automate" for the automation story.`, C.ok),
@@ -155,27 +155,27 @@ Humans for judgment. Machines for repetition.`, C.ok),
       const result = await probeLatency(true);
       if (result && result.ok) {
         print(
-`SYSTEM STATUS — all green
+`SYSTEM STATUS · all green
   api gateway   ONLINE   (${result.ms}ms round-trip)
   lambda        WARM
   dynamodb      REACHABLE (us-east-1)
   cloudfront    SERVING THIS PAGE
   operator      AVAILABLE FOR SENIOR ROLES`, C.ok);
       } else {
-        print('api unreachable — even good systems have bad days. try again.', C.err);
+        print('api unreachable. even good systems have bad days. try again.', C.err);
       }
     },
 
     'hire': () => {
       print(
-`HIRING JOE — quick brief
+`HIRING JOE · quick brief
 ────────────────────────────────────────────────
   role targets   senior platform · ai infrastructure
                  solutions architect · automation lead
   focus          multi-account AWS · CI/CD platforms
                  AI agents with real hands
   receipts       this terminal · the pipeline that shipped it
-  availability   OPEN — direct line below
+  availability   OPEN · direct line below
 
   → joe@josephaleto.io`, C.signal);
       window.open('mailto:joe@josephaleto.io', '_blank');
