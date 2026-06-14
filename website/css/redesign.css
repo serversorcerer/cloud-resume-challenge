@@ -15,8 +15,8 @@
   --blue: #005eff;
   --signal: #ff9e2c;
   --ok: #43ffa4;
-  --text: #e8f1f8;
-  --muted: #93a7b8;
+  --text: #eaf2f9;
+  --muted: #aabfce;
   --font-display: "Space Grotesk", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -30,6 +30,13 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* Anchor targets clear the fixed HUD nav instead of hiding under it */
+section[id], div[id] { scroll-margin-top: calc(var(--nav-h) + 18px); }
+
+/* Branded text selection */
+::selection { background: rgba(0, 195, 255, 0.28); color: #fff; }
+::-moz-selection { background: rgba(0, 195, 255, 0.28); color: #fff; }
 
 body {
   background:
@@ -209,11 +216,20 @@ code { color: var(--cyan-bright); background: rgba(0, 195, 255, 0.08); padding: 
 .hero-telemetry {
   position: absolute; top: calc(var(--nav-h) + 26px); right: 34px;
   font-size: 0.68rem; letter-spacing: 0.1em; color: var(--muted);
-  opacity: 0.85;
+  opacity: 0.9; text-shadow: 0 1px 10px rgba(3, 6, 8, 0.9);
 }
 @media (max-width: 760px) { .hero-telemetry { display: none; } }
 
-.hero-content { max-width: 980px; }
+.hero-content { position: relative; max-width: 980px; }
+/* Localized scrim: guarantees text contrast over the live graph without
+   hiding it — the network still breathes around and behind the words. */
+.hero-content::before {
+  content: "";
+  position: absolute; inset: -48px -120px -48px -72px;
+  z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse 78% 92% at 28% 50%,
+    rgba(3, 6, 8, 0.92), rgba(3, 6, 8, 0.62) 42%, rgba(3, 6, 8, 0) 75%);
+}
 
 .hero-title {
   font-size: clamp(2.6rem, 7.2vw, 5.6rem);
@@ -226,19 +242,21 @@ code { color: var(--cyan-bright); background: rgba(0, 195, 255, 0.08); padding: 
 }
 
 .hero-sub {
-  max-width: 620px; color: var(--muted);
-  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  max-width: 620px; color: #cddbe7;
+  font-size: clamp(1.02rem, 1.6vw, 1.18rem);
+  text-shadow: 0 1px 14px rgba(3, 6, 8, 0.7);
 }
-.hero-sub strong { color: var(--text); font-weight: 600; }
+.hero-sub strong { color: #fff; font-weight: 600; }
 
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 38px; }
 
 .hero-meta {
   display: flex; flex-wrap: wrap; gap: 10px 28px;
   list-style: none; margin-top: 40px;
-  font-size: 0.78rem; letter-spacing: 0.05em; color: var(--muted);
+  font-size: 0.8rem; letter-spacing: 0.05em; color: var(--muted);
+  text-shadow: 0 1px 10px rgba(3, 6, 8, 0.8);
 }
-.hero-meta a { color: var(--cyan); }
+.hero-meta a { color: var(--cyan-bright); }
 
 .scroll-cue {
   position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
