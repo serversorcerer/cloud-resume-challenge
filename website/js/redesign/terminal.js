@@ -314,6 +314,11 @@ Humans for judgment. Machines for repetition.`, C.ok),
 
     const cmd = input.toLowerCase();
 
+    // Track the command keyword only (never offer-flow free text / PII)
+    if (!offerState && window.siteTrack) {
+      window.siteTrack('terminal_command', { cmd: cmd.split(/\s+/)[0].slice(0, 40) });
+    }
+
     // Mid-offer-flow input
     if (offerState) {
       if (cmd === 'clear' || cmd === 'exit') {
