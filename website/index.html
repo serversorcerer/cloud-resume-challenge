@@ -12,7 +12,8 @@
   <meta name="author" content="Joe Leto">
   <meta name="theme-color" content="#030608">
   <link rel="canonical" href="https://josephaleto.io/">
-  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="favicon.svg">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -59,7 +60,7 @@
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="css/redesign.css?v=6">
+  <link rel="stylesheet" href="css/redesign.css?v=7">
 </head>
 
 <body>
@@ -67,7 +68,7 @@
 
   <!-- Fixed HUD nav -->
   <header class="hud-nav" id="hudNav">
-    <a class="brand" href="#hero" aria-label="Joe Leto, home">
+    <a class="brand" href="#hero" aria-label="JL·OPS, Joe Leto home">
       <span class="brand-mark" aria-hidden="true"></span>
       <span class="brand-text">JL<span class="brand-dim">·OPS</span></span>
     </a>
@@ -91,15 +92,6 @@
         <div class="hero-vignette"></div>
       </div>
 
-      <div class="hud-corners" aria-hidden="true">
-        <span class="hud-corner tl"></span><span class="hud-corner tr"></span>
-        <span class="hud-corner bl"></span><span class="hud-corner br"></span>
-      </div>
-
-      <div class="hero-telemetry mono" aria-hidden="true">
-        <span id="telemetryLine">region: us-east-1 · edge: cloudfront · state: nominal</span>
-      </div>
-
       <div class="hero-content">
         <p class="status-chip mono" data-anim="rise">
           <span class="pulse-dot" aria-hidden="true"></span>
@@ -112,9 +104,8 @@
 
         <p class="hero-sub" data-anim="rise">
           Platform engineer at <strong>AWS&nbsp;Professional&nbsp;Services</strong>.
-          Most portfolios describe the work. This one runs it. The terminal below
-          executes on live infrastructure I built, and this page shipped itself.
-          Proof beats promises.
+          I build cloud platforms, AI agents, and automation that run without me.
+          The terminal below is live. This page shipped itself.
         </p>
 
         <div class="hero-ctas" data-anim="rise">
@@ -312,8 +303,8 @@
 
         <article class="t-item" data-anim="t-item">
           <p class="t-date mono">Jan 2026 → Now</p>
-          <h3>Platform Engineer, Cloud + AI Infrastructure · AWS Professional Services</h3>
-          <p class="t-where muted">Chantilly, VA · official title: Software Development Engineer · client-facing delivery</p>
+          <h3>Software Development Engineer · AWS Professional Services</h3>
+          <p class="t-where muted">Chantilly, VA · platform engineering: cloud + AI infrastructure · client-facing delivery</p>
           <ul>
             <li>Lead delivery of a cloud platform that automates security scanning and release governance across four environments</li>
             <li>Shipped a React console that consolidates findings, surfaces fixes, and re-runs pipelines in one place</li>
@@ -462,10 +453,10 @@
 
   <footer class="site-footer">
     <p class="mono muted"><span class="counter-number">…</span> visitors logged in DynamoDB</p>
-    <p class="colophon">Meta-proof: an <strong>AI agent</strong> designed, built, and shipped this redesign
-      end to end under Joe's direction. Infrastructure audit, code, deploy, verification.
+    <p class="colophon">I directed an <strong>AI agent</strong> to design, build, and ship this entire site.
+      Every step is in the
       <a href="https://github.com/serversorcerer/cloud-resume-challenge/pull/63" target="_blank"
-        rel="noopener">Read the pull request ↗</a></p>
+        rel="noopener">pull request ↗</a></p>
     <p class="muted">© 2026 Joe Leto · Built on AWS, deployed by CI/CD, narrated by a live terminal.</p>
   </footer>
 
@@ -500,7 +491,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 
   <script src="js/redesign/terminal.js" defer></script>
-  <script src="js/redesign/motion.js" defer></script>
+  <script src="js/redesign/motion.js?v=2" defer></script>
   <script type="module" src="js/redesign/hero-graph.js"></script>
 </body>
 

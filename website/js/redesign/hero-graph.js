@@ -34,8 +34,8 @@ function init() {
   const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
   camera.position.set(0, 0, 16);
 
-  const CYAN = new THREE.Color('#00c3ff');
-  const BLUE = new THREE.Color('#005eff');
+  // Single-accent palette: a cool neutral mesh carrying warm amber signals.
+  const MESH = new THREE.Color('#33485a');
   const AMBER = new THREE.Color('#ff9e2c');
 
   // --- Node cloud: flattened ellipsoid, denser toward center ---
@@ -75,7 +75,7 @@ function init() {
   const lineGeo = new THREE.BufferGeometry();
   lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
   const lineMat = new THREE.LineBasicMaterial({
-    color: BLUE, transparent: true, opacity: 0.3,
+    color: MESH, transparent: true, opacity: 0.32,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
   group.add(new THREE.LineSegments(lineGeo, lineMat));
@@ -97,7 +97,7 @@ function init() {
   // Nodes
   const nodeGeo = new THREE.BufferGeometry().setFromPoints(positions);
   const nodeMat = new THREE.PointsMaterial({
-    size: 0.55, map: dotTexture('#5ce1ff'), transparent: true, opacity: 0.9,
+    size: 0.55, map: dotTexture('#7d93a6'), transparent: true, opacity: 0.85,
     blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true,
   });
   group.add(new THREE.Points(nodeGeo, nodeMat));
@@ -143,7 +143,7 @@ function init() {
   const reachGeo = new THREE.BufferGeometry();
   reachGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(REACH_COUNT * 6), 3));
   const reachMat = new THREE.LineBasicMaterial({
-    color: CYAN, transparent: true, opacity: 0.4,
+    color: AMBER, transparent: true, opacity: 0.4,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
   const reachLines = new THREE.LineSegments(reachGeo, reachMat);
@@ -162,7 +162,7 @@ function init() {
   const pulseGeo = new THREE.BufferGeometry();
   pulseGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(PULSE_COUNT * 3), 3));
   const pulseMat = new THREE.PointsMaterial({
-    size: 0.8, map: dotTexture('#00c3ff'), transparent: true, opacity: 1,
+    size: 0.8, map: dotTexture('#ff9e2c'), transparent: true, opacity: 1,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
   const pulsePoints = new THREE.Points(pulseGeo, pulseMat);
@@ -179,8 +179,12 @@ function init() {
   // --- Interaction state ---
   const pointer = { x: 0, y: 0 };
   window.addEventListener('pointermove', (e) => {
-    pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-    pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+    // Map against the canvas rect (not window) so the reach lines converge
+    // exactly under the cursor. window.innerWidth includes the scrollbar,
+    // which would shift the projection sideways on classic scrollbars.
+    const rect = canvas.getBoundingClientRect();
+    pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    pointer.y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
     pointerActive = e.clientY < window.innerHeight; // only while over the viewport
   }, { passive: true });
   window.addEventListener('pointerleave', () => { pointerActive = false; });

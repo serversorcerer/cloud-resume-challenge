@@ -12,7 +12,8 @@
   const API_URL = window.SITE_CONFIG && window.SITE_CONFIG.TERMINAL_API_URL;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const C = { ok: '#43ffa4', cyan: '#5ce1ff', dim: '#93a7b8', err: '#ff6666', signal: '#ff9e2c' };
+  // Single-accent palette: warm amber for prompts/headers, green for success only.
+  const C = { ok: '#43d6a0', cyan: '#ffc279', dim: '#93a7b8', err: '#ff6b6b', signal: '#ff9e2c' };
 
   function scrollToBottom() {
     terminalWrapper.scrollTo({ top: terminalWrapper.scrollHeight, behavior: reducedMotion ? 'auto' : 'smooth' });
@@ -210,7 +211,7 @@ Humans for judgment. Machines for repetition.`, C.ok),
     print('Wake up, Neo… (accent: joker)', '#ff8ae8');
   };
   localCommands['professional mode'] = () => {
-    setAccent('#00c3ff', '#5ce1ff');
+    setAccent('#ff9e2c', '#ffc279');
     print('Professional mode activated.', C.ok);
   };
 
