@@ -4,27 +4,6 @@
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Telemetry ticker (cheap, runs even without GSAP) ---------- */
-  const telemetry = document.getElementById('telemetryLine');
-  if (telemetry && !reducedMotion) {
-    const lines = [
-      'region: us-east-1 · edge: cloudfront · state: nominal',
-      'pipeline: github-actions · deploys on merge',
-      'iac: terraform · everything reviewable',
-      'lambda: warm · dynamodb: pay-per-request',
-    ];
-    let i = 0;
-    setInterval(() => {
-      i = (i + 1) % lines.length;
-      telemetry.style.opacity = '0';
-      setTimeout(() => {
-        telemetry.textContent = lines[i];
-        telemetry.style.opacity = '0.85';
-      }, 300);
-    }, 4200);
-    telemetry.style.transition = 'opacity 0.3s ease';
-  }
-
   /* ---------- Custom cursor ---------- */
   const dot = document.getElementById('cursorDot');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -186,10 +165,14 @@
     });
   });
 
+  // Reveal each card grid as one cohesive block. A per-card stagger made the
+  // first card settle ahead of its neighbours, so for ~1s card 01 floated
+  // above 02/03 and read as "off-centre". Moving the whole grid together keeps
+  // every card locked in the same plane — they can never look misaligned.
   document.querySelectorAll('.build-grid, .work-grid, .skill-clusters').forEach((grid) => {
-    gsap.from(grid.querySelectorAll('[data-anim="card"]'), {
-      y: 36, autoAlpha: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out',
-      scrollTrigger: { trigger: grid, start: 'top 80%' },
+    gsap.from(grid, {
+      y: 28, autoAlpha: 0, duration: 0.75, ease: 'power3.out',
+      scrollTrigger: { trigger: grid, start: 'top 82%' },
     });
   });
 

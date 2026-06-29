@@ -31,6 +31,9 @@ blackjack-function.zip
 *.swo
 *~
 
+# Cursor local tooling state (skills, rules, project cache)
+.cursor/
+
 # OS generated files
 .DS_Store
 .DS_Store?
